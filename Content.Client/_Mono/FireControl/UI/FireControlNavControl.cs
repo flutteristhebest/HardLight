@@ -371,11 +371,39 @@ public sealed class FireControlNavControl : BaseShuttleControl
         }
 
         // Draw hitscan lines from the radar blips system
-        var hitscanLines = _blips.GetHitscanLines();
+        var hitscanLines = _blips.GetRawHitscanLines();
         foreach (var line in hitscanLines)
         {
-            var startPosInView = Vector2.Transform(line.Start, worldToView);
-            var endPosInView = Vector2.Transform(line.End, worldToView);
+            Vector2 startPosInView;
+            Vector2 endPosInView;
+
+            // Handle differently based on if there's a grid
+            if (line.Grid == null)
+            {
+                // For world-space lines without a grid, use standard world transformation
+                startPosInView = Vector2.Transform(line.Start, worldToShuttle * shuttleToView);
+                endPosInView = Vector2.Transform(line.End, worldToShuttle * shuttleToView);
+            }
+            else
+            {
+                // For grid-relative lines, we need to transform from grid space to world space first
+                var gridEntity = EntManager.GetEntity(line.Grid.Value);
+                if (EntManager.TryGetComponent<TransformComponent>(gridEntity, out var gridXform))
+                {
+                    var gridToWorld = _transform.GetWorldMatrix(gridEntity);
+                    var gridStartWorld = Vector2.Transform(line.Start, gridToWorld);
+                    var gridEndWorld = Vector2.Transform(line.End, gridToWorld);
+
+                    startPosInView = Vector2.Transform(gridStartWorld, worldToShuttle * shuttleToView);
+                    endPosInView = Vector2.Transform(gridEndWorld, worldToShuttle * shuttleToView);
+                }
+                else
+                {
+                    // Fallback to treating as world coordinates if grid transform is not available
+                    startPosInView = Vector2.Transform(line.Start, worldToShuttle * shuttleToView);
+                    endPosInView = Vector2.Transform(line.End, worldToShuttle * shuttleToView);
+                }
+            }
 
             // Check if the line is within the view bounds before drawing
             var viewBounds = new Box2(-3f, -3f, Size.X + 3f, Size.Y + 3f);

@@ -620,11 +620,34 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
         }
 
         // Draw hitscan lines from the radar blips system
-        var hitscanLines = _blips.GetHitscanLines();
+        var hitscanLines = _blips.GetRawHitscanLines();
         foreach (var line in hitscanLines)
         {
-            var startPosInView = Vector2.Transform(line.Start, worldToShuttle * shuttleToView);
-            var endPosInView = Vector2.Transform(line.End, worldToShuttle * shuttleToView);
+            Vector2 startPosInView;
+            Vector2 endPosInView;
+
+            // Handle differently based on if there's a grid
+            if (line.Grid == null)
+            {
+                // For world-space lines without a grid, use standard world transformation
+                startPosInView = Vector2.Transform(line.Start, worldToShuttle * shuttleToView);
+                endPosInView = Vector2.Transform(line.End, worldToShuttle * shuttleToView);
+            }
+            else if (line.Grid is { } gridNet && EntManager.TryGetEntity(gridNet, out var gridEntity))
+            {
+                // For grid-relative lines, transform using the grid's transform
+                var gridToWorld = _transform.GetWorldMatrix(gridEntity.Value);
+                var gridToView = gridToWorld * worldToShuttle * shuttleToView;
+
+                // Transform the grid-local positions
+                startPosInView = Vector2.Transform(line.Start, gridToView);
+                endPosInView = Vector2.Transform(line.End, gridToView);
+            }
+            else
+            {
+                // Skip lines with invalid grid references
+                continue;
+            }
 
             // Only draw lines if at least one endpoint is within view
             if (monoViewBounds.Contains(startPosInView) || monoViewBounds.Contains(endPosInView))

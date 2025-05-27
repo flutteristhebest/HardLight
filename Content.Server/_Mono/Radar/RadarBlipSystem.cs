@@ -35,8 +35,7 @@ public sealed partial class RadarBlipSystem : EntitySystem
         var additionalUids = sourcesEv.Sources ?? new List<EntityUid>{radarUid.Value};
 
         var blips = AssembleBlipsReport((EntityUid)radarUid, additionalUids, radar);
-        var hitscans = AssembleHitscanReport((EntityUid)radarUid, additionalUids, radar);
-
+        var hitscans = AssembleHitscanReport((EntityUid)radarUid, radar);
         // Combine the blips and hitscan lines
         var giveEv = new GiveBlipsEvent(blips, hitscans);
         RaiseNetworkEvent(giveEv, args.SenderSession);
@@ -138,9 +137,51 @@ public sealed partial class RadarBlipSystem : EntitySystem
     /// <summary>
     /// Assembles trajectory information for hitscan projectiles to be displayed on radar
     /// </summary>
-    private List<(Vector2 Start, Vector2 End, float Thickness, Color Color)> AssembleHitscanReport(EntityUid uid, List<EntityUid> sources, RadarConsoleComponent? component = null)
+    private List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)> AssembleHitscanReport(EntityUid uid, RadarConsoleComponent? component = null)
     {
-        return new List<(Vector2 Start, Vector2 End, float Thickness, Color Color)>();
+        var hitscans = new List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)>();
+
+        if (!Resolve(uid, ref component))
+            return hitscans;
+
+        var radarPosition = _xform.GetWorldPosition(uid);
+
+        var hitscanQuery = EntityQueryEnumerator<HitscanRadarComponent>();
+
+        while (hitscanQuery.MoveNext(out _, out var hitscan))
+        {
+            if (!hitscan.Enabled)
+                continue;
+
+            // Check if either the start or end point is within radar range
+            var startDistance = (hitscan.StartPosition - radarPosition).Length();
+            var endDistance = (hitscan.EndPosition - radarPosition).Length();
+
+            if (startDistance > component.MaxRange && endDistance > component.MaxRange)
+                continue;
+
+            // If there's an origin grid, use that for coordinate system
+            if (hitscan.OriginGrid != null && hitscan.OriginGrid.Value.IsValid())
+            {
+                var gridUid = hitscan.OriginGrid.Value;
+
+                // Convert world positions to grid-local coordinates
+                var gridMatrix = _xform.GetWorldMatrix(gridUid);
+                Matrix3x2.Invert(gridMatrix, out var invGridMatrix);
+
+                var localStart = Vector2.Transform(hitscan.StartPosition, invGridMatrix);
+                var localEnd = Vector2.Transform(hitscan.EndPosition, invGridMatrix);
+
+                hitscans.Add((GetNetEntity(gridUid), localStart, localEnd, hitscan.LineThickness, hitscan.RadarColor));
+            }
+            else
+            {
+                // Use world coordinates with null grid
+                hitscans.Add((null, hitscan.StartPosition, hitscan.EndPosition, hitscan.LineThickness, hitscan.RadarColor));
+            }
+        }
+
+        return hitscans;
     }
 
     private bool NearAnySources(Vector2 coord, List<EntityUid> sources, float range)
@@ -152,6 +193,7 @@ public sealed partial class RadarBlipSystem : EntitySystem
             if ((pos - coord).LengthSquared() < rsqr)
                 return true;
         }
+
         return false;
     }
 }
