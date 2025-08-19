@@ -35,6 +35,7 @@ using Content.Shared.Standing;
 using Content.Server.Power.Components;
 using Content.Shared.PowerCell;
 using Content.Server.Nutrition.EntitySystems;
+using Content.Shared.Mind.Components;
 
 namespace Content.Server.FloofStation;
 
@@ -371,10 +372,18 @@ public sealed class VoreSystem : EntitySystem
                 sessionprey.Channel);
         }
 
-        if (TryComp<InventoryComponent>(prey, out var inventoryComponent) && _inventorySystem.TryGetSlots(uid, out var slots))
+        if (TryComp<InventoryComponent>(prey, out var inventoryComponent)
+            && _inventorySystem.TryGetSlots(uid, out var slots)
+            && TryComp<MindContainerComponent>(prey, out var mindContainer)
+            && mindContainer.HasHadMind) // no more digesting wizards to get their panties
+        {
             foreach (var slot in slots)
             {
-                if (_inventorySystem.TryGetSlotEntity(prey, slot.Name, out var item, inventoryComponent))
+                if (_inventorySystem.TryGetSlotEntity(
+                        prey,
+                        slot.Name,
+                        out var item,
+                        inventoryComponent))
                 {
                     // if (TryComp<DnaComponent>(uid, out var dna))
                     // {
@@ -385,6 +394,7 @@ public sealed class VoreSystem : EntitySystem
                     _transform.AttachToGridOrMap(item.Value);
                 }
             }
+        }
 
         if (TryComp<VoreComponent>(prey, out var preyvore))
             _containerSystem.EmptyContainer(preyvore.Stomach);
