@@ -22,6 +22,8 @@
         color: "#349BEB"
     - type: FTLDrive
       range: 5000
+      thermalSignature: 2000000 # ~2828m range
+    - type: ThermalSignature
     - type: ApcPowerReceiver
       powerLoad: 2000
     - type: PointLight
