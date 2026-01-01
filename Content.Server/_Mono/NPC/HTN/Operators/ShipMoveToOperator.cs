@@ -47,6 +47,12 @@ public sealed partial class ShipMoveToOperator : HTNOperator, IHtnConditionalShu
     public bool AvoidCollisions = true;
 
     /// <summary>
+    /// Whether to avoid shipgun projectiles.
+    /// </summary>
+    [DataField]
+    public bool AvoidProjectiles = false;
+
+    /// <summary>
     /// How unwilling we are to use brake to adjust our velocity. Higher means less willing.
     /// </summary>
     [DataField]
@@ -76,6 +82,12 @@ public sealed partial class ShipMoveToOperator : HTNOperator, IHtnConditionalShu
     /// </summary>
     [DataField]
     public float? MaxRotateRate = null;
+
+    /// <summary>
+    /// What movement behavior to use.
+    /// </summary>
+    [DataField]
+    public ShipSteeringMode Mode = ShipSteeringMode.GoToRange;
 
     /// <summary>
     /// If target goes further than this, drop target.
@@ -147,11 +159,14 @@ public sealed partial class ShipMoveToOperator : HTNOperator, IHtnConditionalShu
 
         comp.AlwaysFaceTarget = AlwaysFaceTarget;
         comp.AvoidCollisions = AvoidCollisions;
+        comp.AvoidProjectiles = AvoidProjectiles;
         comp.BrakeThreshold = BrakeThreshold;
         comp.FinishOnCollide = FinishOnCollide;
         comp.InRangeMaxSpeed = InRangeMaxSpeed;
         comp.LeadingEnabled = LeadingEnabled;
         comp.MaxRotateRate = MaxRotateRate;
+        comp.Mode = Mode;
+        comp.NoFinish = ShutdownState == HTNPlanState.PlanFinished;
         comp.Range = Range;
         comp.RangeTolerance = RangeTolerance;
         comp.TargetRotation = TargetRotation;
