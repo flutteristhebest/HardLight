@@ -289,7 +289,7 @@
       operator: !type:ShipFireGunsOperator
         shutdownState: TaskFinished
         removeKeyOnFinish: false
-        leadingAccuracy: 0.1 # stupid
+        leadingAccuracy: 0.4 # stupid
         targetKey: TargetCoordinates
       services:
       - !type:UtilityService
