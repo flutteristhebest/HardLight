@@ -218,3 +218,35 @@
         proto: NearbyShuttleTargets
         key: Target
         coordinatesKey: TargetCoordinates
+
+# hardest possible attacker AI
+- type: htnCompound
+  id: ShuttleAttackSmartCompound
+  branches:
+  - preconditions:
+    - !type:KeyExistsPrecondition
+      key: TargetCoordinates
+    tasks:
+    - !type:HTNPrimitiveTask
+      operator: !type:ShipMoveToOperator
+        shutdownState: PlanFinished
+        removeKeyOnFinish: false
+        alwaysFaceTarget: true
+        inRangeMaxSpeed: null # orbit at top velocity
+        range: 850
+        rangeTolerance: 150
+        avoidProjectiles: true
+        targetKey: TargetCoordinates
+        mode: Orbit
+    - !type:HTNPrimitiveTask
+      operator: !type:ShipFireGunsOperator
+        shutdownState: TaskFinished
+        removeKeyOnFinish: false
+        leadingAccuracy: 1
+        targetKey: TargetCoordinates
+      services:
+      - !type:UtilityService
+        id: TargetsService
+        proto: NearbyShuttleTargets
+        key: Target
+        coordinatesKey: TargetCoordinates
