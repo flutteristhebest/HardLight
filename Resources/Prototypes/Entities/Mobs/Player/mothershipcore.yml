@@ -212,7 +212,7 @@
         name: power-cell-slot-component-slot-name-default
         startingItem: PowerCellMicroreactor
   - type: Puller # use the conveyor
-    needshands: false
+    needsHands: false
   - type: Clickable
   - type: Eye
     drawFov: false
