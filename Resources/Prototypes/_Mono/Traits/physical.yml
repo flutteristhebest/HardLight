@@ -3,10 +3,10 @@
   name: trait-prybar-prosthetics-name
   description: trait-prybar-prosthetics-desc
   category: Physical
-  cost: 2
+  cost: 5
   components:
     - type: Prying
-      speedModifier: 1
+      speedModifier: 0.2
       pryPowered: true
 
 - type: trait
@@ -104,7 +104,7 @@
   name: trait-thieving-name
   description: trait-thieving-desc
   category: Physical
-  cost: 3
+  cost: 5
   ##speciesBlacklist:
   ##- Felinid
   components:
@@ -118,7 +118,7 @@
   name: trait-bionic-legs-name
   description: trait-bionic-legs-desc
   category: Physical
-  cost: 4 # Hardlight, change from 2 to 4
+  cost: 6 # Hardlight, change from 2 to 4
   components:
   - type: BionicLegs
 
@@ -208,7 +208,7 @@
   name: trait-trap-avoider-name
   description: trait-trap-avoider-desc
   category: Physical
-  cost: 3
+  cost: 5
   speciesBlacklist:
     - Felinid
     - Harpy
@@ -335,7 +335,7 @@
   name: trait-temperature-tolerance-name
   description: trait-temperature-tolerance-desc
   category: Physical
-  cost: 1
+  cost: 2
   components:
   - type: TemperatureProtection
     coolingCoefficient: 0.6
@@ -345,7 +345,7 @@
   name: trait-alcohol-tolerance-name
   description: trait-alcohol-tolerance-desc
   category: Physical
-  cost: 1
+  cost: 2
   mutuallyExclusiveTraits:
   - LightweightDrunk
   - LiquorLifeline
@@ -367,6 +367,8 @@
   cost: 10
   mutuallyExclusiveTraits:
   - Hemophilia
+  - UnnaturalRegen
+  - NaturalRegen
   speciesBlacklist:
   - IPC
   - Synth # HardLight
@@ -376,5 +378,5 @@
   components:
   - type: PlateletFactories
     intervalSeconds: 1
-    healPerSecond: .5
+    healPerSecond: .4
     critMultiplier: .25
