@@ -33,8 +33,8 @@
   - type: Insulated
 
 - type: trait
-  id: fireproof
-  name: fireproof
+  id: heatresistant
+  name: heatresistant
   description: through natural or artificial means you're naturally insulated against fire
   category: Physical
   cost: 10
@@ -46,6 +46,7 @@
   - snakeeater
   - cryoresistant
   components:
+  - type: FireproofBodyParts
   - type: DamageProtectionBuff
     modifiers:
       dermal:
@@ -157,8 +158,8 @@
     damageCap: 500
     damage:
       groups:
-        Brute: -0.3
-        Burn: -0.3
+        Brute: -0.4
+        Burn: -0.4
         Airloss: -1
 
 

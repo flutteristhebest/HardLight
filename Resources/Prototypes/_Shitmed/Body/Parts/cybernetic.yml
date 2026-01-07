@@ -169,3 +169,89 @@
     onAdd:
     # - type: NoSlip Hardlight
     - type: ProtectedFromStepTriggers
+
+- type: entity
+  parent: HeadHuman
+  id: FireproofHead
+  name: head
+  description: A fireproof head. 
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
+
+- type: entity
+  parent: RightLegCybernetic
+  id: FireproofRightLeg
+  name: right leg
+  description: A fireproof right leg
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
+    
+- type: entity
+  parent: LeftLegCybernetic
+  id: FireproofLeftLeg
+  name: left leg
+  description: A fireproof left leg
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
+    
+- type: entity
+  parent: RightArmCybernetic
+  id: FireproofRightArm
+  name: right arm
+  description: A fireproof right arm
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
+    
+- type: entity
+  parent: LeftArmCybernetic
+  id: FireproofLeftArm
+  name: left arm
+  description: A fireproof left arm
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
+    
+- type: entity
+  id: RightFootFireproof
+  parent: RightFootHuman
+  name: cybernetic right foot
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
+
+- type: entity
+  id: LeftFootFireproof
+  parent: LeftFootHuman
+  name: cybernetic left foot
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
+
+- type: entity
+  id: RightHandFireproof
+  parent: RightHandHuman
+  name: cybernetic right hand
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
+    
+- type: entity
+  id: LeftHandFireproof
+  parent: LeftHandHuman
+  name: cybernetic left hand
+  components:
+  - type: Damageable
+    damageContainer: Silicon
+    damageModifierSet: Fireproof
