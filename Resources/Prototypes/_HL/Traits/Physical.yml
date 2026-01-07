@@ -25,7 +25,7 @@
   speciesBlacklist:
   - IPC
   mutuallyExclusiveTraits:
-  - fireproof
+  - heatresistant
   - radproof
   - snakeeater
   - cryoresistant
@@ -66,7 +66,7 @@
   - IPC
   mutuallyExclusiveTraits:
   - insulated
-  - fireproof
+  - heatresistant
   - snakeeater
   - cryoresistant
   components:
@@ -87,7 +87,7 @@
   - IPC
   mutuallyExclusiveTraits:
   - insulated
-  - fireproof
+  - heatresistant
   - radproof
   - cryoresistant
   components:
@@ -107,7 +107,7 @@
   speciesBlacklist:
   - IPC
   mutuallyExclusiveTraits:
-  - fireproof
+  - heatresistant
   - insulated
   - snakeeater
   - radproof
