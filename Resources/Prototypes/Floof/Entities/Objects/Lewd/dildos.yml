@@ -15,9 +15,20 @@
   name: avian dildo
   description: A dildo in the shape of a bird's "caw-k".
   components:
+  
   - type: Sprite
     sprite: Floof/Objects/Fun/Lewd/Toys/Dildos/dildo_avian.rsi
     state: icon
+  # - type: Item
+    # size: Normal
+    # inhandVisuals:
+      # left:
+      # - state: inhand-left
+        # scale: 0.5, 0.5
+      # right:
+      # - state: inhand-right
+        # scale: 0.5, 0.5
+      
 
 - type: entity
   parent: BaseDildo
@@ -28,7 +39,16 @@
   - type: Sprite
     sprite: Floof/Objects/Fun/Lewd/Toys/Dildos/dildo_canine.rsi
     state: icon
-
+    scale: 0.5, 0.5
+  - type: Item
+    size: Normal
+    inhandVisuals:
+      left:
+      - state: inhand-left
+        scale: 0.5, 0.5
+      right:
+      - state: inhand-right
+        scale: 0.5, 0.5
 - type: entity
   parent: BaseDildo
   id: CanineDildoRed
@@ -38,7 +58,16 @@
   - type: Sprite
     sprite: Floof/Objects/Fun/Lewd/Toys/Dildos/dildo_canine_red.rsi
     state: icon
-
+    scale: 0.5, 0.5
+  - type: Item
+    size: Normal
+    inhandVisuals:
+      left:
+      - state: inhand-left
+        scale: 0.5, 0.5
+      right:
+      - state: inhand-right
+        scale: 0.5, 0.5
 - type: entity
   parent: BaseDildo
   id: HorseDildo
@@ -48,6 +77,16 @@
   - type: Sprite
     sprite: Floof/Objects/Fun/Lewd/Toys/Dildos/dildo_equine.rsi
     state: icon
+    scale: 0.5, 0.5
+  - type: Item
+    size: Normal
+    inhandVisuals:
+      left:
+      - state: inhand-left
+        scale: 0.5, 0.5
+      right:
+      - state: inhand-right
+        scale: 0.5, 0.5
 
 - type: entity
   parent: BaseDildo
@@ -58,7 +97,37 @@
   - type: Sprite
     sprite: Floof/Objects/Fun/Lewd/Toys/Dildos/dildo_dragon.rsi
     state: icon
+    scale: 0.5, 0.5
+  - type: Item
+    size: Normal
+    inhandVisuals:
+      left:
+      - state: inhand-left
+        scale: 0.5, 0.5
+      right:
+      - state: inhand-right
+        scale: 0.5, 0.5
 
+- type: entity
+  parent: BaseDildo
+  id: fennDildo
+  name: fenn dildo
+  description: A large red dildo of a dragon... Woof...
+  components:
+  - type: Sprite
+    sprite: Floof/Objects/Fun/Lewd/Toys/Dildos/dildo_fenn.rsi
+    state: icon
+    scale: 0.5, 0.5
+  - type: Item
+    size: Normal
+    inhandVisuals:
+      left:
+      - state: inhand-left
+        scale: 0.5, 0.5
+      right:
+      - state: inhand-right
+        scale: 0.5, 0.5
+        
 - type: entity
   parent: BaseDildo
   id: NormalDildo
@@ -68,7 +137,16 @@
   - type: Sprite
     sprite: Floof/Objects/Fun/Lewd/Toys/Dildos/dildo_human.rsi
     state: icon
-
+    scale: 0.5, 0.5
+  - type: Item
+    size: Normal
+    inhandVisuals:
+      left:
+      - state: inhand-left
+        scale: 0.5, 0.5
+      right:
+      - state: inhand-right
+        scale: 0.5, 0.5
 - type: entity
   parent: BaseDildo
   id: TentacleDildo
