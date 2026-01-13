@@ -43,13 +43,13 @@ public sealed partial class SegmentedEntityComponent : Component
     ///     Represents the prototype used to parent all segments
     /// </summary>
     [DataField]
-    public string InitialSegmentId = "LamiaInitialSegment";
+    public string InitialSegmentId = "BlueRainLizardInitialSegment";
 
     /// <summary>
     ///     Represents the segment prototype to be spawned
     /// </summary>
     [DataField]
-    public string SegmentId = "LamiaSegment";
+    public string SegmentId = "BlueRainLizardSegment";
 
     /// <summary>
     ///     How much to slim each successive segment.

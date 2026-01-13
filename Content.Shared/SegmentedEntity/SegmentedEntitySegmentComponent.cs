@@ -32,7 +32,7 @@ public sealed partial class SegmentedEntitySegmentComponent : Component
     public float OffsetConstant = default!;
 
     [ViewVariables]
-    public EntityUid Lamia = default!;
+    public EntityUid BlueRainLizard = default!;
 
     [ViewVariables]
     public int MaxSegments = default!;

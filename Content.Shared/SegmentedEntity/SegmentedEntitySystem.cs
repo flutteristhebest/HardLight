@@ -17,7 +17,7 @@ using Robust.Shared.Network;
 
 namespace Content.Shared.SegmentedEntity;
 
-public sealed partial class LamiaSystem : EntitySystem
+public sealed partial class BlueRainLizardSystem : EntitySystem
 {
     [Dependency] private readonly TagSystem _tagSystem = default!;
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
@@ -25,16 +25,16 @@ public sealed partial class LamiaSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
-    private Queue<(SegmentedEntitySegmentComponent segment, EntityUid lamia)> _segments = new();
-
-    private ProtoId<TagPrototype> _lamiaHardsuitTag = "AllowLamiaHardsuit";
+    private Queue<(SegmentedEntitySegmentComponent segment, EntityUid blueRainLizard)> _segments = new();
+    
+    private ProtoId<TagPrototype> _blueRainLizardHardsuitTag = "AllowBlueRainLizardHardsuit";
 
     public override void Initialize()
     {
         base.Initialize();
         //Parent subscriptions
         // Hitscan filtering is disabled in this codebase.
-        SubscribeLocalEvent<SegmentedEntityComponent, InsertIntoEntityStorageAttemptEvent>(OnLamiaStorageInsertAttempt);
+        SubscribeLocalEvent<SegmentedEntityComponent, InsertIntoEntityStorageAttemptEvent>(OnBlueRainLizardStorageInsertAttempt);
         SubscribeLocalEvent<SegmentedEntityComponent, DidEquipEvent>(OnDidEquipEvent);
         SubscribeLocalEvent<SegmentedEntityComponent, DidUnequipEvent>(OnDidUnequipEvent);
         SubscribeLocalEvent<SegmentedEntityComponent, ComponentInit>(OnInit);
@@ -69,15 +69,15 @@ public sealed partial class LamiaSystem : EntitySystem
 
             // This is currently HERE and not somewhere more sane like OnInit because HumanoidAppearanceComponent is for whatever
             // ungodly reason not initialized when ComponentStartup is called. Kill me.
-            var humanoidFactor = TryComp<HumanoidAppearanceComponent>(segment.segment.Lamia, out var humanoid) ? (humanoid.Height + humanoid.Width) / 2 : 1;
+            var humanoidFactor = TryComp<HumanoidAppearanceComponent>(segment.segment.BlueRainLizard, out var humanoid) ? (humanoid.Height + humanoid.Width) / 2 : 1;
 
-            var ev = new SegmentSpawnedEvent(segment.lamia);
+            var ev = new SegmentSpawnedEvent(segment.segment.BlueRainLizard);
             RaiseLocalEvent(segmentUid, ev, false);
 
             if (segment.segment.SegmentNumber == 1)
             {
                 _transform.SetCoordinates(segmentUid, Transform(attachedUid).Coordinates);
-                var revoluteJoint = _jointSystem.CreateWeldJoint(attachedUid, segmentUid, id: "Segment" + segment.segment.SegmentNumber + segment.segment.Lamia);
+                var revoluteJoint = _jointSystem.CreateWeldJoint(attachedUid, segmentUid, id: "Segment" + segment.segment.SegmentNumber + segment.segment.BlueRainLizard);
                 revoluteJoint.CollideConnected = false;
             }
             if (segment.segment.SegmentNumber <= segment.segment.MaxSegments)
@@ -85,7 +85,7 @@ public sealed partial class LamiaSystem : EntitySystem
             else
                 _transform.SetCoordinates(segmentUid, Transform(attachedUid).Coordinates.Offset(new Vector2(0, segment.segment.OffsetSwitching * humanoidFactor)));
 
-            var joint = _jointSystem.CreateDistanceJoint(attachedUid, segmentUid, id: ("Segment" + segment.segment.SegmentNumber + segment.segment.Lamia));
+            var joint = _jointSystem.CreateDistanceJoint(attachedUid, segmentUid, id: ("Segment" + segment.segment.SegmentNumber + segment.segment.BlueRainLizard));
             joint.CollideConnected = false;
             joint.Stiffness = 0.2f;
         }
@@ -184,7 +184,7 @@ public sealed partial class LamiaSystem : EntitySystem
 
         var segmentComponent = EnsureComp<SegmentedEntitySegmentComponent>(segment);
 
-        segmentComponent.Lamia = parentuid;
+        segmentComponent.BlueRainLizard = parentuid;
         segmentComponent.AttachedToUid = segmentuid;
         segmentComponent.MaxSegments = segmentedComponent.NumberOfSegments;
         segmentComponent.DamageModifierConstant = segmentedComponent.NumberOfSegments * segmentedComponent.DamageModifierOffset;
@@ -230,7 +230,7 @@ public sealed partial class LamiaSystem : EntitySystem
 
     private void HandleSegmentDamage(EntityUid uid, SegmentedEntitySegmentComponent component, DamageModifyEvent args)
     {
-        if (args.Origin == component.Lamia)
+        if (args.Origin == component.BlueRainLizard)
             args.Damage *= 0;
         args.Damage = args.Damage / component.DamageModifyFactor;
     }
@@ -240,10 +240,10 @@ public sealed partial class LamiaSystem : EntitySystem
         if (args.DamageDelta == null)
             return;
 
-        _damageableSystem.TryChangeDamage(component.Lamia, args.DamageDelta);
+        _damageableSystem.TryChangeDamage(component.BlueRainLizard, args.DamageDelta);
     }
 
-    private void OnLamiaStorageInsertAttempt(EntityUid uid, SegmentedEntityComponent comp, ref InsertIntoEntityStorageAttemptEvent args)
+    private void OnBlueRainLizardStorageInsertAttempt(EntityUid uid, SegmentedEntityComponent comp, ref InsertIntoEntityStorageAttemptEvent args)
     {
         args.Cancelled = true;
     }
@@ -257,7 +257,7 @@ public sealed partial class LamiaSystem : EntitySystem
     {
         if (!TryComp<ClothingComponent>(args.Equipment, out var clothing)
             || args.Slot != "outerClothing"
-            || !_tagSystem.HasTag(args.Equipment, _lamiaHardsuitTag))
+            || !_tagSystem.HasTag(args.Equipment, _blueRainLizardHardsuitTag))
             return;
 
         // TODO: Switch segment sprite
@@ -270,7 +270,7 @@ public sealed partial class LamiaSystem : EntitySystem
 
     private void OnDidUnequipEvent(EntityUid equipee, SegmentedEntityComponent component, DidUnequipEvent args)
     {
-        if (args.Slot == "outerClothing" && _tagSystem.HasTag(args.Equipment, _lamiaHardsuitTag))
+        if (args.Slot == "outerClothing" && _tagSystem.HasTag(args.Equipment, _blueRainLizardHardsuitTag))
         {
             // TODO: Revert to default segment sprite
         }

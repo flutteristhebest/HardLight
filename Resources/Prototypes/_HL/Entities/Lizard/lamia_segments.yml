@@ -1,63 +1,44 @@
 - type: entity
   id: BlueRainLizardInitialSegment
-  name: Blue Rain Lizard Segment (Initial)
+  noSpawn: true
   categories: [ HideSpawnMenu ]
   components:
-  - type: SegmentedEntitySegment 
-    attachedto: BlueRainLizard
-  - type: Sprite
-    sprite: _HL/Lizard/lizard.rsi
-    layers:
-    - map: [ "enum.DamageStateVisualLayers.Base" ]
-      state: segment
-      # color: "#3363ac"
-      # shader: unshaded
-    scale: 0.6, 0.6
-  # - type: Fixtures
-    # fixtures:
-      # fix1:
-        # shape:
-          # !type:PhysShapeCircle
-          # radius: 0.25
-        # density: 20
-        # mask:
-        # - MobMask
-        # layer:
-        # - MobLayer
+  - type: Physics
+    bodyType: KinematicController
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.25
+        density: 20
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: Transform
+    anchored: false
+  - type: RequireProjectileTarget
+    active: True
 
 - type: entity
   id: BlueRainLizardSegment
+  parent: BlueRainLizardInitialSegment
   name: Blue Rain Lizard Segment
+  noSpawn: true
   categories: [ HideSpawnMenu ]
   components:
-  - type: SegmentedEntitySegment 
-    attachedto: BlueRainLizardInitialSegment
   - type: Sprite
-    sprite: _HL/Lizard/lizard.rsi
-    layers:
-    - map: [ "enum.DamageStateVisualLayers.Base" ]
-      state: segment
-      # color: "#3363ac"
-      # shader: unshaded
-    scale: 0.6, 0.6
-  # - type: Fixtures
-    # fixtures:
-      # fix1:
-        # shape:
-          # !type:PhysShapeCircle
-          # radius: 0.25
-        # density: 20
-        # mask:
-        # - MobMask
-        # layer:
-        # - MobLayer
+  - type: Tag
+    tags:
+    - HideContextMenu
+    - DoorBumpOpener
+
 - type: entity
-  id: BlueRainLizardtail
-  name: Blue Rain Lizard tail
+  id: BlueRainLizardTail
+  name: Blue Rain Lizard Tail
   categories: [ HideSpawnMenu ]
   components:
-  - type: SegmentedEntitySegment 
-    attachedto: BlueRainLizardSegment
   - type: Sprite
     sprite: _HL/Lizard/lizard.rsi
     layers:

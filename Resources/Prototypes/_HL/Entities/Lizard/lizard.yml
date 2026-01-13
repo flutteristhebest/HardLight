@@ -73,10 +73,20 @@
       scale: 0.6, 0.6
       color: "#3363ac"
       shader: unshaded
+  - type: Fixtures
+    fixtures: # TODO: This needs a second fixture just for mob collisions.
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 1000 #Density is not final, adjust accordingly if the number of tail segments is reduced or increased
+        restitution: 0.0
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
   - type: SegmentedEntity
-    numberOfSegments: 2
-    initialSegmentId: BlueRainLizardInitialSegment
-    segmentId: BlueRainLizardSegment
+    numberOfSegments: 3
     staticOffset: 0.35
     staticScale: 0.6
     useTaperSystem: false

@@ -52,16 +52,16 @@ public sealed class SnakeOverlay : Overlay
         var enumerator = _entManager.AllEntityQueryEnumerator<SegmentedEntityComponent, TransformComponent>();
 
         // I go over the collection above, pulling out an EntityUid and the two components I need for each.
-        while (enumerator.MoveNext(out var uid, out var lamia, out var xform))
+        while (enumerator.MoveNext(out var uid, out var blueRainLizard, out var xform))
         {
             // Skip ones that are off-map. "Map" in this context means interconnected stuff you can travel between by moving, rather than needing e.g. FTL to load a new map.
             if (xform.MapID != args.MapId)
                 continue;
 
             // Skip ones where they are not loaded properly, uninitialized, or w/e
-            if (lamia.Segments.Count < lamia.NumberOfSegments)
+            if (blueRainLizard.Segments.Count < blueRainLizard.NumberOfSegments)
             {
-                _entManager.Dirty(uid, lamia); // pls give me an update...
+                _entManager.Dirty(uid, blueRainLizard); // pls give me an update...
                 continue;
             }
 
@@ -76,33 +76,32 @@ public sealed class SnakeOverlay : Overlay
                 if (humanoid.MarkingSet.TryGetCategory(MarkingCategories.Tail, out var tailMarkings))
                     col = tailMarkings.First().MarkingColors.First();
 
-            DrawLamia(handle, lamia, col ?? Color.White);
+            DrawBlueRainLizard(handle, blueRainLizard, col ?? Color.White);
         }
     }
 
     // This is where we do the actual drawing.
-    private void DrawLamia(DrawingHandleWorld handle, SegmentedEntityComponent lamia, Color color)
+    private void DrawBlueRainLizard(DrawingHandleWorld handle, SegmentedEntityComponent blueRainLizard, Color color)
     {
         // We're going to store all our verticies in here and then draw them
         List<DrawVertexUV2D> verts = new List<DrawVertexUV2D>();
 
         // Radius of the initial segment
-        float radius = lamia.InitialRadius;
+        float radius = blueRainLizard.InitialRadius;
 
         // We're storing the left and right verticies of the last segment so we can start drawing from there without gaps
         Vector2? lastPtCW = null;
         Vector2? lastPtCCW = null;
 
-        var tex = _resourceCache.GetTexture(lamia.TexturePath);
+        var tex = _resourceCache.GetTexture(blueRainLizard.TexturePath);
 
         int i = 1;
         // do each segment except the last one normally
-        while (i < lamia.Segments.Count - 1)
+        while (i < blueRainLizard.Segments.Count - 1)
         {
             // get centerpoints of last segment and this one
-            var origin = _transform.GetWorldPosition(_entManager.GetEntity(lamia.Segments[i - 1]));
-            var destination = _transform.GetWorldPosition(_entManager.GetEntity(lamia.Segments[i]));
-
+            var origin = _transform.GetWorldPosition(_entManager.GetEntity(blueRainLizard.Segments[i - 1]));
+            var destination = _transform.GetWorldPosition(_entManager.GetEntity(blueRainLizard.Segments[i]));
             // get direction between the two points and normalize it
             var connectorVec = destination - origin;
             connectorVec = connectorVec.Normalized();
@@ -150,7 +149,7 @@ public sealed class SnakeOverlay : Overlay
             verts.Add(new DrawVertexUV2D((Vector2) lastPtCCW, new Vector2(1, 1)));
 
             // slim down a bit for next segment
-            radius *= lamia.SlimFactor;
+            radius *= blueRainLizard.SlimFactor;
 
             i++;
         }
@@ -161,7 +160,7 @@ public sealed class SnakeOverlay : Overlay
             verts.Add(new DrawVertexUV2D((Vector2) lastPtCW, new Vector2(0, 0)));
             verts.Add(new DrawVertexUV2D((Vector2) lastPtCCW, new Vector2(1, 0)));
 
-            var destination = _transform.GetWorldPosition(_entManager.GetEntity(lamia.Segments.Last()));
+            var destination = _transform.GetWorldPosition(_entManager.GetEntity(blueRainLizard.Segments.Last()));
 
             verts.Add(new DrawVertexUV2D(destination, new Vector2(0.5f, 1f)));
         }
