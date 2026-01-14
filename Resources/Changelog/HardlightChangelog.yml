@@ -364,3 +364,11 @@ Entries:
       message: Many minor changes to Eaglerock
   id: 37
   time: '2026-01-12T21:24:29.0000000+00:00'
+- author: stickycheZ101
+  changes:
+    - type: Tweak
+      message: >-
+        made the bluespace jug and syringe follow the same x10 capacity
+        convention that the other bluespace glassware does
+  id: 38
+  time: '2026-01-14T00:10:56.0000000+00:00'
