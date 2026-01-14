@@ -160,9 +160,9 @@
       shader: unshaded
   - type: SegmentedEntity
     numberOfSegments: 3
-    initialRadius: 1
+    initialRadius: 0.8
     staticOffset: 1
-    staticScale: 1.5
+    staticScale: 1.2
     initialSegmentId: RedRainLizardInitialSegment
     segmentId: RedRainLizardSegment
     useTaperSystem: true
