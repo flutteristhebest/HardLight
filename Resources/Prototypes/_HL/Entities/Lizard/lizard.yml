@@ -266,7 +266,7 @@
     segmentId: greenRainLizardSegment
     useTaperSystem: true
     taperOffset: 3
-    texturePath: /Textures/_HL/Lizard/lizard.rsi/cyanbacksegment.png
+    texturePath: /Textures/_HL/Lizard/lizard.rsi/backcyansegment.png
     shaderId: unshaded
 
 - type: entity

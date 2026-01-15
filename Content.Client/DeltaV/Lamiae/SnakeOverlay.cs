@@ -2,6 +2,7 @@ using Content.Shared.SegmentedEntity;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Client.Resources;
+using Robust.Client.GameObjects;
 using Robust.Client.ResourceManagement;
 using Robust.Client.Graphics;
 using Robust.Shared.Prototypes;
@@ -26,6 +27,7 @@ public sealed class SnakeOverlay : Overlay
     private readonly SharedTransformSystem _transform;
     private readonly SharedHumanoidAppearanceSystem _humanoid = default!;
     private readonly IPrototypeManager _prototypes = default!;
+    private readonly ContainerSystem _containerSystem;
 
     // Look through these carefully. WorldSpace is useful for debugging. Note that this defaults to "screen space" which breaks when you try and get the world handle.
     public override OverlaySpace Space => OverlaySpace.WorldSpaceEntities;
@@ -41,6 +43,7 @@ public sealed class SnakeOverlay : Overlay
         _transform = _entManager.EntitySysManager.GetEntitySystem<SharedTransformSystem>();
         _humanoid = _entManager.EntitySysManager.GetEntitySystem<SharedHumanoidAppearanceSystem>();
         _prototypes = IoCManager.Resolve<IPrototypeManager>();
+        _containerSystem = _entManager.EntitySysManager.GetEntitySystem<ContainerSystem>();
 
         // draw at drawdepth 3
         ZIndex = 3;
@@ -53,13 +56,18 @@ public sealed class SnakeOverlay : Overlay
         var handle = args.WorldHandle;
 
         // Get all lamiae the client knows of and their transform in a way we can enumerate over
-        var enumerator = _entManager.AllEntityQueryEnumerator<SegmentedEntityComponent, TransformComponent>();
+        var enumerator = _entManager.AllEntityQueryEnumerator<SegmentedEntityComponent, TransformComponent, MetaDataComponent>();
 
         // I go over the collection above, pulling out an EntityUid and the two components I need for each.
-        while (enumerator.MoveNext(out var uid, out var lamia, out var xform))
+        while (enumerator.MoveNext(out var uid, out var lamia, out var xform, out var meta))
         {
             // Skip ones that are off-map. "Map" in this context means interconnected stuff you can travel between by moving, rather than needing e.g. FTL to load a new map.
             if (xform.MapID != args.MapId)
+                continue;
+
+            // Skip entities that are inside containers (lockers, crates, disposals, etc.)
+            // This prevents shader glitches when the head is stored in a container
+            if (_containerSystem.IsEntityInContainer(uid, meta))
                 continue;
 
             // Skip ones where they are not loaded properly, uninitialized, or w/e
