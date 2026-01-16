@@ -86,6 +86,7 @@
     - id: CarpVents
     - id: TickVents
     - id: AiVents
+    - id: LizardVents
     - id: WawaVents
 
 - type: entityTable
@@ -1796,6 +1797,51 @@
     - id: MobRogueSiliconScrapThrustersRangedAsteroid
       prob: 0.001
 
+- type: entity
+  id: LizardVents
+  parent: [VentCrittersBase, BaseGameRule]
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-vent-creatures-start-announcement
+    startAudio:
+      path: /Audio/Announcements/attention.ogg
+    earliestStart: 30
+    reoccurrenceDelay: 200
+    minimumPlayers: 10
+    weight: 6 # Really weak compared to other critters
+    duration: 60
+  - type: VentCrittersRule
+    entries:
+    - id: BlueRainLizard
+      prob: 0.01
+    - id: HostileBlueRainLizard
+      prob: 0.009
+    - id: GreenRainLizard
+      prob: 0.01
+    - id: HostileGreenRainLizard
+      prob: 0.009
+    - id: PinkRainLizard
+      prob: 0.01
+    - id: HostilePinkRainLizard
+      prob: 0.009
+    - id: WhiteRainLizard
+      prob: 0.009
+    - id: HostileWhiteRainLizard
+      prob: 0.008
+    - id: CyanRainLizard
+      prob: 0.01
+    - id: HostileCyanRainLizard
+      prob: 0.009
+    - id: RedRainLizard
+      prob: 0.008
+    - id: HostileRedRainLizard
+      prob: 0.007
+    - id: TrainRainLizard
+      prob: 0.003
+    - id: HostileTrainRainLizard
+      prob: 0.001
+      
 - type: entity
   id: WawaVents
   parent: [VentCrittersBase, BaseGameRule]

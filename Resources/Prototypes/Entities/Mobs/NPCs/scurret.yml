@@ -161,8 +161,8 @@
   parent: MobBaseScurret
   components:
   - type: NpcFactionMember
-      factions:
-      - Wawa
+    factions:
+    - Wawa
   # The have a rich culture
   - type: RandomMetadata
     nameSegments:
