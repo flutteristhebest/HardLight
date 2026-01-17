@@ -307,6 +307,9 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         // Draw shields
         DrawShields(handle, xform, worldToShuttle);
 
+        // Draw safe zone ring
+        DrawSafeZoneRing(handle);
+
         // Frontier Corvax: north line drawing
         var rot = ourEntRot + _rotation.Value;
         DrawNorthLine(handle, rot);
@@ -803,6 +806,21 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
                 handle.DrawLine(v1, v2, visuals.ShieldColor);
             }
         }
+    }
+
+    private void DrawSafeZoneRing(DrawingHandleScreen handle)
+    {
+        const float SafeZoneRadius = 5000f;
+        var safeZoneColor = Color.LimeGreen.WithAlpha(0.8f);
+        
+        // Calculate the center position
+        var centerPos = ScalePosition(Vector2.Zero);
+        
+        // Scale the radius according to the minimap scale
+        var scaledRadius = SafeZoneRadius * MinimapScale;
+        
+        // Draw the ring
+        handle.DrawCircle(centerPos, scaledRadius, safeZoneColor, filled: false);
     }
 
     // Frontier helpers: IFF range filter and blip rendering utilities

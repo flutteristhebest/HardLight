@@ -73,6 +73,9 @@
   parent: NpcStationAiRammer
   description: Shoots at you.
   components:
+  - type: NpcFactionMember
+    factions:
+    - Xenoborg
   - type: HTN
     rootTask:
       task: AttackerShuttleCompound

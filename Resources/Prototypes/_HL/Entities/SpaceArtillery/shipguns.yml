@@ -168,6 +168,23 @@
   parent: [ WeaponTurretSunder ]
   description: An AI controlled weapon, you're too close.  
   components:
+  - type: NpcFactionMember
+    factions:
+    - Xenoborg
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Actions
+  - type: MouseRotator
+    angleTolerance: 5
+    rotationSpeed: 180
+    simple4DirMode: false
+  - type: NoRotateOnInteract
+  - type: NoRotateOnMove
+  - type: Input
+    context: "human"
+  - type: MobState # otherwise NPCs won't attack the entity
+  - type: CombatMode
+    toggleMouseRotator: false
   - type: Sprite
     sprite: _HL/Objects/ShuttleWeapons/sunder.rsi
     layers:
@@ -182,7 +199,8 @@
     rootTask:
       task: ShuttleDeedTurretCompound
     blackboard:
-      RotateSpeed: 3.141
+      RotateSpeed: !type:Single
+        3.141
       SoundTargetInLOS: !type:SoundPathSpecifier
         path: /Audio/Effects/double_beep.ogg
 
@@ -192,6 +210,23 @@
   parent: [ WeaponTurretType35 ]
   description: An AI controlled weapon, you're too close.  
   components:
+  - type: NpcFactionMember
+    factions:
+    - Xenoborg
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Actions
+  - type: MouseRotator
+    angleTolerance: 5
+    rotationSpeed: 180
+    simple4DirMode: false
+  - type: NoRotateOnInteract
+  - type: NoRotateOnMove
+  - type: Input
+    context: "human"
+  - type: MobState # otherwise NPCs won't attack the entity
+  - type: CombatMode
+    toggleMouseRotator: false
   - type: Sprite
     sprite: _HL/Objects/ShuttleWeapons/t35.rsi
     layers:
@@ -206,7 +241,8 @@
     rootTask:
       task: ShuttleDeedTurretCompound
     blackboard:
-      RotateSpeed: 3.141
+      RotateSpeed: !type:Single
+        3.141
       SoundTargetInLOS: !type:SoundPathSpecifier
         path: /Audio/Effects/double_beep.ogg
 
@@ -216,6 +252,23 @@
   parent: [ WeaponLaserTurretApollo ]
   description: An AI controlled weapon, you're too close.  
   components:
+  - type: NpcFactionMember
+    factions:
+    - Xenoborg
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Actions
+  - type: MouseRotator
+    angleTolerance: 5
+    rotationSpeed: 180
+    simple4DirMode: false
+  - type: NoRotateOnInteract
+  - type: NoRotateOnMove
+  - type: Input
+    context: "human"
+  - type: MobState # otherwise NPCs won't attack the entity
+  - type: CombatMode
+    toggleMouseRotator: false
   - type: Sprite
     sprite: _HL/Objects/ShuttleWeapons/t35.rsi
     layers:
@@ -230,7 +283,8 @@
     rootTask:
       task: ShuttleDeedTurretCompound
     blackboard:
-      RotateSpeed: 3.141
+      RotateSpeed: !type:Single
+        3.141
       SoundTargetInLOS: !type:SoundPathSpecifier
         path: /Audio/Effects/double_beep.ogg
 
@@ -240,6 +294,23 @@
   parent: [ WeaponLaserTurretFlayer ]
   description: An AI controlled weapon, you're too close.  
   components:
+  - type: NpcFactionMember
+    factions:
+    - Xenoborg
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Actions
+  - type: MouseRotator
+    angleTolerance: 5
+    rotationSpeed: 180
+    simple4DirMode: false
+  - type: NoRotateOnInteract
+  - type: NoRotateOnMove
+  - type: Input
+    context: "human"
+  - type: MobState # otherwise NPCs won't attack the entity
+  - type: CombatMode
+    toggleMouseRotator: false
   - type: Sprite
     sprite: _HL/Objects/ShuttleWeapons/flayer.rsi
     layers:
@@ -254,7 +325,8 @@
     rootTask:
       task: ShuttleDeedTurretCompound
     blackboard:
-      RotateSpeed: 3.141
+      RotateSpeed: !type:Single
+        3.141
       SoundTargetInLOS: !type:SoundPathSpecifier
         path: /Audio/Effects/double_beep.ogg
     
@@ -264,6 +336,23 @@
   parent: [ WeaponLaserTurretL1Phalanx ]
   description: An AI controlled weapon, you're too close.  
   components:
+  - type: NpcFactionMember
+    factions:
+    - Xenoborg
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Actions
+  - type: MouseRotator
+    angleTolerance: 5
+    rotationSpeed: 180
+    simple4DirMode: false
+  - type: NoRotateOnInteract
+  - type: NoRotateOnMove
+  - type: Input
+    context: "human"
+  - type: MobState # otherwise NPCs won't attack the entity
+  - type: CombatMode
+    toggleMouseRotator: false
   - type: Sprite
     sprite: _HL/Objects/ShuttleWeapons/phalanx.rsi
     layers:
@@ -278,7 +367,8 @@
     rootTask:
       task: ShuttleDeedTurretCompound
     blackboard:
-      RotateSpeed: 3.141
+      RotateSpeed: !type:Single
+        3.141
       SoundTargetInLOS: !type:SoundPathSpecifier
         path: /Audio/Effects/double_beep.ogg
 
@@ -288,6 +378,23 @@
   parent: [ WeaponTurretAdderScattercannon ]
   description: An AI controlled weapon, you're too close.  
   components:
+  - type: NpcFactionMember
+    factions:
+    - Xenoborg
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Actions
+  - type: MouseRotator
+    angleTolerance: 5
+    rotationSpeed: 180
+    simple4DirMode: false
+  - type: NoRotateOnInteract
+  - type: NoRotateOnMove
+  - type: Input
+    context: "human"
+  - type: MobState # otherwise NPCs won't attack the entity
+  - type: CombatMode
+    toggleMouseRotator: false
   - type: Sprite
     sprite: _HL/Objects/ShuttleWeapons/adder.rsi
     layers:
@@ -302,7 +409,8 @@
     rootTask:
       task: ShuttleDeedTurretCompound
     blackboard:
-      RotateSpeed: 3.141
+      RotateSpeed: !type:Single
+        3.141
       SoundTargetInLOS: !type:SoundPathSpecifier
         path: /Audio/Effects/double_beep.ogg
     
@@ -312,6 +420,23 @@
   parent: [ WeaponTurretCharonette ]
   description: An AI controlled weapon, you're too close.  
   components:
+  - type: NpcFactionMember
+    factions:
+    - Xenoborg
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Actions
+  - type: MouseRotator
+    angleTolerance: 5
+    rotationSpeed: 180
+    simple4DirMode: false
+  - type: NoRotateOnInteract
+  - type: NoRotateOnMove
+  - type: Input
+    context: "human"
+  - type: MobState # otherwise NPCs won't attack the entity
+  - type: CombatMode
+    toggleMouseRotator: false
   - type: Sprite
     sprite: _HL/Objects/ShuttleWeapons/charonette.rsi
     layers:

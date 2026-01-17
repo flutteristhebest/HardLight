@@ -241,6 +241,9 @@ public sealed class FireControlNavControl : BaseShuttleControl
         // Draw shields
         DrawShields(handle, xform, worldToShuttle);
 
+        // Draw safe zone ring
+        DrawSafeZoneRing(handle);
+
         _grids.Clear();
         var maxRange = new Vector2(WorldRange, WorldRange);
         _mapManager.FindGridsIntersecting(xform.MapID, new Box2(mapPos.Position - maxRange, mapPos.Position + maxRange), ref _grids, approx: true, includeMap: false);
@@ -522,6 +525,21 @@ public sealed class FireControlNavControl : BaseShuttleControl
         };
 
         handle.DrawPrimitives(DrawPrimitiveTopology.TriangleFan, points, color);
+    }
+
+    private void DrawSafeZoneRing(DrawingHandleScreen handle)
+    {
+        const float SafeZoneRadius = 5000f;
+        var safeZoneColor = Color.LimeGreen.WithAlpha(0.8f);
+        
+        // Calculate the center position
+        var centerPos = ScalePosition(Vector2.Zero);
+        
+        // Scale the radius according to the minimap scale
+        var scaledRadius = SafeZoneRadius * MinimapScale;
+        
+        // Draw the ring
+        handle.DrawCircle(centerPos, scaledRadius, safeZoneColor, filled: false);
     }
 
     private void TryUpdateCursorPosition(Vector2 relativePosition)

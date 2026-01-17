@@ -38,12 +38,62 @@
 - type: htnCompound
   id: AttackerShuttleCompound
   branches:
+  # First priority: rotate to face nearby hostile entities within 100m (based on faction)
+  - tasks:
+    - !type:HTNPrimitiveTask
+      operator: !type:UtilityOperator
+        proto: NearbyHostilesForRotation
+    - !type:HTNCompoundTask
+      task: ShuttleFaceHostileCompound
+  # Second priority: attack hostile shuttles
   - tasks:
     - !type:HTNPrimitiveTask
       operator: !type:UtilityOperator
         proto: NearbyShuttleTargets
     - !type:HTNCompoundTask
       task: ShuttleAttackCompound
+  # Fallback: idle rotation when no targets
+  - tasks:
+    - !type:HTNCompoundTask
+      task: ShuttleIdleRotateCompound
+
+# Utility query to find nearby hostile entities within 200m (based on faction)
+- type: utilityQuery
+  id: NearbyHostilesForRotation
+  query:
+  - !type:NearbyHostilesQuery
+    range: 200
+  considerations:
+  - !type:TargetIsAliveCon
+    curve: !type:BoolCurve
+  - !type:TargetDistanceCon
+    curve: !type:PresetCurve
+      preset: TargetDistance
+
+# Face hostile compound - rotates grid to face target
+- type: htnCompound
+  id: ShuttleFaceHostileCompound
+  branches:
+  - preconditions:
+    - !type:KeyExistsPrecondition
+      key: TargetCoordinates
+    tasks:
+    - !type:HTNPrimitiveTask
+      operator: !type:ShipMoveToOperator
+        shutdownState: PlanFinished
+        removeKeyOnFinish: false
+        alwaysFaceTarget: true
+        inRangeMaxSpeed: 0
+        range: 200
+        rangeTolerance: 150
+        requireAnchored: false
+        targetKey: TargetCoordinates
+      services:
+      - !type:UtilityService
+        id: TargetsService
+        proto: NearbyHostilesForRotation
+        key: Target
+        coordinatesKey: TargetCoordinates
 
 - type: utilityQuery
   id: NearbyShuttleTargets
@@ -171,3 +221,21 @@
         proto: NearbyShuttleTargets
         key: Target
         coordinatesKey: TargetCoordinates
+
+# Idle rotation compound - randomly rotates grid when no targets
+- type: htnCompound
+  id: ShuttleIdleRotateCompound
+  branches:
+  - tasks:
+    - !type:HTNPrimitiveTask
+      operator: !type:PickRandomRotationOperator
+        targetKey: RotateTarget
+    - !type:HTNPrimitiveTask
+      operator: !type:ShipRotateToAngleOperator
+        shutdownState: PlanFinished
+        removeKeyOnFinish: false
+        angleKey: RotateTarget
+        targetDistance: 1000
+    - !type:HTNPrimitiveTask
+      operator: !type:WaitOperator
+        time: 3
