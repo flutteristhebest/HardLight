@@ -52,10 +52,6 @@
         proto: NearbyShuttleTargets
     - !type:HTNCompoundTask
       task: ShuttleAttackCompound
-  # Fallback: idle rotation when no targets
-  - tasks:
-    - !type:HTNCompoundTask
-      task: ShuttleIdleRotateCompound
 
 # Utility query to find nearby hostile entities within 200m (based on faction)
 - type: utilityQuery
@@ -221,21 +217,3 @@
         proto: NearbyShuttleTargets
         key: Target
         coordinatesKey: TargetCoordinates
-
-# Idle rotation compound - randomly rotates grid when no targets
-- type: htnCompound
-  id: ShuttleIdleRotateCompound
-  branches:
-  - tasks:
-    - !type:HTNPrimitiveTask
-      operator: !type:PickRandomRotationOperator
-        targetKey: RotateTarget
-    - !type:HTNPrimitiveTask
-      operator: !type:ShipRotateToAngleOperator
-        shutdownState: PlanFinished
-        removeKeyOnFinish: false
-        angleKey: RotateTarget
-        targetDistance: 1000
-    - !type:HTNPrimitiveTask
-      operator: !type:WaitOperator
-        time: 30
