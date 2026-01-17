@@ -53,12 +53,12 @@
     - !type:HTNCompoundTask
       task: ShuttleAttackCompound
 
-# Utility query to find nearby hostile entities within 200m (based on faction)
+# Utility query to find nearby hostile entities (based on faction)
+# Range filtering is done by ShipMoveToOperator's range parameter
 - type: utilityQuery
   id: NearbyHostilesForRotation
   query:
   - !type:NearbyHostilesQuery
-    range: 200
   considerations:
   - !type:TargetIsAliveCon
     curve: !type:BoolCurve
