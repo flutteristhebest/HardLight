@@ -3,7 +3,7 @@ using Robust.Shared.Containers;
 using Robust.Shared.Utility;
 using Robust.Shared.Audio.Systems;
 using Content.Server.Body.Components;
-using Content.Server.Consent;
+using Content.Server._Common.Consent;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Examine;
 using Content.Server.Atmos.Components;
