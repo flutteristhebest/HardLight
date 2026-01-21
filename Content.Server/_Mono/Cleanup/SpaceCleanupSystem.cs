@@ -113,6 +113,9 @@ public sealed class SpaceCleanupSystem : BaseCleanupSystem<PhysicsComponent>
             var i = 0;
             foreach (var (_, fix) in anchFix.Fixtures)
             {
+                if (!fix.Hard)
+                    continue;
+
                 if ((fix.CollisionLayer & body.CollisionMask) == 0 && (fix.CollisionMask & body.CollisionLayer) == 0)
                     continue;
 
