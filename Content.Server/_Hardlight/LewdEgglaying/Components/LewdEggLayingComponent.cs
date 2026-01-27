@@ -123,4 +123,15 @@ public sealed partial class LewdEggLayingComponent : Component
         }
         return false;
     }
+    public void makeTempFrom(LewdEggLayingComponent other)
+    {
+        FlavorMessages = other.FlavorMessages;
+        EggSpawn = other.EggSpawn;
+        EggLaySound = other.EggLaySound;
+        EggSlowThreshold = other.EggSlowThreshold;
+        MaxEggs = other.MaxEggs;
+        EggSlowMult = other.EggSlowMult;
+        EggLayDelay = other.EggLayDelay;
+        Temporary = true;
+    }
 }

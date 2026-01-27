@@ -158,7 +158,7 @@ public sealed class LewdEggLayingSystem : EntitySystem
         {
             theirEggs = (LewdEggLayingComponent)Factory.GetComponent(Factory.GetComponentName<LewdEggLayingComponent>());
             EntityManager.AddComponent(target, theirEggs);
-            theirEggs.Temporary = true;
+            theirEggs.makeTempFrom(myEggs);
             _actions.AddAction(target, ref theirEggs.Action, theirEggs.ActionPrototype);
         }
 

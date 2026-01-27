@@ -26,5 +26,11 @@ natural-regeneration-text = naturally capable of healing from lesser injuries.
 unnatural-regeneration-name = unnatural regeneration
 unnatural-regeneration-text = capable of healing from most injuries with unnatural efficiency.
 
+hl-trait-egglayer-fertile-name = Egg Layer (very fertile)
+hl-trait-egglayer-fertile-desc = Your body is a machine that turns cum into eggs. (5 cum per egg)
+
 hl-trait-egglayer-name = Egg Layer
-hl-trait-egglayer-desc = Your body is a machine that turns cum into eggs.
+hl-trait-egglayer-desc = You produce and lay eggs (10 cum per egg)
+
+hl-trait-egglayer-infertile-name = Egg Layer (very infertile)
+hl-trait-egglayer-infertile-desc = You produce eggs very slowly and seldomly (50 cum per egg)

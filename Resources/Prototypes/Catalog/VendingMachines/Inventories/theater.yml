@@ -477,6 +477,7 @@
     CoolCoyoteClothesWhitesun: 9000
     CoolCoyoteClothesYellowwshort: 9000
     CoolCoyoteClothesGearHarness: 9000
+    ClothingUniformJumpskirtPencilTan: 9000
   contrabandInventory:
     ClothingHeadHatRichard: 1
     ToyFigurineBoxer: 1
@@ -486,6 +487,8 @@
     ClothingShoesResonant: 1 # Goobstation
     ClothingNeckCloakResonant: 1 # Goobstation
     ClothingUniformJumpsuitResonant: 1 # Goobstation
+    ClothingUniformJumpsuitAerostatic: 1 # Hardlight
+    ClothingUniformJumpsuitSuperstarCop: 1 # Hardlight
   emaggedInventory:
     ClothingShoesBling: 1
     ClothingShoesBootsCowboyFancy: 1

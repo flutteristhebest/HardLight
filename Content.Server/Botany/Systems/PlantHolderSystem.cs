@@ -31,6 +31,7 @@ using Content.Shared.Labels.Components;
 using Content.Shared._NF.BindToStation; // Frontier
 using Content.Server.Station.Systems; // Frontier
 using Robust.Shared.Configuration;
+using Robust.Shared.Player;
 using Robust.Shared;
 
 namespace Content.Server.Botany.Systems;
@@ -55,6 +56,7 @@ public sealed class PlantHolderSystem : EntitySystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly StackSystem _stack = default!;
+
 
     public const float HydroponicsSpeedMultiplier = 1f;
     public const float HydroponicsConsumptionMultiplier = 2f;

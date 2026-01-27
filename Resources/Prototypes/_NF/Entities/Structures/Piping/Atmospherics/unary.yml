@@ -1,5 +1,5 @@
 - type: entity
-  parent: [ BaseStructureDynamic, BaseMachinePowered, ConstructibleMachine ]
+  parent: [ BaseStructureDynamic, ConstructibleMachine ]
   id: GasMiningDrill
   name: gas mining drill
   description: A powerful, luggable drill for mining gas deposits on asteroids. Outputs gas through a pipe.
@@ -39,7 +39,7 @@
     examinableAddress: true
     prefix: device-address-prefix-gas-drill
   - type: WiredNetworkConnection
-  - type: PowerSwitch
+  #- type: PowerSwitch
   - type: Sprite
     sprite: _NF/Objects/Specific/Atmospherics/extractor.rsi
     snapCardinals: true
@@ -80,13 +80,13 @@
           Empty: { state: drill-empty-unlit, visible: true }
           Low: { state: drill-low-unlit, visible: true }
           On: { state: drill-on-unlit, visible: true }
-  - type: ApcPowerReceiver
-    powerLoad: 1000
+  #- type: ApcPowerReceiver
+  #  powerLoad: 1000
   - type: Machine
     board: GasMiningDrillMachineCircuitboard
   - type: GasDepositExtractor
-    baseExtractionRate: 50 # 50 mol/s => 20 kmol in ~6.6 min
-    extractionRate: 50 
+    baseExtractionRate: 500 # 50 mol/s => 20 kmol in ~6.6 min
+    extractionRate: 500
     extractionRateMultiplier: 1.2 # max rate: 86.4 mol/s => 20 kmol in ~3.9 min
     port: outlet
   - type: Fixtures

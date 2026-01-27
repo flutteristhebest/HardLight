@@ -32,6 +32,9 @@
     BallGag: 3
     LeashAdvanced: 2
     ChemistryBottlePomelustine: 1
+    ClothingUniformJumpsuitCatsuit: 1
+    ClothingUniformJumpsuitCatsuitBlank: 1
+    ClothingUniformJumpsuitCatsuitShiny: 1
   contrabandInventory:
     DrinkCumBottleFull: 1
     ChemistryBottlePhilterex: 1

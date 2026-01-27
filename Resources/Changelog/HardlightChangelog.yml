@@ -662,3 +662,95 @@ Entries:
       message: Nanites have been rebalanced slightly to be less strong.
   id: 69
   time: '2026-01-22T07:15:15.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: >-
+        Reptilians now have two additional snout markings: Eastern Dragon &
+        Eastern Dragon (Usiki)
+  id: 70
+  time: '2026-01-24T06:40:45.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: >-
+        Jump Boots are now able to be crafted at a protolathe after the
+        appropriate research has been done.
+  id: 71
+  time: '2026-01-24T07:00:22.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: Added a bunch of optimization
+    - type: Add
+      message: Added various cleanup systems
+    - type: Add
+      message: Added Seed and plant stacking
+    - type: Add
+      message: 'Added THE PIRATES CODE '
+    - type: Fix
+      message: 'Fixed lingering maps and grids '
+  id: 72
+  time: '2026-01-24T11:41:17.0000000+00:00'
+- author: TheRealMasterChief117
+  changes:
+    - type: Tweak
+      message: >-
+        Changed how synths heal. They now heal based on their blood level, their
+        blood level dropping as they heal. As a result, their healing is more
+        powerful that scales based on their blood amount.
+  id: 73
+  time: '2026-01-25T06:52:35.0000000+00:00'
+- author: rtasva
+  changes:
+    - type: Add
+      message: Added Civimed vendors and some new furniture to Silica
+    - type: Tweak
+      message: 'temporarily rerouted disposals on Silica to accommodate collision bug '
+    - type: Fix
+      message: >-
+        Fixed warden locker & sec dock airlocks on Silica not being correct
+        prototypes
+  id: 74
+  time: '2026-01-25T09:27:27.0000000+00:00'
+- author: rtasva
+  changes:
+    - type: Add
+      message: ported too many clothes to list here
+  id: 75
+  time: '2026-01-25T09:27:51.0000000+00:00'
+- author: Generic_Eagle
+  changes:
+    - type: Fix
+      message: More improvements on Eaglerock
+  id: 76
+  time: '2026-01-25T09:29:37.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Tweak
+      message: >-
+        You can now use an Automation Upgrade Kit on a material reclaimer to
+        allow for the automated removal of liquid via liquid pump.  Don't let it
+        eat your tools.
+  id: 77
+  time: '2026-01-25T09:32:35.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: Added even more optimizations
+    - type: Add
+      message: added more dragons
+    - type: Add
+      message: added fish evolution
+    - type: Add
+      message: added new carp forms
+  id: 78
+  time: '2026-01-25T09:41:33.0000000+00:00'
+- author: rtasva
+  changes:
+    - type: Add
+      message: Added MNK vendors & Passion drobes to every station
+    - type: Tweak
+      message: More Silica fixes
+  id: 79
+  time: '2026-01-25T22:28:45.0000000+00:00'

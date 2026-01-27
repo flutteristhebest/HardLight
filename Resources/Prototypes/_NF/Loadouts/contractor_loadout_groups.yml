@@ -1035,6 +1035,8 @@
   - ContractorRubberStampTrader
   - ContractorRubberStampClown
   - ContractorRubberStampMime
+    # Misc
+  - ContractorClothingHeadHatHairflower
 
 - type: loadoutGroup
   id: ContractorHandItems
