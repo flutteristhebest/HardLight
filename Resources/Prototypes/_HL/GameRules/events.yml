@@ -2025,10 +2025,6 @@
     minimumPlayers: 0
   - type: DynamicJobAllocationRule
     checkInterval: 600  # Check every 10 minutes (600 seconds)
-    contractorPercentage: 0.25  # 25%
-    pilotPercentage: 0.05  # 5%
-    mercenaryPercentage: 0.20  # 20%
-    contractorCap: 25
-    pilotCap: 5
-    mercenaryCap: 20
+    mercenaryPercentage: 0.5  # 20%
+    mercenaryCap: 40
   - type: ActiveGameRule  # This makes it start immediately when added

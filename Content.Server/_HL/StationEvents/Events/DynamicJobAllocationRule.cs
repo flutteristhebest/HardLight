@@ -46,25 +46,17 @@ public sealed class DynamicJobAllocationRule : StationEventSystem<DynamicJobAllo
         // At 0-9 players, set all jobs to 0
         if (playerCount < 10)
         {
-            _stationJobs.TrySetJobSlot(chosenStation.Value, component.ContractorJob, 0);
             _stationJobs.TrySetJobSlot(chosenStation.Value, component.MercenaryJob, 0);
-            _stationJobs.TrySetJobSlot(chosenStation.Value, component.PilotJob, 0);
             return;
         }
 
         // Calculate slots based on percentages (rounded up)
-        var contractorSlots = (int)Math.Ceiling(playerCount * component.ContractorPercentage);
-        var pilotSlots = (int)Math.Ceiling(playerCount * component.PilotPercentage);
         var mercenarySlots = (int)Math.Ceiling(playerCount * component.MercenaryPercentage);
 
         // Apply caps
-        contractorSlots = Math.Min(contractorSlots, component.ContractorCap);
-        pilotSlots = Math.Min(pilotSlots, component.PilotCap);
         mercenarySlots = Math.Min(mercenarySlots, component.MercenaryCap);
 
         // Set the job slots
-        _stationJobs.TrySetJobSlot(chosenStation.Value, component.ContractorJob, contractorSlots);
-        _stationJobs.TrySetJobSlot(chosenStation.Value, component.PilotJob, pilotSlots);
         _stationJobs.TrySetJobSlot(chosenStation.Value, component.MercenaryJob, mercenarySlots);
     }
 }
