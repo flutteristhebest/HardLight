@@ -236,9 +236,9 @@
   id: DragonSpawn
   components:
   - type: StationEvent
-    weight: 6.5
+    weight: 6
     earliestStart: 40
-    reoccurrenceDelay: 200
+    reoccurrenceDelay: 400
     minimumPlayers: 15
     duration: null
     requiredJobs:
@@ -269,9 +269,9 @@
   id: RainbowDragonSpawn
   components:
   - type: StationEvent
-    weight: 6.5
+    weight: 5
     earliestStart: 40
-    reoccurrenceDelay: 200
+    reoccurrenceDelay: 400
     minimumPlayers: 15
     duration: null
     requiredJobs:
@@ -302,9 +302,9 @@
   id: MagicDragonSpawn
   components:
   - type: StationEvent
-    weight: 6.5
+    weight: 5
     earliestStart: 40
-    reoccurrenceDelay: 200
+    reoccurrenceDelay: 400
     minimumPlayers: 15
     duration: null
     requiredJobs:
@@ -335,9 +335,9 @@
   id: HoloDragonSpawn
   components:
   - type: StationEvent
-    weight: 6.5
+    weight: 3
     earliestStart: 40
-    reoccurrenceDelay: 200
+    reoccurrenceDelay: 400
     minimumPlayers: 15
     duration: null
     requiredJobs:
@@ -1965,33 +1965,33 @@
   - type: VentCrittersRule
     entries:
     - id: BlueRainLizard
-      prob: 0.01
-    - id: HostileBlueRainLizard
-      prob: 0.009
-    - id: GreenRainLizard
-      prob: 0.01
-    - id: HostileGreenRainLizard
-      prob: 0.009
-    - id: PinkRainLizard
-      prob: 0.01
-    - id: HostilePinkRainLizard
-      prob: 0.009
-    - id: WhiteRainLizard
-      prob: 0.009
-    - id: HostileWhiteRainLizard
-      prob: 0.008
-    - id: CyanRainLizard
-      prob: 0.009
-    - id: HostileCyanRainLizard
-      prob: 0.008
-    - id: RedRainLizard
-      prob: 0.006
-    - id: HostileRedRainLizard
-      prob: 0.005
-    - id: TrainRainLizard
-      prob: 0.003
-    - id: HostileTrainRainLizard
       prob: 0.001
+    - id: HostileBlueRainLizard
+      prob: 0.0009
+    - id: GreenRainLizard
+      prob: 0.001
+    - id: HostileGreenRainLizard
+      prob: 0.0009
+    - id: PinkRainLizard
+      prob: 0.001
+    - id: HostilePinkRainLizard
+      prob: 0.0009
+    - id: WhiteRainLizard
+      prob: 0.0009
+    - id: HostileWhiteRainLizard
+      prob: 0.0008
+    - id: CyanRainLizard
+      prob: 0.0009
+    - id: HostileCyanRainLizard
+      prob: 0.0008
+    - id: RedRainLizard
+      prob: 0.0006
+    - id: HostileRedRainLizard
+      prob: 0.0005
+    - id: TrainRainLizard
+      prob: 0.0003
+    - id: HostileTrainRainLizard
+      prob: 0.0001
 
 - type: entity
   id: WawaVents
