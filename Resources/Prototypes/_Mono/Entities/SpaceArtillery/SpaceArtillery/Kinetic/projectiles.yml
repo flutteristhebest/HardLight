@@ -414,7 +414,6 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 2.5
-    requireNoGrid: true
     shape: triangle
     radarColor: "#1df1f5"
   - type: TimedDespawn
@@ -489,7 +488,6 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 2.5
-    requireNoGrid: true
     shape: arrow
     radarColor: "#1df1f5"
   - type: TimedDespawn

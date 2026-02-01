@@ -51,18 +51,15 @@ public sealed partial class RadarBlipSystem : EntitySystem
         RaiseNetworkEvent(removalEv);
     }
 
-    private List<(NetEntity NetUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)> AssembleBlipsReport(EntityUid uid, List<EntityUid> sources, RadarConsoleComponent? component = null)
+    private List<BlipNetData> AssembleBlipsReport(EntityUid uid, List<EntityUid> sources, RadarConsoleComponent? component = null)
     {
-        var blips = new List<(NetEntity NetUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>();
+        var blips = new List<BlipNetData>();
 
         if (Resolve(uid, ref component))
         {
             var radarXform = Transform(uid);
             var radarGrid = radarXform.GridUid;
             var radarMapId = radarXform.MapID;
-
-            // Check if the radar is on an FTL map
-            var isFtlMap = HasComp<FTLComponent>(radarXform.GridUid);
 
             var blipQuery = EntityQueryEnumerator<RadarBlipComponent, TransformComponent, PhysicsComponent>();
 
@@ -79,25 +76,6 @@ public sealed partial class RadarBlipSystem : EntitySystem
 
                 var blipGrid = blipXform.GridUid;
 
-                // if (HasComp<CircularShieldRadarComponent>(blipUid))
-                // {
-                //     // Skip if in FTL
-                //     if (isFtlMap)
-                //         continue;
-                //
-                //     // Skip if no grid
-                //     if (blipGrid == null)
-                //         continue;
-                //
-                //     // Ensure the grid is a valid MapGrid
-                //     if (!HasComp<MapGridComponent>(blipGrid.Value))
-                //         continue;
-                //
-                //     // Ensure the shield is a direct child of the grid
-                //     if (blipXform.ParentUid != blipGrid)
-                //         continue;
-                // }
-
                 var blipVelocity = _physics.GetMapLinearVelocity(blipUid, blipPhysics, blipXform);
 
                 if (!NearAnySources(_xform.GetWorldPosition(blipXform), sources, component.MaxRange))
@@ -111,9 +89,9 @@ public sealed partial class RadarBlipSystem : EntitySystem
                 var coord = blipXform.Coordinates;
                 if (blipXform.ParentUid != blipXform.MapUid && blipXform.ParentUid != blipGrid)
                     coord = _xform.WithEntityId(coord, blipGrid ?? blipXform.MapUid!.Value);
-                // we're parented to either the map or a grid and this is relative velocity so account for grid movement
-                if (blipGrid != null)
-                    blipVelocity -= _physics.GetLinearVelocity(blipGrid.Value, coord.Position);
+
+                var gridCfg = (BlipConfig?)null;
+                var rotation = _xform.GetWorldRotation(blipXform);
 
                 var shape = blip.Shape switch
                 {
@@ -127,7 +105,30 @@ public sealed partial class RadarBlipSystem : EntitySystem
                     _ => RadarBlipShape.Circle
                 };
 
-                blips.Add((netBlipUid, GetNetCoordinates(coord), blipVelocity, blip.Scale, blip.RadarColor, shape));
+                var config = new BlipConfig
+                {
+                    Color = blip.RadarColor,
+                    Shape = shape,
+                    Bounds = new Box2(-blip.Scale * 1.5f, -blip.Scale * 1.5f, blip.Scale * 1.5f, blip.Scale * 1.5f)
+                };
+
+                // we're parented to either the map or a grid and this is relative velocity so account for grid movement
+                if (blipGrid != null)
+                {
+                    blipVelocity -= _physics.GetLinearVelocity(blipGrid.Value, coord.Position);
+
+                    var gridXform = Transform(blipGrid.Value);
+                    // it's local-frame velocity so rotate it too
+                    blipVelocity = (-gridXform.LocalRotation).RotateVec(blipVelocity);
+                }
+
+                // ideally we would handle blips being culled by detection on server but detection grid culling is already clientside so might as well
+                blips.Add(new(netBlipUid,
+                              GetNetCoordinates(coord),
+                              blipVelocity,
+                              rotation,
+                              config,
+                              gridCfg));
             }
         }
 

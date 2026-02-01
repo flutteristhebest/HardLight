@@ -324,10 +324,13 @@ public sealed class FireControlNavControl : BaseShuttleControl
 
         var blips = _blips.GetCurrentBlips();
 
-        foreach (var (netUid, blipPosition, blipScale, blipColor, blipShape) in blips)
+        foreach (var blip in blips)
         {
-            var blipCoord = _transform.ToMapCoordinates(blipPosition).Position;
+            var blipCoord = _transform.ToMapCoordinates(blip.Position).Position;
             var blipPos = Vector2.Transform(blipCoord, worldToView);
+            var blipShape = blip.Config.Shape;
+            var blipColor = blip.Config.Color;
+            var blipScale = (blip.Config.Bounds.Width + blip.Config.Bounds.Height) / 6f;
 
             if (blipShape == RadarBlipShape.Ring)
             {

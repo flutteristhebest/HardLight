@@ -55,7 +55,7 @@ public sealed class HitscanRadarVisualizationSystem : EntitySystem
             var hitscanList = _activeHitscans.Keys
                 .Select(h => ((NetEntity?) null, h.Start, h.End, h.Thickness, h.Color))
                 .ToList();
-            var emptyBlips = new List<(Robust.Shared.GameObjects.NetEntity NetUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>();
+            var emptyBlips = new List<BlipNetData>();
             var ev = new GiveBlipsEvent(emptyBlips, hitscanList);
             RaiseNetworkEvent(ev);
         }
@@ -101,7 +101,7 @@ public sealed class HitscanRadarVisualizationSystem : EntitySystem
         var hitscanList = _activeHitscans.Keys
             .Select(h => ((NetEntity?) null, h.Start, h.End, h.Thickness, h.Color))
             .ToList();
-        var newEmptyBlips = new List<(Robust.Shared.GameObjects.NetEntity NetUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>();
+        var newEmptyBlips = new List<BlipNetData>();
         var ev = new GiveBlipsEvent(newEmptyBlips, hitscanList);
         RaiseNetworkEvent(ev);
     }
