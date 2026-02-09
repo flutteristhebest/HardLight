@@ -464,14 +464,14 @@
   - type: WirelessNetworkConnection
     range: 500
   - type: Gun
-    projectileSpeed: 240
+    projectileSpeed: 185
     minAngle: 0
     maxAngle: 8
     fireRate: 1
     recoil: 10 # 2/5x
-    burstCooldown: 10
-    burstFireRate: 50
-    shotsPerBurst: 50
+    burstCooldown: 5
+    burstFireRate: 10
+    shotsPerBurst: 25
     selectedMode: Burst
     availableModes: Burst
     shootThermalSignature: 500000 # ~5.6km with continuous fire
@@ -510,7 +510,7 @@
           collection: MetalBreak
   - type: RadarBlip
     radarColor: "#C92BCC"
-    scale: 1.5
+    scale: 2
   - type: ShipGunType
     shipType: Energy
   - type: ShipGunClass
@@ -792,7 +792,7 @@
 # Curio-8640 plasma lance "Malice"
 
 - type: entity
-  id: WeaponTurretType241
+  id: WeaponTurretType241Malice
   name: Curio-8640 plasma lance "Malice"
   parent: BallisticArtilleryUnanchorable
   suffix: ADS ONLY
@@ -1169,7 +1169,7 @@
     range: 500
   - type: Gun
     fireRate: 1
-    projectileSpeed: 200
+    projectileSpeed: 185
     minAngle: 0
     maxAngle: 6
     soundGunshot:

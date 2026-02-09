@@ -41,7 +41,6 @@
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn
-    lifetime: 7
     lifetime: 6.6
   - type: PointLight
     color: "#FF0040"
