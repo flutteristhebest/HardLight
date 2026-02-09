@@ -315,7 +315,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         if (ourGridId != null && EntManager.TryGetComponent<StationMemberComponent>(ourGridId.Value, out var stationMember))
             stationUid = stationMember.Station;
 
-        DrawSafeZoneRing(handle, worldToShuttle, shuttleToView, xform.MapID, stationUid);
+        DrawSafeZoneRing(handle, worldToShuttle, shuttleToView, xform.MapID, mapPos.Position, stationUid);
 
         // Frontier Corvax: north line drawing
         var rot = ourEntRot + _rotation.Value;
@@ -818,12 +818,13 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         Matrix3x2 worldToShuttle,
         Matrix3x2 shuttleToView,
         MapId mapId,
+        Vector2 radarWorldPos,
         EntityUid? stationUid)
     {
         const float SafeZoneRadius = 5000f;
         var safeZoneColor = Color.LimeGreen.WithAlpha(0.8f);
 
-        if (!TryGetStationCenterWorld(mapId, stationUid, out var stationWorldPos))
+        if (!TryGetStationCenterWorld(mapId, radarWorldPos, stationUid, out var stationWorldPos))
             return;
 
         var centerPos = Vector2.Transform(stationWorldPos, worldToShuttle * shuttleToView);
@@ -837,6 +838,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
     private bool TryGetStationCenterWorld(
         MapId mapId,
+        Vector2 radarWorldPos,
         EntityUid? stationUid,
         out Vector2 stationWorldPos)
     {
@@ -869,13 +871,10 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             }
             else
             {
-                // If we don't know which station we're on, prefer a stable choice (largest station grid)
-                // rather than snapping to the closest grid as the radar moves.
-                var size = grid.LocalAABB.Size;
-                var area = size.X * size.Y;
-                if (!found || area > bestMetric)
+                var dist = (worldCenter - radarWorldPos).LengthSquared();
+                if (!found || dist < bestMetric)
                 {
-                    bestMetric = area;
+                    bestMetric = dist;
                     stationWorldPos = worldCenter;
                     found = true;
                 }
