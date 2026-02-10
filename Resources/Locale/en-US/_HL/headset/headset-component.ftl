@@ -7,5 +7,6 @@ chat-radio-event1 = Wideband A
 chat-radio-event2 = Wideband B
 chat-radio-event3 = Wideband C
 chat-radio-interdyne = Interdyne
+chat-radio-dominos-robotics = Dominos Robotics
 
 examine-radio-intrinsic-channels = Intrinsic frequencies:

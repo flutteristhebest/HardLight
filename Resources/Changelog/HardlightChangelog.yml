@@ -1018,3 +1018,69 @@ Entries:
         as a set of lights for them.
   id: 106
   time: '2026-02-09T23:08:59.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Fix
+      message: gives HM shoes..... and a gun.
+    - type: Fix
+      message: Fixed freelancer headsets not having freelance radio.
+  id: 107
+  time: '2026-02-09T23:33:30.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Tweak
+      message: >-
+        All lockers, wall lockers, and suit storages will now once again save on
+        ship save.
+    - type: Tweak
+      message: Vending machines will now once again save on ship save.
+    - type: Fix
+      message: >-
+        Entities with MindContainers (sentient machines, plushies, pAI, etc)
+        should no longer interfere with ship saving.
+    - type: Fix
+      message: >-
+        ChemMasters should no longer mix solutions contained within their buffer
+        when saved on a ship.
+  id: 108
+  time: '2026-02-09T23:34:31.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Ported Martial Arts from Goobstation.
+  id: 109
+  time: '2026-02-09T23:35:33.0000000+00:00'
+- author: JenreyDominos
+  changes:
+    - type: Add
+      message: Dominos Robotics Encryption Key
+    - type: Add
+      message: Dominos Robotics Glass Airlock
+    - type: Add
+      message: Dominos Robotics Standard Airlock
+    - type: Add
+      message: Factions to the pallet menu
+    - type: Add
+      message: Dominos Robotics to the Factions tab of the pallet menu
+  id: 110
+  time: '2026-02-09T23:43:38.0000000+00:00'
+- author: re-silvered
+  changes:
+    - type: Add
+      message: Biting and checking out as interaction options
+  id: 111
+  time: '2026-02-09T23:47:00.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: Added a new Xenoborg AI ship
+    - type: Add
+      message: Added the basis of new ship guns
+    - type: Tweak
+      message: 'tweaked the settings for the AI targeting '
+    - type: Tweak
+      message: 'tweaked LOS so AI will try to shoot through windows '
+    - type: Fix
+      message: Fixed server side errors causing lag in two places
+  id: 112
+  time: '2026-02-10T00:19:53.0000000+00:00'

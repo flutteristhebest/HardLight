@@ -116,3 +116,10 @@
   color: "#ff2222"
   # long range since I don't wanna make a special xenoborg telecomm server
   longRange: true
+
+- type: radioChannel
+  id: DominosRobotics
+  name: chat-radio-dominos-robotics
+  keycode: "/"
+  frequency: 1995
+  color: "#9900ff"

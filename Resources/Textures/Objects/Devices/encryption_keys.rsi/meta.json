@@ -8,6 +8,7 @@
   },
   "states": [
     {"name": "crypt_gray"},
+    {"name": "crypt_purple"},
     {"name": "crypt_rusted"},
     {"name": "crypt_gold"},
     {"name": "crypt_orange"},
@@ -25,6 +26,7 @@
     {"name": "eng_label"},
     {"name": "hop_label"},
     {"name": "hos_label"},
+    {"name": "dominosrobotics_label"},
     {"name": "medsci_label"},
     {"name": "med_label"},
     {"name": "miner_label"},
