@@ -6,6 +6,7 @@
   - type: MobMover
   - type: Mech
     maxEquipmentAmount: 2
+    airtight: true
   - type: MechAir
   - type: AirFilter
     # everything except oxygen and nitrogen
@@ -29,7 +30,9 @@
     - NitrousOxide
     - Frezon
     #- Helium3 TODO: fusion
+  - type: HLAllowStrapMovement # Hardlight
   - type: AirIntake
+  - type: CryoPodAir
   # for intake and filter to work
   - type: AtmosDevice
     requireAnchored: false
