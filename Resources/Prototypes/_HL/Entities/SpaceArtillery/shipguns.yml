@@ -531,7 +531,7 @@
       task: TurretCompound
     blackboard:
       SoundTargetInLOS: !type:SoundPathSpecifier
-        path: /Audio/Effects/double_beep.ogg
+        path: /Audio/_HL/Effects/Freeallegiance/lturret.ogg
  
 - type: entity
   parent: MobRogueSiliconGuardian
@@ -598,7 +598,7 @@
       task: TurretCompound
     blackboard:
       SoundTargetInLOS: !type:SoundPathSpecifier
-        path: /Audio/Effects/double_beep.ogg
+        path: /Audio/_HL/Effects/Freeallegiance/lturret.ogg
 
 - type: entity
   id: CVWeaponTurretFang
