@@ -32,6 +32,7 @@ public sealed class RoomGridSpawnerSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly ITileDefinitionManager _tileDefManager = default!;
+    [Dependency] private readonly AppearanceSystem _appearance = default!;
 
     private readonly Dictionary<NetUserId, PendingRoomLoad> _pendingLoads = new();
     private readonly Dictionary<NetUserId, ActiveRoomSession> _activeSessions = new();
@@ -54,6 +55,13 @@ public sealed class RoomGridSpawnerSystem : EntitySystem
     {
         if (args.Handled || args.User == EntityUid.Invalid)
             return;
+
+        if (component.InUse)
+        {
+            _popup.PopupEntity("This console is already in use.", args.User, args.User);
+            args.Handled = true;
+            return;
+        }
 
         if (!_xformQuery.TryComp(uid, out var consoleXform) || consoleXform.GridUid == null)
             return;
@@ -113,10 +121,16 @@ public sealed class RoomGridSpawnerSystem : EntitySystem
         if (!_gridQuery.TryComp(pending.GridUid, out var gridComp))
             return;
 
-        consoleEntity = ClearArea(pending.GridUid, gridComp, pending.Bounds, consoleEntity, pending.MarkerUid);
+        consoleEntity = ClearArea(pending.GridUid, gridComp, pending.Bounds, consoleEntity, pending.MarkerUid, DeleteContainedEntitiesOnReset);
 
         var shipData = _shipSerialization.DeserializeShipGridDataFromYaml(roomData, userId);
         _shipSerialization.ReconstructShipOnExistingGrid(shipData, pending.GridUid, Vector2.Zero);
+
+        if (TryComp<RoomGridSpawnerConsoleComponent>(consoleEntity, out var consoleComp))
+        {
+            consoleComp.InUse = true;
+            _appearance.SetData(consoleEntity, RoomGridSpawnerVisuals.InUse, true);
+        }
 
         _activeSessions[userId] = new ActiveRoomSession(consoleEntity, pending.MarkerUid, pending.GridUid, pending.Bounds, pending.CharacterKey);
 
@@ -152,7 +166,7 @@ public sealed class RoomGridSpawnerSystem : EntitySystem
             RaiseNetworkEvent(new SendRoomGridSaveDataClientMessage(session.CharacterKey, yaml), playerSession);
         }
 
-        ClearArea(session.GridUid, gridComp, session.Bounds, session.ConsoleUid, session.MarkerUid);
+        ClearArea(session.GridUid, gridComp, session.Bounds, session.ConsoleUid, session.MarkerUid, DeleteContainedEntitiesOnReset);
         _activeSessions.Remove(userId);
     }
 
@@ -195,7 +209,7 @@ public sealed class RoomGridSpawnerSystem : EntitySystem
         return new Box2(center - half, center + half);
     }
 
-    private EntityUid ClearArea(EntityUid gridUid, MapGridComponent grid, Box2 bounds, EntityUid consoleUid, EntityUid markerUid)
+    private EntityUid ClearArea(EntityUid gridUid, MapGridComponent grid, Box2 bounds, EntityUid consoleUid, EntityUid markerUid, bool includeContained)
     {
         var respawnConsole = consoleUid != EntityUid.Invalid && EntityManager.EntityExists(consoleUid);
         EntityCoordinates? consoleCoords = null;
@@ -209,7 +223,8 @@ public sealed class RoomGridSpawnerSystem : EntitySystem
 
         var entities = new HashSet<EntityUid>();
         var innerBounds = bounds.Enlarged(-0.001f);
-        _lookup.GetLocalEntitiesIntersecting(gridUid, bounds, entities, LookupFlags.All);
+        var flags = includeContained ? LookupFlags.All : LookupFlags.All & ~LookupFlags.Contained;
+        _lookup.GetLocalEntitiesIntersecting(gridUid, bounds, entities, flags);
         foreach (var entity in entities)
         {
             if (entity == gridUid || entity == markerUid)
@@ -248,6 +263,9 @@ public sealed class RoomGridSpawnerSystem : EntitySystem
         {
             var newConsole = Spawn(RoomConsolePrototype, consoleCoords.Value);
             _transform.SetLocalRotation(newConsole, consoleRotation);
+            if (TryComp<RoomGridSpawnerConsoleComponent>(newConsole, out var consoleComp))
+                consoleComp.InUse = false;
+            _appearance.SetData(newConsole, RoomGridSpawnerVisuals.InUse, false);
             return newConsole;
         }
 
@@ -367,6 +385,7 @@ public sealed class RoomGridSpawnerSystem : EntitySystem
     private const int BlankRoomSize = 9;
     private const string BlankRoomTileId = "FloorSteel";
     private const string RoomConsolePrototype = "ComputerRoomGridSpawner";
+    private const bool DeleteContainedEntitiesOnReset = false;
 
     private readonly record struct PendingRoomLoad(EntityUid ConsoleUid, EntityUid MarkerUid, EntityUid GridUid, Box2 Bounds, string CharacterKey);
 

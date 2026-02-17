@@ -8,6 +8,9 @@ public sealed partial class RoomGridSpawnerConsoleComponent : Component
 {
     [DataField("area_group")]
     public string AreaGroup = string.Empty;
+
+    [DataField("in_use")]
+    public bool InUse;
 }
 
 [RegisterComponent]
