@@ -18,3 +18,9 @@
 
 - type: playTimeTracker
   id: JobInterdyneHead
+
+- type: playTimeTracker
+  id: JobCentralCommandDirectorate
+
+- type: playTimeTracker
+  id: JobCentralCommandIntel

@@ -113,3 +113,14 @@
   - type: Clothing
     sprite: _HL/Clothing/Neck/mantles/syndnavymantle.rsi
 
+# Directorate Mantle
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantleDirectorate
+  name: directorate's mantle
+  description: Worn by the acting and previous directors of the Colonial Command.
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Neck/mantles/ccdirectoratemantle.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Neck/mantles/ccdirectoratemantle.rsi

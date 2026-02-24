@@ -335,3 +335,52 @@
     borderColor: "#A59DA5"
     accentVColor: "#CC70B5"
 
+- type: entity
+  parent: CentcomPDA
+  id: DirectoratePDA
+  name: directorate PDA
+  description: It looks rough and worn despite it's bright and official look. This PDA has certainly seen extensive, multi-decade use...
+  components:
+  - type: Pda
+    id: DirectorateIDCard
+  - type: Tag #  Ignore Chameleon tags
+    tags:
+    - Admin
+    - DoorBumpOpener
+  - type: PdaBorderColor
+    borderColor: "#010101"
+    accentHColor: "#FFD700"
+    accentVColor: "#FFD700"
+  - type: Icon
+    sprite: _NF/Objects/Devices/pda.rsi # Frontier
+    state: pda-directorate
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-directorate
+
+- type: entity
+  parent: CentcomPDA
+  id: IntelPDA
+  name: special forces PDA
+  description: This thing looks way more advanced then anything you've seen- It looks like it holds the secrets to everything.
+  components:
+  - type: Pda
+    id: IntelIDCard
+  - type: Tag #  Ignore Chameleon tags
+    tags:
+    - Admin
+    - DoorBumpOpener
+  - type: PdaBorderColor
+    borderColor: "#010101"
+    accentHColor: "#6E0F14"
+    accentVColor: "#6E0F14"
+  - type: Icon
+    sprite: _NF/Objects/Devices/pda.rsi # Frontier
+    state: pda-sof
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-sof

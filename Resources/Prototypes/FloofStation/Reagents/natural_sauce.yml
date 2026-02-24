@@ -23,3 +23,23 @@
     collection: FootstepSticky
     params:
       volume: 6
+
+- type: reagent
+  id: Piss
+  name: reagent-name-piss
+  group: NaturalSauce
+  desc: reagent-desc-piss
+  physicalDesc: reagent-physical-desc-acrid
+  flavor: beer
+  color: "#E9DD20"
+  viscosity: 0.35
+  recognizable: true
+  metabolisms:
+    Drink:
+      effects:
+      - !type:SatiateThirst
+        factor: 1
+  footstepSound:
+    collection: FootstepSticky
+    params:
+      volume: 4

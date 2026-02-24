@@ -117,3 +117,32 @@
     - Interdyne
     - InterdyneHead
 
+
+- type: entity
+  parent: ERTLeaderIDCard
+  id: DirectorateIDCard
+  name: Directorate ID Card
+  components:
+  - type: PresetIdCard
+    job: CentralCommandDirectorate
+  - type: Access
+    groups:
+    - AllAccess
+    tags:
+    - CentralCommand
+    - Directorate
+    - Intelligence
+    
+- type: entity
+  parent: CentcomIDCardDeathsquad
+  id: IntelIDCard
+  name: CACD ID Card
+  components:
+  - type: PresetIdCard
+    job: CentralCommandIntel
+  - type: Access
+    groups:
+    - AllAccess
+    tags:
+    - CentralCommand
+    - Intelligence

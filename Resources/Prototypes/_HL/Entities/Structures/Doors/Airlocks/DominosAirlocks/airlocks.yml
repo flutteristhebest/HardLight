@@ -1,5 +1,5 @@
 - type: entity
-  parent: Airlock
+  parent: AirlockGlass
   id: DominosRoboticsAirlockGlass
   suffix: Faction, DominosRobotics, Glass
   components:

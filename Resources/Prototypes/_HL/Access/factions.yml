@@ -41,3 +41,11 @@
 - type: accessLevel
   id: InterdyneHead
   name: id-card-access-level-interdyne-head
+
+- type: accessLevel
+  id: Directorate
+  name: id-card-access-level-directorate
+
+- type: accessLevel
+  id: Intelligence
+  name: id-card-access-level-intelligence

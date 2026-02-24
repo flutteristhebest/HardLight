@@ -1390,3 +1390,23 @@
   - type: ContainerFill
     containers:
       board: [ DoorElectronicsSyndicateAgent ]
+      
+# Hardlight
+
+- type: entity
+  parent: AirlockCommand
+  id: AirlockCCDirectorateLocked
+  suffix: Directorate, Locked
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsCCDirectorate ]
+      
+- type: entity
+  parent: AirlockCentralCommand
+  id: AirlockCCIntelligenceLocked
+  suffix: Intelligence, Locked
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsCCIntelligence ]

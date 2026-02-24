@@ -334,3 +334,21 @@
   components:
   - type: AccessReader
     access: [["Xenoborg"]]
+    
+# Hardlight
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsCCDirectorate
+  suffix: Directorate, Locked
+  components:
+  - type: AccessReader
+    access: [["Directorate"]]
+    
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsCCIntelligence
+  suffix: Intelligence, Locked
+  components:
+  - type: AccessReader
+    access: [["Intelligence"]]

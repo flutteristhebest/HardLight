@@ -1,0 +1,32 @@
+- type: job
+  id: CentralCommandIntel
+  name: job-name-intelligence
+  description: job-description-intelligence
+  playTimeTracker: JobCentralCommandIntel
+  setPreference: false
+  startingGear: CentcomGear
+  icon: "JobIconColComm"
+  supervisors: job-supervisors-hos
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  - Intelligence
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, DeathRattleImplantColcomm ]
+
+- type: startingGear
+  id: CentralCommandIntelGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCentcomOfficerBlack
+    shoes: ClothingShoesBootsCombatFilled
+    head: ClothingHeadHatBeretCommander
+    eyes: ClothingEyesGlassesSunglasses
+    gloves: ClothingHandsGlovesColorBlack
+    outerClothing: ClothingOuterArmorBasic
+    id: IntelPDA
+    ears: ClothingHeadsetAltColCom
+    pocket1: BoxFolderBlack
+    pocket2: PenCentcom
