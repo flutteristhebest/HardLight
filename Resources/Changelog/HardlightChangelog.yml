@@ -1422,3 +1422,48 @@ Entries:
       message: Quadborgs are now able to wear collars!
   id: 153
   time: '2026-02-28T23:01:24.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Add
+      message: >-
+        Wooden Kegs, Barrels, and Bluespace Barrels can now be upgraded with
+        Automation Upgrade Kits to connect to fluid pumps and plumbing networks.
+    - type: Add
+      message: >-
+        Electrolysis Units and Centrifuges can now be automated with both
+        plumbing and automatic activation, making these machines significantly
+        less tedious to use.
+    - type: Add
+      message: >-
+        Storage Port, a connector port with no gas elements so you can anchor
+        and store gas canisters for ship saving without losing gas to the
+        connector port.  The sprite is screwed up and I couldn't be bothered to
+        spend even more time to fix it.  You can also build them on top of each
+        other, so don't do that.  I tried to fix it but it broke construction
+        somehow.
+    - type: Tweak
+      message: >-
+        The Holopickaxe now has a much higher swing speed and auto-swing, but
+        reduced damage, making it the ultimate on-foot mining tool.
+    - type: Tweak
+      message: >-
+        The Energy Shotgun and X-01 Multiphase have both received buffs to make
+        them more practical in prolonged fights.  The Energy Shotgun now
+        self-recharges four times faster and has zero delay before recharging,
+        making it slightly better than the EG-4, and the X-01 has much more
+        ammunition per charge (except for the taser) and twice the rate of fire.
+    - type: Tweak
+      message: >-
+        Factorio liquid pumps can now move up to 500u at once, up from 50u, to
+        account for the large fluid volumes often seen on Hardlight.  Setups
+        should now require fewer pumps to handle the same volumes, reducing lag.
+    - type: Fix
+      message: More PDAs should have NanoChat installed on them now.
+    - type: Fix
+      message: >-
+        Composting a stack of produce in a hydroponics tray now only uses one
+        item of produce at a time.
+    - type: Fix
+      message: Protogen can now be psionic.
+  id: 154
+  time: '2026-03-01T00:07:16.0000000+00:00'
