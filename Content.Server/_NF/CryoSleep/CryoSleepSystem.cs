@@ -211,6 +211,8 @@ public sealed partial class CryoSleepSystem : EntitySystem
     {
         if (toInsert == null)
             return false;
+        if (TerminatingOrDeleted(toInsert.Value) || TerminatingOrDeleted(cryopod) || TerminatingOrDeleted(cryopod.Comp.BodyContainer.Owner))
+            return false;
         if (IsOccupied(cryopod.Comp) && !force)
             return false;
 
@@ -238,6 +240,9 @@ public sealed partial class CryoSleepSystem : EntitySystem
             CryoStoreBody(toInsert.Value, cryopod);
             return true;
         }
+
+        if (TerminatingOrDeleted(toInsert.Value) || TerminatingOrDeleted(cryopod.Comp.BodyContainer.Owner))
+            return false;
 
         if (!_container.Insert(toInsert.Value, cryopod.Comp.BodyContainer))
             return false;
@@ -270,7 +275,13 @@ public sealed partial class CryoSleepSystem : EntitySystem
 
     public void CryoStoreBody(EntityUid bodyId, EntityUid cryopod)
     {
+        if (TerminatingOrDeleted(bodyId) || TerminatingOrDeleted(cryopod))
+            return;
+
         if (!TryComp<CryoSleepComponent>(cryopod, out var cryo))
+            return;
+
+        if (TerminatingOrDeleted(cryo.BodyContainer.Owner))
             return;
 
         var deleteEntity = false;
@@ -296,6 +307,9 @@ public sealed partial class CryoSleepSystem : EntitySystem
         }
 
         var storage = GetStorageMap();
+        if (TerminatingOrDeleted(bodyId) || TerminatingOrDeleted(cryo.BodyContainer.Owner))
+            return;
+
         _container.Remove(bodyId, cryo.BodyContainer, reparent: false, force: true);
         _transform.SetCoordinates(bodyId, new EntityCoordinates(storage, Vector2.Zero));
 
@@ -328,11 +342,17 @@ public sealed partial class CryoSleepSystem : EntitySystem
         if (!Resolve(pod, ref component))
             return false;
 
+        if (TerminatingOrDeleted(pod) || TerminatingOrDeleted(component.BodyContainer.Owner))
+            return false;
+
         if (!IsOccupied(component) || (body != null && component.BodyContainer.ContainedEntity != body))
             return false;
 
         var toEject = component.BodyContainer.ContainedEntity;
         if (toEject == null)
+            return false;
+
+        if (TerminatingOrDeleted(toEject.Value))
             return false;
 
         _container.Remove(toEject.Value, component.BodyContainer, force: true);
