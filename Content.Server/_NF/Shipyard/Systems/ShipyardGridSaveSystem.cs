@@ -260,7 +260,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         }
         catch (Exception ex)
         {
-            Logger.Error($"Ship save failed for '{shipName}' on grid {gridUid}: {ex}");
+            Logger.GetSawmill("hardlight").Error($"Ship save failed for '{shipName}' on grid {gridUid}: {ex}");
             return false;
         }
         finally
@@ -1113,13 +1113,13 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                         {
                             foreach (var (solutionName, solutionData) in solutionsMap)
                             {
-                                Logger.Info($"Preserving solution '{solutionName}' in SolutionContainerManager");
+                                Logger.GetSawmill("hardlight").Info($"Preserving solution '{solutionName}' in SolutionContainerManager");
 
                                 if (solutionData is MappingDataNode solutionMap)
                                 {
                                     if (solutionMap.TryGetValue("contents", out var contentsNode) && contentsNode is SequenceDataNode contents)
                                     {
-                                        Logger.Info($"  Solution has {contents.Count} reagent entries");
+                                        Logger.GetSawmill("hardlight").Info($"  Solution has {contents.Count} reagent entries");
 
                                         // Verify each reagent entry maintains its structure
                                         foreach (var contentNode in contents)
@@ -1129,7 +1129,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                                                 if (reagentMap.TryGetValue("ReagentId", out var reagentIdNode) && reagentIdNode is ValueDataNode reagentId &&
                                                     reagentMap.TryGetValue("Quantity", out var quantityNode) && quantityNode is ValueDataNode quantity)
                                                 {
-                                                    Logger.Info($"    - ReagentId: {reagentId.Value}, Quantity: {quantity.Value}");
+                                                    Logger.GetSawmill("hardlight").Info($"    - ReagentId: {reagentId.Value}, Quantity: {quantity.Value}");
                                                 }
                                             }
                                         }
@@ -1171,7 +1171,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                             {
                                 // This is a ChemMaster buffer - prevent mixing
                                 solutionMap["canReact"] = new ValueDataNode("false");
-                                Logger.Info("Set ChemMaster buffer to non-reactive");
+                                Logger.GetSawmill("hardlight").Info("Set ChemMaster buffer to non-reactive");
                             }
                         }
                     }
@@ -1183,7 +1183,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                         compMap.Remove("storageSlotIds");
                         compMap.Remove("autoLabel");
 
-                        Logger.Info("Cleared ReagentDispenser storage slots for regeneration");
+                        Logger.GetSawmill("hardlight").Info("Cleared ReagentDispenser storage slots for regeneration");
                     }
                     newComps.Add(compMap);
                 }
@@ -1417,10 +1417,10 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                     {
                         if (solutionSystem.TryGetSolution(entity, "buffer", out var bufferEntity, out var bufferSolution))
                         {
-                            Logger.Info($"ChemMaster {entity} buffer before save: {bufferSolution.Volume}u, {bufferSolution.Contents.Count} types");
+                            Logger.GetSawmill("hardlight").Info($"ChemMaster {entity} buffer before save: {bufferSolution.Volume}u, {bufferSolution.Contents.Count} types");
                             foreach (var reagent in bufferSolution.Contents)
                             {
-                                Logger.Info($"  - {reagent.Reagent.Prototype}: {reagent.Quantity}u");
+                                Logger.GetSawmill("hardlight").Info($"  - {reagent.Reagent.Prototype}: {reagent.Quantity}u");
                             }
                         }
                     }
