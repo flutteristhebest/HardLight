@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.3.0
   forkId: ""
   forkVersion: ""
-  time: 02/19/2026 15:34:00
+  time: 02/28/2026 17:03:24
   entityCount: 24552
 maps:
 - 1
@@ -15876,7 +15876,7 @@ entities:
       pos: -18.5,-45.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -57390.535
+      secondsUntilStateChange: -57432.258
       state: Opening
     - type: DeviceLinkSink
       invokeCounter: 1
@@ -16752,7 +16752,7 @@ entities:
       pos: -41.5,-28.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -56653.934
+      secondsUntilStateChange: -56695.656
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -17622,7 +17622,7 @@ entities:
       pos: -20.5,-6.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -269935.88
+      secondsUntilStateChange: -269977.6
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -17756,7 +17756,7 @@ entities:
       pos: -42.5,-9.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -57765.637
+      secondsUntilStateChange: -57807.36
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -150715,13 +150715,6 @@ entities:
     - type: Transform
       pos: -38.5,-14.5
       parent: 2
-- proto: VendingMachineNfsdTech
-  entities:
-  - uid: 20716
-    components:
-    - type: Transform
-      pos: -4.5,34.5
-      parent: 2
 - proto: VendingMachineNutri
   entities:
   - uid: 20708
@@ -150775,6 +150768,13 @@ entities:
     components:
     - type: Transform
       pos: 67.5,-10.5
+      parent: 2
+- proto: VendingMachineSec
+  entities:
+  - uid: 20716
+    components:
+    - type: Transform
+      pos: -4.5,34.5
       parent: 2
 - proto: VendingMachineSecDrobe
   entities:
