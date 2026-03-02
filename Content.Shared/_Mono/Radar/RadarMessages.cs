@@ -28,7 +28,12 @@ public enum RadarBlipShape
 public sealed class GiveBlipsEvent : EntityEventArgs
 {
     /// <summary>
-    /// Blips are (net uid, coordinates, velocity, scale, color, shape).
+    /// Palette of blip configs, basically an int->config map.
+    /// </summary>
+    public readonly List<BlipConfig> ConfigPalette;
+
+    /// <summary>
+    /// Blips are now (position, velocity, scale, color, shape).
     /// </summary>
     public readonly List<BlipNetData> Blips;
 
@@ -36,18 +41,34 @@ public sealed class GiveBlipsEvent : EntityEventArgs
     /// Hitscan lines to display on the radar as (grid entity, start position, end position, thickness, color).
     /// If grid entity is null, positions are world-space; otherwise they are grid-local.
     /// </summary>
-    public readonly List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)> HitscanLines;
+    public readonly List<HitscanNetData> HitscanLines;
 
     public GiveBlipsEvent(List<BlipNetData> blips)
     {
+        ConfigPalette = new List<BlipConfig>();
         Blips = blips;
-        HitscanLines = new List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)>();
+        HitscanLines = new List<HitscanNetData>();
     }
 
     public GiveBlipsEvent(
         List<BlipNetData> blips,
         List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)> hitscans)
     {
+        ConfigPalette = new List<BlipConfig>();
+        Blips = blips;
+        HitscanLines = new List<HitscanNetData>(hitscans.Count);
+        foreach (var (grid, start, end, thickness, color) in hitscans)
+        {
+            HitscanLines.Add(new HitscanNetData(grid, start, end, thickness, color));
+        }
+    }
+
+    public GiveBlipsEvent(
+        List<BlipConfig> configPalette,
+        List<BlipNetData> blips,
+        List<HitscanNetData> hitscans)
+    {
+        ConfigPalette = configPalette;
         Blips = blips;
         HitscanLines = hitscans;
     }
@@ -81,9 +102,12 @@ public record struct BlipNetData
     NetCoordinates Position,
     Vector2 Vel,
     Angle Rotation,
-    BlipConfig Config,
-    BlipConfig? OnGridConfig
+    ushort ConfigIndex,
+    ushort? OnGridConfigIndex
 );
+
+[Serializable, NetSerializable]
+public record struct HitscanNetData(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color);
 
 [Serializable, NetSerializable, DataDefinition]
 public partial record struct BlipConfig

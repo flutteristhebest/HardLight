@@ -14,20 +14,18 @@ public sealed partial class RadarBlipsSystem : EntitySystem
 
     private const double BlipStaleSeconds = 3.0;
     private const float MaxBlipRenderDistance = 256f;
-    private static readonly List<(Vector2, float, Color, RadarBlipShape)> EmptyBlipList = new();
-    private static readonly List<(NetEntity netUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)> EmptyRawBlipList = new();
     private static readonly List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)> EmptyHitscanList = new();
     private TimeSpan _lastRequestTime = TimeSpan.Zero;
     private static readonly TimeSpan RequestThrottle = TimeSpan.FromMilliseconds(500);
 
     private TimeSpan _lastUpdatedTime;
     private List<BlipNetData> _blips = new();
-    private List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)> _hitscans = new();
+    private List<HitscanNetData> _hitscans = new();
+    private List<BlipConfig> _configPalette = new();
     private Vector2 _radarWorldPosition;
 
     // cached results to avoid allocating on every draw/frame
     private readonly List<BlipData> _cachedBlipData = new();
-    private readonly List<(Vector2 Start, Vector2 End, float Thickness, Color Color)> _cachedHitscanData = new();
 
     public override void Initialize()
     {
@@ -38,24 +36,9 @@ public sealed partial class RadarBlipsSystem : EntitySystem
 
     private void HandleReceiveBlips(GiveBlipsEvent ev, EntitySessionEventArgs args)
     {
-        if (ev?.Blips == null)
-        {
-            _blips.Clear();
-        }
-        else
-        {
-            _blips = ev.Blips;
-        }
-
-        if (ev?.HitscanLines == null)
-        {
-            _hitscans = EmptyHitscanList;
-        }
-        else
-        {
-            _hitscans = ev.HitscanLines;
-        }
-
+        _configPalette = ev.ConfigPalette;
+        _blips = ev.Blips;
+        _hitscans = ev.HitscanLines;
         _lastUpdatedTime = _timing.CurTime;
     }
 
@@ -106,13 +89,18 @@ public sealed partial class RadarBlipsSystem : EntitySystem
 
             var predictedMap = _xform.ToMapCoordinates(predictedPos);
 
-            var config = blip.Config;
+            var config = _configPalette[blip.ConfigIndex];
+            var rotation = blip.Rotation;
             // hijack our shape if we're on a grid and we want to do that
-            if (_map.TryFindGridAt(predictedMap, out var grid, out _) && grid != EntityUid.Invalid && blip.OnGridConfig != null)
-                config = blip.OnGridConfig.Value;
+            if (_map.TryFindGridAt(predictedMap, out var grid, out _) && grid != EntityUid.Invalid)
+            {
+                if (blip.OnGridConfigIndex is { } gridIdx)
+                    config = _configPalette[gridIdx];
+                rotation += Transform(grid).LocalRotation;
+            }
             var maybeGrid = grid != EntityUid.Invalid ? grid : (EntityUid?)null;
 
-            _cachedBlipData.Add(new(blip.Uid, predictedPos, blip.Rotation, maybeGrid, config));
+            _cachedBlipData.Add(new(blip.Uid, predictedPos, rotation, maybeGrid, config));
         }
 
         return _cachedBlipData;
@@ -121,18 +109,12 @@ public sealed partial class RadarBlipsSystem : EntitySystem
     /// <summary>
     /// Gets the hitscan lines to be rendered on the radar
     /// </summary>
-    public List<(Vector2 Start, Vector2 End, float Thickness, Color Color)> GetHitscanLines()
+    public List<HitscanNetData> GetHitscanLines()
     {
-        _cachedHitscanData.Clear();
         if (_timing.CurTime.TotalSeconds - _lastUpdatedTime.TotalSeconds > BlipStaleSeconds)
-            return _cachedHitscanData;
+            return new();
 
-        foreach (var hitscan in _hitscans)
-        {
-            _cachedHitscanData.Add((hitscan.Start, hitscan.End, hitscan.Thickness, hitscan.Color));
-        }
-
-        return _cachedHitscanData;
+        return _hitscans;
     }
 
     /// <summary>
@@ -205,7 +187,7 @@ public sealed partial class RadarBlipsSystem : EntitySystem
             return EmptyHitscanList;
 
         if (_hitscans.Count == 0)
-            return _hitscans;
+            return EmptyHitscanList;
 
         var filteredHitscans = new List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)>(_hitscans.Count);
 
@@ -221,7 +203,7 @@ public sealed partial class RadarBlipsSystem : EntitySystem
                 if (startDist <= MaxBlipRenderDistance * MaxBlipRenderDistance ||
                     endDist <= MaxBlipRenderDistance * MaxBlipRenderDistance)
                 {
-                    filteredHitscans.Add(hitscan);
+                    filteredHitscans.Add((hitscan.Grid, hitscan.Start, hitscan.End, hitscan.Thickness, hitscan.Color));
                 }
                 continue;
             }
@@ -245,7 +227,7 @@ public sealed partial class RadarBlipsSystem : EntitySystem
                 if (startDist <= MaxBlipRenderDistance * MaxBlipRenderDistance ||
                     endDist <= MaxBlipRenderDistance * MaxBlipRenderDistance)
                 {
-                    filteredHitscans.Add(hitscan);
+                    filteredHitscans.Add((hitscan.Grid, hitscan.Start, hitscan.End, hitscan.Thickness, hitscan.Color));
                 }
             }
         }
