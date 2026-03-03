@@ -149,7 +149,7 @@ namespace Content.Client.Gameplay
             }
             catch (DebugAssertException e)
             {
-                Sawmill.Warning($"Skipping clickable query due to sprite bounds assertion at {coordinates}: {e}");
+                Sawmill.Debug($"Skipping clickable query due to sprite bounds assertion at {coordinates}: {e}");
                 return Array.Empty<EntityUid>();
             }
 
