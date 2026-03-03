@@ -16,7 +16,7 @@ public sealed class NoRotInitializationSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<TransformComponent, MapInitEvent>(OnTransformInit);
-        SubscribeLocalEvent<TransformComponent, ComponentStartup>(OnTransformStartup);
+        SubscribeLocalEvent<TransformStartupEvent>(OnTransformStartup);
     }
 
     private void OnTransformInit(EntityUid uid, TransformComponent component, MapInitEvent args)
@@ -24,9 +24,9 @@ public sealed class NoRotInitializationSystem : EntitySystem
         EnsureZeroRotation(uid, component);
     }
 
-    private void OnTransformStartup(EntityUid uid, TransformComponent component, ComponentStartup args)
+    private void OnTransformStartup(ref TransformStartupEvent ev)
     {
-        EnsureZeroRotation(uid, component);
+        EnsureZeroRotation(ev.Entity.Owner, ev.Entity.Comp);
     }
 
     private void EnsureZeroRotation(EntityUid uid, TransformComponent component)
