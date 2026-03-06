@@ -1565,3 +1565,29 @@ Entries:
       message: ADF-TALON comms key (spawn only)
   id: 168
   time: '2026-03-03T02:04:04.0000000+00:00'
+- author: Sully669
+  changes:
+    - type: Add
+      message: Added distinguishable YES ERP and NO ERP poster.
+  id: 169
+  time: '2026-03-03T06:05:27.0000000+00:00'
+- author: rtasva
+  changes:
+    - type: Add
+      message: more disks!
+  id: 170
+  time: '2026-03-03T06:16:36.0000000+00:00'
+- author: Sully669
+  changes:
+    - type: Add
+      message: lewd category for AAC tablet
+    - type: Add
+      message: 'term loose to hazard category in AAC tablet '
+  id: 171
+  time: '2026-03-03T08:34:53.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Added a placeholder system for Patreon supporter custom entities.
+  id: 172
+  time: '2026-03-05T22:29:36.0000000+00:00'
