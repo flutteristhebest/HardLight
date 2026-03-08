@@ -45,7 +45,8 @@ public abstract partial class SharedChargesSystem : EntitySystem
         var user = args.User;
 
         args.Handled = true;
-        var count = Math.Min(charges.MaxCharges - charges.Charges, GetAmmoCharges(ent));
+        var currentCharges = GetCurrentCharges((target, charges, null));
+        var count = Math.Min(charges.MaxCharges - currentCharges, GetAmmoCharges(ent));
         if (count <= 0)
         {
             _popup.PopupClient(Loc.GetString("limited-charges-ammo-component-after-interact-full"), target, user);
@@ -53,7 +54,7 @@ public abstract partial class SharedChargesSystem : EntitySystem
         }
 
         _popup.PopupClient(Loc.GetString("limited-charges-ammo-component-after-interact-refilled"), target, user);
-        AddCharges(target, TakeCharges(ent, count), charges);
+        AddCharges((target, charges, null), TakeCharges(ent, count));
     }
 
     public int GetAmmoCharges(Entity<LimitedChargesAmmoComponent> ent)
