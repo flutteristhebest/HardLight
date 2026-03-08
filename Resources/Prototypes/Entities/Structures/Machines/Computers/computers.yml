@@ -1064,6 +1064,61 @@
   #   - Cargo # Frontier
 
 - type: entity
+  id: ComputerCargoOrdersEngineering
+  parent: ComputerCargoOrders
+  name: engineering request computer
+  description: Used by the engineering department to order supplies.
+  components:
+  - type: Computer
+    board: CargoRequestEngineeringComputerCircuitboard
+  - type: AccessReader
+    access: [["Engineering"]]
+
+- type: entity
+  id: ComputerCargoOrdersMedical
+  parent: ComputerCargoOrders
+  name: medical request computer
+  description: Used by the medical department to order supplies.
+  components:
+  - type: Computer
+    board: CargoRequestMedicalComputerCircuitboard
+  - type: AccessReader
+    access: [["Medical"]]
+
+- type: entity
+  id: ComputerCargoOrdersScience
+  parent: ComputerCargoOrders
+  name: science request computer
+  description: Used by the science department to order supplies.
+  components:
+  - type: Computer
+    board: CargoRequestScienceComputerCircuitboard
+  - type: AccessReader
+    access: [["Research"]]
+
+- type: entity
+  id: ComputerCargoOrdersSecurity
+  parent: ComputerCargoOrders
+  name: security request computer
+  description: Used by the security department to order supplies.
+  components:
+  - type: Computer
+    board: CargoRequestSecurityComputerCircuitboard
+  - type: AccessReader
+    access: [["Security"]]
+
+- type: entity
+  id: ComputerCargoOrdersService
+  parent: ComputerCargoOrders
+  name: service request computer
+  description: Used by the service department to order supplies.
+  components:
+  - type: Computer
+    board: CargoRequestServiceComputerCircuitboard
+  - type: AccessReader
+    access: [["Service"]]
+
+- type: entity
   parent: BaseComputerAiAccess
   id: ComputerCloningConsole
   name: cloning console computer
