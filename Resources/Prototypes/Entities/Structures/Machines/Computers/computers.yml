@@ -124,7 +124,6 @@
   - type: ShuttleConsole
   - type: ShipNpcTarget # Mono
     needPower: true
-  - type: ShuttleConsoleLock
   - type: ActivatableUI
     key: enum.ShuttleConsoleUiKey.Key
   - type: UserInterface
@@ -160,7 +159,6 @@
   - type: GuideHelp
     guides:
     - ShuttleCraft
-  - type: NoSignalOnLink
   - type: DeviceLinkSource # Mono
     ports:
     - device-button-1
@@ -989,7 +987,6 @@
       Frontier: 0.25 # Frontier
       Nfsd: 0.15 # Frontier
       Medical: 0.1 # Mono
-  - type: BankClient
 #  - type: ActiveRadio # Frontier
 #    channels: # Frontier
 #    - Supply # Frontier
