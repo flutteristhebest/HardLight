@@ -20,7 +20,6 @@ public sealed partial class ShipSteeringSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private EntityQuery<MapGridComponent> _gridQuery;
-    private EntityQuery<ProjectileGridPhaseComponent> _phaseQuery;
     private EntityQuery<PhysicsComponent> _physQuery;
     private EntityQuery<ShuttleComponent> _shuttleQuery;
 
@@ -40,7 +39,6 @@ public sealed partial class ShipSteeringSystem : EntitySystem
         SubscribeLocalEvent<ShipSteererComponent, PilotedShuttleRelayedEvent<StartCollideEvent>>(OnShuttleStartCollide);
 
         _gridQuery = GetEntityQuery<MapGridComponent>();
-        _phaseQuery = GetEntityQuery<ProjectileGridPhaseComponent>();
         _physQuery = GetEntityQuery<PhysicsComponent>();
         _shuttleQuery = GetEntityQuery<ShuttleComponent>();
     }
@@ -294,8 +292,7 @@ public sealed partial class ShipSteeringSystem : EntitySystem
             _avoidPotentialEnts.Add((grid, true));
 
         foreach (var proj in _avoidProjs)
-            if (!_phaseQuery.TryComp(proj, out var phase) || phase.SourceGrid != ctx.ShipUid)
-                _avoidPotentialEnts.Add((proj, false));
+            _avoidPotentialEnts.Add((proj, false));
 
         _avoidEnts.Clear();
         foreach (var (ent, isGrid) in _avoidPotentialEnts)

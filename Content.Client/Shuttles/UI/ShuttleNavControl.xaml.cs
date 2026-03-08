@@ -6,6 +6,7 @@ using Content.Shared._Crescent.ShipShields;
 using Content.Shared._Mono.Company;
 using Content.Shared._Mono.Detection;
 using Content.Shared._Mono.Radar;
+using Content.Shared._NF.Shuttles.Events;
 using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
@@ -55,6 +56,8 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
     public bool ShowIFFShuttles { get; set; } = true;
     public bool ShowDocks { get; set; } = true;
     public bool RotateWithEntity { get; set; } = true;
+    public InertiaDampeningMode DampeningMode { get; set; } = InertiaDampeningMode.Off;
+    public ServiceFlags ServiceFlags { get; set; } = ServiceFlags.None;
 
     public float MaximumIFFDistance { get; set; } = 3000f; // Frontier // Mono - 3000 by default to not gigaclutter
     public bool HideCoords { get; set; } = false; // Frontier
@@ -269,12 +272,9 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
         ActualRadarRange = Math.Clamp(ActualRadarRange, WorldMinRange, WorldMaxRange);
 
         // Mono
-        RelativePanning = state.RelativePanning;
-        Draggable = state.Pannable;
-        if (!Draggable)
-            _wasPanned = false; // also reset
-
         RotateWithEntity = state.RotateWithEntity;
+        DampeningMode = state.DampeningMode;
+        ServiceFlags = state.ServiceFlags;
 
         // Frontier
         if (state.MaxIffRange != null)
@@ -384,7 +384,7 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
             var curGridToWorld = _transform.GetWorldMatrix(gUid);
             var curGridToView = curGridToWorld * worldToShuttle * shuttleToView;
 
-            var hideColor = hideLabel && iff != null && (iff.Flags & IFFFlags.AlwaysShowColor) == 0x0;
+            var hideColor = hideLabel;
             var labelColor = hideColor ? blipOnly ? Color.Orange : Color.White : _shuttles.GetIFFColor(grid, self: false, iff);
             var coordColor = new Color(labelColor.R * 0.8f, labelColor.G * 0.8f, labelColor.B * 0.8f, 0.5f);
 
@@ -822,7 +822,7 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
         return (scaledValue - MidPointVector) / MinimapScale;
     }
 
-    public class BlipData
+    public sealed class BlipData
     {
         public bool IsOutsideRadarCircle { get; set; }
         public Vector2 UiPosition { get; set; }
@@ -845,10 +845,15 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
                 continue;
 
             // Don't draw shields when in FTL
-            if (EntManager.HasComponent<FTLComponent>(parentXform.Owner))
+            if (xform.GridUid == null)
                 continue;
 
-            var detectionLevel = _consoleEntity == null ? DetectionLevel.Detected : GetGridDetected(parentXform.Owner);
+            var parentGridUid = xform.GridUid.Value;
+
+            if (EntManager.HasComponent<FTLComponent>(parentGridUid))
+                continue;
+
+            var detectionLevel = _consoleEntity == null ? DetectionLevel.Detected : GetGridDetected(parentGridUid);
             if (detectionLevel != DetectionLevel.Detected)
                 continue;
 
@@ -863,16 +868,17 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
             var verticies = chain.Vertices;
 
             var center = _transform.WithEntityId(xform.Coordinates, xform.GridUid.Value).Position;
+            var parentWorldMatrix = _transform.GetWorldMatrix(parentGridUid);
 
             for (int i = 1; i < count; i++)
             {
                 var v1 = Vector2.Add(center, verticies[i - 1]);
-                v1 = Vector2.Transform(v1, parentXform.WorldMatrix); // transform to world matrix
+                v1 = Vector2.Transform(v1, parentWorldMatrix); // transform to world matrix
                 v1 = Vector2.Transform(v1, matrix); // get back to local matrix for drawing
                 v1.Y = -v1.Y;
                 v1 = ScalePosition(v1);
                 var v2 = Vector2.Add(center, verticies[i]);
-                v2 = Vector2.Transform(v2, parentXform.WorldMatrix);
+                v2 = Vector2.Transform(v2, parentWorldMatrix);
                 v2 = Vector2.Transform(v2, matrix);
                 v2.Y = -v2.Y;
                 v2 = ScalePosition(v2);

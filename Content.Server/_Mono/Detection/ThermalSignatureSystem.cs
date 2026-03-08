@@ -5,7 +5,7 @@
 using Content.Server.Power.Components;
 using Content.Server.Shuttles.Components;
 using Content.Shared._Mono.Detection;
-using Content.Shared._Mono.Ships;
+using Content.Shared._Mono.Shuttle.FTL;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
@@ -49,8 +49,8 @@ public sealed class ThermalSignatureSystem : EntitySystem
 
     private void OnGunShot(Entity<ThermalSignatureComponent> ent, ref GunShotEvent args)
     {
-        if (_gunQuery.TryComp(ent, out var gun))
-            ent.Comp.StoredHeat += gun.ShootThermalSignature;
+        if (_gunQuery.TryComp(ent, out _))
+            ent.Comp.StoredHeat += args.Ammo.Count;
     }
 
     private void OnMachineGetSignature(Entity<MachineThermalSignatureComponent> ent, ref GetThermalSignatureEvent args)

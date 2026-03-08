@@ -11,7 +11,6 @@ using Robust.Shared.Physics.Systems;
 using System.Linq;
 using Content.Shared.Physics;
 using System.Numerics;
-using Content.Server._Mono.CombatMusic;
 using Content.Server._Mono.SpaceArtillery;
 using Content.Server._Mono.SpaceArtillery.Components;
 using Content.Server.Power.EntitySystems;
@@ -32,7 +31,6 @@ public sealed partial class FireControlSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly PowerReceiverSystem _power = default!;
     [Dependency] private readonly RotateToFaceSystem _rotateToFace = default!;
-    [Dependency] private readonly CombatMusicSystem _combatMusic = default!;
 
     /// <summary>
     /// Dictionary of entities that have visualization enabled
@@ -386,7 +384,6 @@ public sealed partial class FireControlSystem : EntitySystem
     {
         if (TerminatingOrDeleted(grid)
             || HasComp<FTLComponent>(grid)
-            || HasComp<SpaceArtilleryDisabledGridComponent>(grid)
         )
             return false;
 
@@ -734,11 +731,7 @@ public sealed partial class FireControlSystem : EntitySystem
     /// </summary>
     private void TriggerCombatMusic(EntityUid consoleUid)
     {
-        var gridUid = _xform.GetGrid(consoleUid);
-        if (gridUid == null)
-            return;
-
-        _combatMusic.TriggerCombatMusic(gridUid.Value);
+        // Combat music system is unavailable in this branch.
     }
 }
 

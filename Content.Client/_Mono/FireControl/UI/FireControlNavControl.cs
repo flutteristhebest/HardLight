@@ -324,19 +324,19 @@ public sealed class FireControlNavControl : BaseShuttleControl
 
         var blips = _blips.GetCurrentBlips();
 
-        foreach (var blip in blips)
+        foreach (var (netUid, blipPosition, blipScale, blipColor, blipShape) in blips)
         {
-            var blipCoord = _transform.ToMapCoordinates(blip.Item1).Position;
+            var blipCoord = _transform.ToMapCoordinates(blipPosition).Position;
             var blipPos = Vector2.Transform(blipCoord, worldToView);
 
-            if (blip.Item4 == RadarBlipShape.Ring)
+            if (blipShape == RadarBlipShape.Ring)
             {
-                DrawShieldRing(handle, blipPos, blip.Item2, blip.Item3.WithAlpha(0.8f));
+                DrawShieldRing(handle, blipPos, blipScale, blipColor.WithAlpha(0.8f));
             }
             else
             {
                 // For other shapes, use the regular drawing method
-                DrawBlipShape(handle, blipPos, blip.Item2 * 3f, blip.Item3.WithAlpha(0.8f), blip.Item4);
+                DrawBlipShape(handle, blipPos, blipScale * 3f, blipColor.WithAlpha(0.8f), blipShape);
             }
 
             if (_isMouseInside && _controllables != null)
@@ -364,7 +364,7 @@ public sealed class FireControlNavControl : BaseShuttleControl
 
                     if (!results.Any())
                     {
-                        handle.DrawLine(blipPos, cursorViewPos, blip.Item3.WithAlpha(0.3f));
+                        handle.DrawLine(blipPos, cursorViewPos, blipColor.WithAlpha(0.3f));
                     }
                 }
             }

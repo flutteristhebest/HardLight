@@ -81,7 +81,7 @@ public abstract partial class SharedGunSystem : EntitySystem
     private const float EjectOffset = 0.4f;
     protected const string AmmoExamineColor = "yellow";
     protected const string AmmoExamineSpecialColor = "orange"; // Mono
-    protected const string FireRateExamineColor = "yellow";
+    public const string FireRateExamineColor = "yellow";
     public const string ModeExamineColor = "cyan";
 
     private float _lastFrameTime = 0.05f;
@@ -111,8 +111,6 @@ public abstract partial class SharedGunSystem : EntitySystem
         SubscribeLocalEvent<GunComponent, CycleModeEvent>(OnCycleMode);
         SubscribeLocalEvent<GunComponent, HandSelectedEvent>(OnGunSelected);
         SubscribeLocalEvent<GunComponent, MapInitEvent>(OnMapInit);
-
-        InitializeHolders(); // DeltaV
 
         _physQuery = GetEntityQuery<PhysicsComponent>(); // Mono
         _projQuery = GetEntityQuery<ProjectileComponent>(); // Mono
@@ -341,14 +339,12 @@ public abstract partial class SharedGunSystem : EntitySystem
     public void AttemptShots(EntityUid user, EntityUid gunUid, GunComponent gun, EntityCoordinates toCoordinates, TimeSpan duration)
     {
         gun.ShootCoordinates = toCoordinates;
-        var autoShoot = EnsureComp<AutoShootGunComponent>(gunUid);
-        if (autoShoot.RemainingTime < duration)
-            autoShoot.RemainingTime = duration;
+        AttemptShoot(user, gunUid, gun);
     }
 
     protected void AttemptShoot(EntityUid user, EntityUid gunUid, GunComponent gun)
     {
-        if (TryComp<AutoShootGunComponent>(gunUid, out var auto) && !auto.CanFire && auto.RemainingTime <= TimeSpan.FromSeconds(0)) // Frontier // Mono
+        if (TryComp<AutoShootGunComponent>(gunUid, out var auto) && !auto.CanFire) // Frontier // Mono
             return; // Frontier
 
         if (gun.FireRateModified <= 0f ||
@@ -653,9 +649,6 @@ public abstract partial class SharedGunSystem : EntitySystem
         if (TryComp<CartridgeAmmoComponent>(uid, out var cartridge))
             return cartridge;
 
-        if (TryComp<HitscanAmmoComponent>(uid, out var hitscanAmmo))
-            return hitscanAmmo;
-
         return EnsureComp<AmmoComponent>(uid);
     }
 
@@ -705,7 +698,6 @@ public abstract partial class SharedGunSystem : EntitySystem
         dirVec.Normalize();
 
         var pos = impulseCoord.Position;
-        pos = (pos - toBody.LocalCenter) * ent.Comp.RecoilRotation + toBody.LocalCenter;
         Physics.ApplyLinearImpulse(toEnt, -dirVec * totalImpulse, pos);
     }
 
@@ -725,15 +717,14 @@ public abstract partial class SharedGunSystem : EntitySystem
             comp.MinAngle,
             comp.ShotsPerBurst,
             comp.FireRate,
-            comp.ProjectileSpeed,
-            User // GoobStation change - User for NoWieldNeeded
+            comp.ProjectileSpeed
         );
 
         // Begin DeltaV additions
         // Raise an event at the user of the gun so they have a chance to modify the gun's details.
-        if (gun.Comp.Holder != null)
+        if (User != null)
         {
-            RaiseLocalEvent(gun.Comp.Holder.Value, ref ev);
+            RaiseLocalEvent(User.Value, ref ev);
         }
         // End DeltaV additions
 

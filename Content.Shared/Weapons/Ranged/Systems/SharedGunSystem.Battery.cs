@@ -84,8 +84,7 @@ public abstract partial class SharedGunSystem
                 args.ShootPrototype = proto;
                 break;
             case HitscanBatteryAmmoProviderComponent hitscan:
-                ProtoManager.TryIndex(hitscan.HitscanEntityProto, out var hitProto);
-                args.ShootPrototype = hitProto;
+                args.ShootPrototype = null;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

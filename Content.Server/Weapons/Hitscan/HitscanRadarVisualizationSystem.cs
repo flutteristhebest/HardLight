@@ -53,7 +53,8 @@ public sealed class HitscanRadarVisualizationSystem : EntitySystem
         if (toRemove.Count > 0)
         {
             var hitscanList = _activeHitscans.Keys.ToList();
-            var ev = new GiveBlipsEvent(new List<(NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>(), hitscanList);
+            var emptyBlips = new List<(Robust.Shared.GameObjects.NetEntity NetUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>();
+            var ev = new GiveBlipsEvent(emptyBlips, hitscanList);
             RaiseNetworkEvent(ev);
         }
     }
@@ -63,15 +64,14 @@ public sealed class HitscanRadarVisualizationSystem : EntitySystem
         if (args.Canceled || args.Gun == null)
             return;
 
-        var gunXform = Transform(args.Gun.Value);
-        if (!gunXform.MapUid.HasValue)
+        if (!TryComp<TransformComponent>(args.Gun.Value, out var gunXform) || !gunXform.MapUid.HasValue)
             return;
 
         var fromPos = _transform.GetMapCoordinates(args.Gun.Value);
         
         // Determine end position
         Vector2 toPos;
-        if (args.HitEntity != null && TryComp<TransformComponent>(args.HitEntity.Value, out var hitXform))
+        if (args.HitEntity != null)
         {
             toPos = _transform.GetMapCoordinates(args.HitEntity.Value).Position;
         }
@@ -97,7 +97,8 @@ public sealed class HitscanRadarVisualizationSystem : EntitySystem
         
         // Immediately broadcast the new hitscan to clients
         var hitscanList = _activeHitscans.Keys.ToList();
-        var ev = new GiveBlipsEvent(new List<(NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>(), hitscanList);
+        var newEmptyBlips = new List<(Robust.Shared.GameObjects.NetEntity NetUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>();
+        var ev = new GiveBlipsEvent(newEmptyBlips, hitscanList);
         RaiseNetworkEvent(ev);
     }
 }

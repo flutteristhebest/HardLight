@@ -1,7 +1,9 @@
 using System.Numerics;
 using Content.Shared._Mono.Radar;
+using NFRadarBlipShape = Content.Shared._NF.Radar.RadarBlipShape;
 using Content.Shared.Projectiles;
 using Content.Shared.Shuttles.Components;
+using RadarBlipComponent = Content.Server._NF.Radar.RadarBlipComponent;
 using Robust.Shared.Map;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
@@ -50,9 +52,9 @@ public sealed partial class RadarBlipSystem : EntitySystem
         RaiseNetworkEvent(removalEv);
     }
 
-    private List<(NetEntity netUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)> AssembleBlipsReport(EntityUid uid, List<EntityUid> sources, RadarConsoleComponent? component = null)
+    private List<(NetEntity NetUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)> AssembleBlipsReport(EntityUid uid, List<EntityUid> sources, RadarConsoleComponent? component = null)
     {
-        var blips = new List<(NetEntity netUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>();
+        var blips = new List<(NetEntity NetUid, NetCoordinates Position, Vector2 Vel, float Scale, Color Color, RadarBlipShape Shape)>();
 
         if (Resolve(uid, ref component))
         {
@@ -99,7 +101,7 @@ public sealed partial class RadarBlipSystem : EntitySystem
 
                 var blipVelocity = _physics.GetMapLinearVelocity(blipUid, blipPhysics, blipXform);
 
-                if (!NearAnySources(_xform.GetWorldPosition(blipXform), sources, blip.MaxDistance))
+                if (!NearAnySources(_xform.GetWorldPosition(blipXform), sources, component.MaxRange))
                     continue;
 
                 if (blip.RequireNoGrid && blipGrid != null // if we want no grid but we are on a grid
@@ -114,7 +116,19 @@ public sealed partial class RadarBlipSystem : EntitySystem
                 if (blipGrid != null)
                     blipVelocity -= _physics.GetLinearVelocity(blipGrid.Value, coord.Position);
 
-                blips.Add((netBlipUid, GetNetCoordinates(coord), blipVelocity, blip.Scale, blip.RadarColor, blip.Shape));
+                var shape = blip.Shape switch
+                {
+                    NFRadarBlipShape.Circle => RadarBlipShape.Circle,
+                    NFRadarBlipShape.Square => RadarBlipShape.Square,
+                    NFRadarBlipShape.Triangle => RadarBlipShape.Triangle,
+                    NFRadarBlipShape.Star => RadarBlipShape.Star,
+                    NFRadarBlipShape.Diamond => RadarBlipShape.Diamond,
+                    NFRadarBlipShape.Hexagon => RadarBlipShape.Hexagon,
+                    NFRadarBlipShape.Arrow => RadarBlipShape.Arrow,
+                    _ => RadarBlipShape.Circle
+                };
+
+                blips.Add((netBlipUid, GetNetCoordinates(coord), blipVelocity, blip.Scale, blip.RadarColor, shape));
             }
         }
 
@@ -126,29 +140,7 @@ public sealed partial class RadarBlipSystem : EntitySystem
     /// </summary>
     private List<(Vector2 Start, Vector2 End, float Thickness, Color Color)> AssembleHitscanReport(EntityUid uid, List<EntityUid> sources, RadarConsoleComponent? component = null)
     {
-        var hitscans = new List<(Vector2 Start, Vector2 End, float Thickness, Color Color)>();
-
-        if (!Resolve(uid, ref component))
-            return hitscans;
-
-        var radarXform = Transform(uid);
-        var radarGrid = radarXform.GridUid;
-        var radarMapId = radarXform.MapID;
-
-        var hitscanQuery = EntityQueryEnumerator<HitscanRadarComponent>();
-
-        while (hitscanQuery.MoveNext(out var hitscanUid, out var hitscan))
-        {
-            if (!hitscan.Enabled)
-                continue;
-
-            if (!NearAnySources(hitscan.StartPosition, sources, component.MaxRange) && NearAnySources(hitscan.EndPosition, sources, component.MaxRange))
-                continue;
-
-            hitscans.Add((hitscan.StartPosition, hitscan.EndPosition, hitscan.LineThickness, hitscan.RadarColor));
-        }
-
-        return hitscans;
+        return new List<(Vector2 Start, Vector2 End, float Thickness, Color Color)>();
     }
 
     private bool NearAnySources(Vector2 coord, List<EntityUid> sources, float range)

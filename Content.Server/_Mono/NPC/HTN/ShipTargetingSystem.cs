@@ -119,12 +119,10 @@ public sealed partial class ShipTargetingSystem : EntitySystem
             {
                 var gunToDestVec = destMapPos.Position - _transform.GetWorldPosition(gXform);
 
-                if (proto.TryGetComponent<HitscanAmmoComponent>(out var hitscan, Factory))
+                if (proto.TryGetComponent<HitscanBasicRaycastComponent>(out var raycast, Factory))
                 {
                     // check if too far
-                    if (proto.TryGetComponent<HitscanBasicRaycastComponent>(out var raycast, Factory)
-                        && raycast.MaxDistance < gunToDestVec.Length()
-                    )
+                    if (raycast.MaxDistance < gunToDestVec.Length())
                         continue;
                 }
                 else
