@@ -863,10 +863,16 @@ namespace Content.Server.Database
                 .Where(player => playerIds.Contains(player.UserId))
                 .ToDictionaryAsync(player => player.UserId, player => player.Id);
 
-            foreach (var player in playerIds)
+            foreach (var player in playerIds.Distinct())
             {
+                if (!players.TryGetValue(player, out var playerDbId))
+                {
+                    _opsLog.Warning($"Skipping AddRoundPlayers link for unknown player {player} in round {id}");
+                    continue;
+                }
+
                 await db.DbContext.Database.ExecuteSqlAsync($"""
-INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}) ON CONFLICT DO NOTHING
+INSERT INTO player_round (players_id, rounds_id) VALUES ({playerDbId}, {id}) ON CONFLICT DO NOTHING
 """);
             }
 

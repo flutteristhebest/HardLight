@@ -45,13 +45,7 @@
   - type: GridSpawner
     addComponents:
     - type: IFF
-      flags: AlwaysShowColor
       color: "#9a2020"
-    - type: GridCleanupGrid
-      cleanupAcceleration: 3
-      ignorePowered: true
-      ignoreIFF: true
-      ignorePrice: true
     - type: RandomMetadata
       nameSeparator: ""
       nameSegments:
