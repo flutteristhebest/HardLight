@@ -22,7 +22,7 @@
     projectileSpeed: 350
     minAngle: 0
     maxAngle: 0
-    shootThermalSignature: 300000
+      # shootThermalSignature: 300000 # Deprecated field removed
     soundGunshot:
       path: /Audio/_Mono/Weapons/Guns/Gunshots/autopulse_laser_fire_01.ogg
     soundEmpty:

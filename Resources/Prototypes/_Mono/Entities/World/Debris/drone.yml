@@ -46,17 +46,6 @@
     addComponents:
     - type: IFF
       color: "#9a2020"
-    - type: RandomMetadata
-      nameSeparator: ""
-      nameSegments:
-      - DroneTitle
-      - " 0x"
-      - DroneHex
-      - DroneHex
-      - DroneHex
-      - DroneHex
-      - DroneHex
-      - DroneHex
     nameGrid: false
 
 - type: entity
@@ -85,14 +74,14 @@
   parent: SpawnDroneBase
   components:
   - type: GridSpawner
-    path: /Maps/_Mono/Shuttles/World/medusa.yml
+    path: /Maps/_Mono/Shuttles/World/wasp.yml
 
 - type: entity
   id: SpawnDroneCrown
   parent: SpawnDroneBase
   components:
   - type: GridSpawner
-    path: /Maps/_Mono/Shuttles/World/crown.yml
+    path: /Maps/_Mono/Shuttles/World/wedge.yml
 
 - type: entity
   id: SpawnDroneBasicSmall
@@ -106,4 +95,4 @@
   parent: SpawnDroneBase
   components:
   - type: GridSpawner
-    path: /Maps/_Mono/Shuttles/World/ramdronemedium.yml
+    path: /Maps/_Mono/Shuttles/World/ramdronesmall.yml

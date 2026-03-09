@@ -150,7 +150,7 @@
   components:
   - type: HTN
     rootTask:
-      task: AttackerShuttleSmartStaticCompound
+      task: AttackerShuttleSmartCompound
 
 - type: entity
   id: NpcStationAiAttackerBroadside
