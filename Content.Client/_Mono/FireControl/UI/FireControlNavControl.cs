@@ -324,7 +324,7 @@ public sealed class FireControlNavControl : BaseShuttleControl
 
         var blips = _blips.GetCurrentBlips();
 
-        foreach (var blip in blips)
+        foreach (var (netUid, blipPosition, blipScale, blipColor, blipShape) in blips)
         {
             var blipCoord = _transform.ToMapCoordinates(blip.Position).Position;
             var blipPos = Vector2.Transform(blipCoord, worldToView);
