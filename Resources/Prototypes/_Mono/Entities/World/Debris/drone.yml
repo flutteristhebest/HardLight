@@ -87,7 +87,7 @@
   parent: SpawnDroneBase
   components:
   - type: GridSpawner
-  path: /Maps/_Mono/Shuttles/World/ramdronesmall.yml
+    path: /Maps/_Mono/Shuttles/World/ramdronesmall.yml
 
 #region T2-1
 

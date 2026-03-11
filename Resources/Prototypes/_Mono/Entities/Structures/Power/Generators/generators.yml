@@ -202,8 +202,10 @@
     supplyRampRate: 10000
     supplyRampTolerance: 3000
   - type: FuelGradeAdapter
-    inputMaterial: Plasma
-    outputMaterial: FuelGradePlasma
+    conversions:
+    - input: Plasma
+      output: FuelGradePlasma
+      rate: 1.0
   - type: ShipRepairable
     repairTime: 30
     repairCost: 100 # expensive
