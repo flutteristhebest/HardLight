@@ -369,13 +369,8 @@
   - type: RadarBlip
     radarColor: "#5bc65d"
     scale: 1
+    shape: square
     visibleFromOtherGrids: true
-    gridConfig:
-      color: "#C92BCC"
-      shape: Square
-      respectZoom: true
-      rotate: true
-      bounds: "-0.7,-0.7,0.7,0.7"
   - type: ShipGunType
     shipType: Energy
   - type: ShipGunClass
@@ -587,13 +582,8 @@
   - type: RadarBlip
     radarColor: "#DDFF00"
     scale: 3
+    shape: square
     visibleFromOtherGrids: true
-    gridConfig:
-      color: "#C92BCC"
-      shape: Square
-      respectZoom: true
-      rotate: true
-      bounds: "-2,-2,2,2"
   - type: ShipGunType
     shipType: Energy
   - type: ShipGunClass
@@ -876,13 +866,8 @@
   - type: RadarBlip
     radarColor: "#C92BCC"
     scale: 3
+    shape: square
     visibleFromOtherGrids: true
-    gridConfig:
-      color: "#C92BCC"
-      shape: Square
-      respectZoom: true
-      rotate: true
-      bounds: "-2.5,-2.5,2.5,2.5"
   - type: ShipGunType
     shipType: Energy
   - type: ShipGunClass
@@ -956,13 +941,8 @@
   - type: RadarBlip
     radarColor: "#DDFF00"
     scale: 4
+    shape: square
     visibleFromOtherGrids: true
-    gridConfig:
-      color: "#450089"
-      shape: Square
-      respectZoom: true
-      rotate: true
-      bounds: "-1.5,-2.5,1.5,2.5"
   - type: ShipGunType
     shipType: Energy
   - type: ShipGunClass

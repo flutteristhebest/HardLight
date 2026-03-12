@@ -87,7 +87,6 @@
     projectileSpeed: 600
     minAngle: 0
     maxAngle: 0
-    shootThermalSignature: 1200000
     burstCooldown: 10
     burstFireRate: 2
     shotsPerBurst: 3
@@ -124,12 +123,7 @@
   - type: RadarBlip
     radarColor: "#4080FF"
     scale: 2.5
-    gridConfig:
-      color: "#4080FF"
-      shape: Square
-      respectZoom: true
-      rotate: true
-      bounds: "-1,-1.5,1,1.5"
+    shape: square
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
