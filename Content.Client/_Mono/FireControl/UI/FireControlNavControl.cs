@@ -322,34 +322,32 @@ public sealed class FireControlNavControl : BaseShuttleControl
         var origin = ScalePosition(-new Vector2(Offset.X, -Offset.Y));
         handle.DrawLine(origin, origin + angle.ToVec() * ScaledMinimapRadius * 1.42f, Color.Red.WithAlpha(0.1f));
 
-        var blips = _blips.GetCurrentBlips();
-
-        foreach (var blip in blips)
+        foreach (var blipData in _blips.GetCurrentBlips())
         {
-            var blipCoord = _transform.ToMapCoordinates(blip.Position).Position;
-            var blipPos = Vector2.Transform(blipCoord, worldToView);
-            var blipShape = blip.Config.Shape;
-            var blipColor = blip.Config.Color;
-            var blipScale = (blip.Config.Bounds.Width + blip.Config.Bounds.Height) / 6f;
+            var mapPosition = _transform.ToMapCoordinates(blipData.Position).Position;
+            var viewPosition = Vector2.Transform(mapPosition, worldToView);
+            var config = blipData.Config;
+            var shape = config.Shape;
+            var color = config.Color;
+            var scale = (config.Bounds.Width + config.Bounds.Height) / 6f;
 
-            if (blipShape == RadarBlipShape.Ring)
+            if (shape == RadarBlipShape.Ring)
             {
-                DrawShieldRing(handle, blipPos, blipScale, blipColor.WithAlpha(0.8f));
+                DrawShieldRing(handle, viewPosition, scale, color.WithAlpha(0.8f));
             }
             else
             {
-                // For other shapes, use the regular drawing method
-                DrawBlipShape(handle, blipPos, blipScale * 3f, blipColor.WithAlpha(0.8f), blipShape);
+                DrawBlipShape(handle, viewPosition, scale * 3f, color.WithAlpha(0.8f), shape);
             }
 
             if (_isMouseInside && _controllables != null)
             {
-                var worldPos = blipCoord;
+                var worldPosition = mapPosition;
                 var isFireControllable = _controllables.Any(c =>
                 {
                     var coords = EntManager.GetCoordinates(c.Coordinates);
                     var entityMapPos = _transform.ToMapCoordinates(coords);
-                    return Vector2.Distance(entityMapPos.Position, worldPos) < 0.1f &&
+                    return Vector2.Distance(entityMapPos.Position, worldPosition) < 0.1f &&
                            _selectedWeapons.Contains(c.NetEntity);
                 });
 
@@ -360,14 +358,14 @@ public sealed class FireControlNavControl : BaseShuttleControl
 
                     var cursorWorldPos = Vector2.Transform(cursorViewPos, viewToWorld);
 
-                    var direction = cursorWorldPos - worldPos;
-                    var ray = new CollisionRay(worldPos, direction.Normalized(), (int)CollisionGroup.Impassable);
+                    var direction = cursorWorldPos - worldPosition;
+                    var ray = new CollisionRay(worldPosition, direction.Normalized(), (int)CollisionGroup.Impassable);
 
                     var results = _physics.IntersectRay(xform.MapID, ray, direction.Length(), ignoredEnt: _coordinates?.EntityId);
 
                     if (!results.Any())
                     {
-                        handle.DrawLine(blipPos, cursorViewPos, blipColor.WithAlpha(0.3f));
+                        handle.DrawLine(viewPosition, cursorViewPos, color.WithAlpha(0.3f));
                     }
                 }
             }
