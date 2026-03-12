@@ -15,6 +15,7 @@
     ShipRepairDevice: 10 # Frontier
     ShipRepairDeviceAmmo: 20 # Frontier
     ClothingHeadHatCone: 10 # Frontier: 4<10
+    BoxFolderEngiForms: 10 # Hardlight
   contrabandInventory:
     CowToolboxFilled: 1
     DrinkBeerCan: 3
