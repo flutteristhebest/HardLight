@@ -31,7 +31,7 @@ namespace Content.Server.Power.Components
         public TNetType? Net { get => _net; set => SetNet(value); }
         private TNetType? _net;
 
-        [ViewVariables] public bool NeedsNet => _net == null;
+        [ViewVariables] public bool NeedsNet => _net != null;
 
         [DataField("node")] public string? NodeId { get; set; }
 
