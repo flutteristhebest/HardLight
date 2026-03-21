@@ -17,7 +17,7 @@ public sealed class RadCrittersRule : StationEventSystem<RadCrittersRuleComponen
             return;
 
         var locations = EntityQueryEnumerator<RadCritterSpawnLocationComponent, TransformComponent>();
-        var validLocations = new List<(EntityCoordinates Coordinates, float Range)>();
+        var validLocations = new List<(EntityCoordinates, float)>();
 
         while (locations.MoveNext(out _, out var location, out var transform))
         {
@@ -29,7 +29,7 @@ public sealed class RadCrittersRule : StationEventSystem<RadCrittersRuleComponen
 
             foreach (var spawn in EntitySpawnCollection.GetSpawns(component.Entries, RobustRandom))
             {
-                Spawn(spawn, GetSpawnCoordinates(entry.Coordinates, entry.Range));
+                Spawn(spawn, GetSpawnCoordinates(entry.Item1, entry.Item2));
             }
         }
 
@@ -38,13 +38,13 @@ public sealed class RadCrittersRule : StationEventSystem<RadCrittersRuleComponen
 
         var specialEntry = RobustRandom.Pick(component.SpecialEntries);
         var specialSpawn = RobustRandom.Pick(validLocations);
-        Spawn(specialEntry.PrototypeId, GetSpawnCoordinates(specialSpawn.Coordinates, specialSpawn.Range));
+        Spawn(specialEntry.PrototypeId, GetSpawnCoordinates(specialSpawn.Item1, specialSpawn.Item2));
 
         foreach (var location in validLocations)
         {
             foreach (var spawn in EntitySpawnCollection.GetSpawns(component.SpecialEntries, RobustRandom))
             {
-                Spawn(spawn, GetSpawnCoordinates(location.Coordinates, location.Range));
+                Spawn(spawn, GetSpawnCoordinates(location.Item1, location.Item2));
             }
         }
     }
