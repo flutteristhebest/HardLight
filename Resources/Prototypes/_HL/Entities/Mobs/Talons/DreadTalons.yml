@@ -174,7 +174,7 @@
     scale: 0.7, 0.7
     layers:
     - map: [ "enum.DamageStateVisualLayers.Base" ]
-      state: Bluetalontalon
+      state: Bluetalon
     - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
       state: bluetalonglow
       shader: unshaded
