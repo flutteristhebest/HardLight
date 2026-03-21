@@ -178,6 +178,11 @@
     - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
       state: bluetalonglow
       shader: unshaded
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      300: Critical
+      450: Dead
   - type: DamageStateVisuals
     states:
       Alive:
@@ -259,6 +264,16 @@
     - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
       state: singutalonglow
       shader: unshaded
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 25
+        Radiation: 25
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      300: Critical
+      500: Dead
   - type: DamageStateVisuals
     states:
       Alive:
@@ -286,6 +301,16 @@
     - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
       state: supertalonglow
       shader: unshaded
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 35
+        Radiation: 15
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      350: Critical
+      600: Dead
   - type: DamageStateVisuals
     states:
       Alive:
