@@ -21,11 +21,11 @@
   
 - type: spawnCharacterOverrideRule
   id: Bananatalononspawn
-  match: RaTheAmpwave
+  match: RaAmpwave
   checkProfileName: true
   checkEntityName: true
   logins:
-  - RaTheAmpwave
+  - RaAmpwave
   entity: BananaTalon
   
 - type: spawnCharacterOverrideRule

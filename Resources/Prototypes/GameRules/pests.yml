@@ -138,9 +138,18 @@
     duration: 50
   - type: RadCrittersRule
     entries:
-    - id: MobMouseCancer
-      prob: 0.02
-    - id: MobCockroach
-      prob: 0.015
-    - id: MobMothroach
-      prob: 0.008
+    - id: dreadtalonbase
+      prob: 0.012
+    - id: BlueTalon
+      prob: 0.01
+    - id: LavaTalon
+      prob: 0.01
+    - id: PlasmaTalon
+      prob: 0.01
+    - id: TriTalon
+      prob: 0.01
+    specialEntries:
+    - id: SuperTalon
+      prob: 0.001
+    - id: GravTalon
+      prob: 0.001
