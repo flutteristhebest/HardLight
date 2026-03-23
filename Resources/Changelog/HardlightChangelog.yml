@@ -1912,3 +1912,11 @@ Entries:
       message: Added more brass ammo calibers
   id: 208
   time: '2026-03-23T18:17:11.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Tweak
+      message: >-
+        Passengers are no longer able to purchase or load ships from shipyard
+        consoles.
+  id: 209
+  time: '2026-03-23T18:17:57.0000000+00:00'
