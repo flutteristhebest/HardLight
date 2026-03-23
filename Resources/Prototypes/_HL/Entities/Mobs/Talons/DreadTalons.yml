@@ -55,6 +55,9 @@
         - MobMask
         layer:
         - MobLayer
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepSmallThud
   - type: PlateletFactories
     intervalSeconds: 1
     healPerSecond: .1
@@ -126,6 +129,7 @@
         Radiation: 10
   - type: CumProducer
     maxVol: 250
+    reagentId: Radium
     reVol: 50
     reHunger: 1
   - type: JumpAbility
@@ -142,7 +146,7 @@
     throwForce: 50
         
 - type: entity
-  name: DreadTalon
+  name: Hierotitan
   id: BananaTalon
   parent: dreadtalonbase
   description: It looks friendly. Why don't you give it a hug?
@@ -158,6 +162,21 @@
     - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
       state: bananatalonglow
       shader: unshaded
+  - type: ReplacementAccent
+    accent: nocontractions
+  - type: EncryptionKeyHolder
+    keySlots: 10
+    preserveExistingChannels: true
+    intrinsicChannels:
+    - Common
+  - type: IntrinsicRadioTransmitter
+    intrinsicChannels:
+    - Common
+  - type: ActiveRadio
+    intrinsicChannels:
+    - Common
+  - type: AccessReader
+    access: [["Security"], ["Command"], ["Research"], ["Mercenary"]]
   - type: Inventory
     templateId: friendxeno
   - type: NpcFactionMember

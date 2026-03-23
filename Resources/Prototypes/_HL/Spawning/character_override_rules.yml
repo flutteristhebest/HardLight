@@ -63,3 +63,12 @@
   logins:
   - Petalpool
   entity: BorgChassisPetal
+  
+- type: spawnCharacterOverrideRule
+  id: mossborgonspawn
+  match: MystiCanine
+  checkProfileName: true
+  checkEntityName: true
+  logins:
+  - MystiCanine
+  entity: PlayerBorgQuadMoss
