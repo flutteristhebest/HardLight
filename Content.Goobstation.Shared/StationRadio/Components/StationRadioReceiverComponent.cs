@@ -8,7 +8,7 @@ public sealed partial class StationRadioReceiverComponent : Component
     /// <summary>
     /// The sound entity being played
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [DataField]
     public EntityUid? SoundEntity;
 
     /// <summary>
