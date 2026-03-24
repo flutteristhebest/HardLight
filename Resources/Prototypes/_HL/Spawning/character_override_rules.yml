@@ -89,3 +89,9 @@
   - type: Bloodstream
     bloodReagent: AbyssalBlood
     bloodMaxVolume: 650
+    bloodlossDamage:
+      types:
+        Bloodloss: 0.5
+    bloodlossHealDamage:
+      types:
+        Bloodloss: -1
