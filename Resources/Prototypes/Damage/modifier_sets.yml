@@ -404,3 +404,6 @@
   id: Dreadtalon
   coefficients:
     Radiation: -1.0
+    Blunt: 0.8
+    Slash: 0.8
+    Piercing: 0.8

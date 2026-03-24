@@ -88,6 +88,7 @@
     - id: AiVents
     - id: LizardVents
     - id: WawaVents
+    - id: IrradiatedPests
     # - id: GiftsEngineering
     # - id: GiftsFireProtection
     # - id: GiftsJanitor
@@ -117,7 +118,7 @@
     - id: ZombieOutbreak
     - id: LoneOpsSpawn
     #- id: WizardSpawn
-    - id: LoneOpsSpawn
+    #- id: LoneOpsSpawn
     # - id: UnknownShuttleManOWar
     # - id: UnknownShuttleInstigator
 

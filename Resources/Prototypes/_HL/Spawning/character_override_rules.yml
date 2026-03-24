@@ -21,11 +21,11 @@
   
 - type: spawnCharacterOverrideRule
   id: Bananatalononspawn
-  match: RaTheAmpwave
+  match: RaAmpwave
   checkProfileName: true
   checkEntityName: true
   logins:
-  - RaTheAmpwave
+  - RaAmpwave
   entity: BananaTalon
   
 - type: spawnCharacterOverrideRule
@@ -63,3 +63,35 @@
   logins:
   - Petalpool
   entity: BorgChassisPetal
+  
+- type: spawnCharacterOverrideRule
+  id: mossborgonspawn
+  match: MystiCanine
+  checkProfileName: true
+  checkEntityName: true
+  logins:
+  - MystiCanine
+  entity: PlayerBorgQuadMoss
+
+## Component example
+- type: spawnCharacterOverrideRule
+  id: abyssbloodverzi
+  match: Verzical The Watcher
+  checkProfileName: true
+  checkEntityName: true
+  logins:
+  - VexonOrkali
+  components:
+  - type: DamagedByFlashing
+    flashDamage:
+        types:
+           Heat: 120
+  - type: Bloodstream
+    bloodReagent: AbyssalBlood
+    bloodMaxVolume: 650
+    bloodlossDamage:
+      types:
+        Bloodloss: 0.5
+    bloodlossHealDamage:
+      types:
+        Bloodloss: -1

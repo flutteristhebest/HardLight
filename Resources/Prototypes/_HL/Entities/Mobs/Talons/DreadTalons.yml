@@ -12,9 +12,6 @@
     layers:
     - map: [ "enum.DamageStateVisualLayers.Base" ]
       state: dreadtalon
-    - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
-      state: dreadtalonglow
-      shader: unshaded
   - type: CombatMode
     canDisarm: false
   - type: InputMover
@@ -32,7 +29,6 @@
     states:
       Alive:
         Base: dreadtalon
-        BaseUnshaded: dreadtalonglow
       Critical:
         Base: crit
       Dead:
@@ -59,15 +55,21 @@
         - MobMask
         layer:
         - MobLayer
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepSmallThud
   - type: PlateletFactories
     intervalSeconds: 1
-    healPerSecond: .5
-    critMultiplier: .25
+    healPerSecond: .1
+    critMultiplier: .01
   - type: Damageable
     damageContainer: Biological
     damageModifierSet: Dreadtalon
+    radiationDamageTypes: []
+  - type: RadiationHealing
+    healPerRad: 1
   - type: Tool
-    speedModifier: 1.5
+    speedModifier: 5
     qualities:
       - Prying
   - type: Prying
@@ -109,18 +111,25 @@
   - type: LayingDown
   - type: Hands
   - type: Body
-    prototype: Friendshaped
+    prototype: Dreadtalon
   - type: ThermalVision # Starlight
   - type: Access
   - type: Puller
     needsHands: false
   - type: MeleeWeapon
+    altDisarm: false
+    angle: 0
+    soundHit:
+     collection: AlienClaw
+    animation: WeaponArcBite
+    wideAnimation: WeaponArcClaw
     damage:
       types:
         Slash: 33
         Radiation: 10
   - type: CumProducer
     maxVol: 250
+    reagentId: Radium
     reVol: 50
     reHunger: 1
   - type: JumpAbility
@@ -133,13 +142,15 @@
         pitch: 1.33
         volume: -5
         variation: 0.05
+  - type: JumpCollisionKnockback
+    throwForce: 50
         
 - type: entity
-  name: DreadTalon
+  name: Hierotitan
   id: BananaTalon
   parent: dreadtalonbase
   description: It looks friendly. Why don't you give it a hug?
-#  categories: [ HideSpawnMenu ] # Frontier
+  categories: [ HideSpawnMenu ] # Frontier
   components:
   - type: Sprite
     drawdepth: Mobs
@@ -151,6 +162,27 @@
     - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
       state: bananatalonglow
       shader: unshaded
+  - type: ReplacementAccent
+    accent: nocontractions
+  - type: EncryptionKeyHolder
+    keySlots: 10
+    preserveExistingChannels: true
+    intrinsicChannels:
+    - Common
+  - type: IntrinsicRadioTransmitter
+    intrinsicChannels:
+    - Common
+  - type: ActiveRadio
+    intrinsicChannels:
+    - Common
+  - type: AccessReader
+    access: [["Security"], ["Command"], ["Research"], ["Mercenary"]]
+  - type: Inventory
+    templateId: friendxeno
+  - type: NpcFactionMember
+    factions:
+    - PetsNT
+  - type: ComplexInteraction
   - type: DamageStateVisuals
     states:
       Alive:
@@ -210,6 +242,12 @@
     - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
       state: lavatalonglow
       shader: unshaded
+  - type: MeleeWeapon
+    damage:
+      types:
+        Heat: 25
+        Radiation: 10
+        Slash: 5
   - type: DamageStateVisuals
     states:
       Alive:
@@ -267,8 +305,9 @@
   - type: MeleeWeapon
     damage:
       types:
-        Slash: 25
+        Blunt: 25
         Radiation: 25
+        Structural: 200
   - type: MobThresholds
     thresholds:
       0: Alive

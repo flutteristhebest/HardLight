@@ -1,6 +1,6 @@
 - type: body
-  id: Friendshaped
-  name: "Friend-Shaped"
+  id: Dreadtalon
+  name: "Dreadtalon"
   root: torso
   slots:
     torso:
@@ -10,11 +10,11 @@
       - left arm
       - legs
       organs:
-        lungs: OrganAnimalLungs
-        stomach: OrganFriendStomach
-        liver: OrganAnimalLiver
-        heart: OrganAnimalHeart
-        kidneys: OrganAnimalKidneys
+        lungs: OrganDreadtalonLungs
+        stomach: OrganDreadtalonStomach
+        liver: OrganDreadtalonLiver
+        heart: OrganDreadtalonHeart
+        kidneys: OrganDreadtalonKidneys
     right arm:
       part: RightArmHuman
       connections:
