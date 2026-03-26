@@ -1968,3 +1968,11 @@ Entries:
         nullspace and crash the server.
   id: 215
   time: '2026-03-25T23:21:19.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: >-
+        Galio plushies have been delivered via Nanotrasen mail services, which
+        for some reason is a thing ColComm supports.
+  id: 216
+  time: '2026-03-26T21:18:22.0000000+00:00'
