@@ -2158,3 +2158,9 @@ Entries:
       message: Dread Talons now appear as available ghost roles.
   id: 231
   time: '2026-03-30T22:37:18.0000000+00:00'
+- author: Illumos
+  changes:
+    - type: Add
+      message: Many, MANY fashion items from Coyote Sector.
+  id: 232
+  time: '2026-03-30T23:25:59.0000000+00:00'
