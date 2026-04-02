@@ -2200,3 +2200,9 @@ Entries:
       message: Synthetic trait is now free
   id: 237
   time: '2026-04-02T03:51:27.0000000+00:00'
+- author: re-silvered
+  changes:
+    - type: Add
+      message: Bogan Accent
+  id: 238
+  time: '2026-04-02T03:52:17.0000000+00:00'
