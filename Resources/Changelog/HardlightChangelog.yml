@@ -2206,3 +2206,9 @@ Entries:
       message: Bogan Accent
   id: 238
   time: '2026-04-02T03:52:17.0000000+00:00'
+- author: Generic_Eagle
+  changes:
+    - type: Add
+      message: Added the ESAR-550, a replacement for the HoS's energy shotgun and WT
+  id: 239
+  time: '2026-04-02T19:14:48.0000000+00:00'
