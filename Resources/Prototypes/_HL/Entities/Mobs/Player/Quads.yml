@@ -209,21 +209,21 @@
     movementStateOff: abyssquad_moving
     movementStateOn: abyssquad_movingballz
   - type: HitscanBatteryAmmoProvider
-      proto: Abysslaser # Frontier: use NF variant
-      fireCost: 100
-    - type: BatterySelfRecharger
-      autoRecharge: true
-      autoRechargeRate: 50
-    - type: Battery
-      maxCharge: 2000
-      startingCharge: 2000
-    - type: Gun
-      fireRate: 1
-      useKey: false
-      selectedMode: SemiAuto
-      availableModes:
-        - SemiAuto
-      soundGunshot: /Audio/_HL/Effects/abysslaser.ogg
+    proto: Abysslaser # Frontier: use NF variant
+    fireCost: 100
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 50
+  - type: Battery
+    maxCharge: 2000
+    startingCharge: 2000
+  - type: Gun
+    fireRate: 1
+    useKey: false
+    selectedMode: SemiAuto
+    availableModes:
+      - SemiAuto
+    soundGunshot: /Audio/_HL/Effects/abysslaser.ogg
 
 - type: hitscan
   id: Abysslaser
