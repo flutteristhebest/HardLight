@@ -2260,3 +2260,9 @@ Entries:
       message: Fixed a bug where succumbing to your fate deleted your character
   id: 244
   time: '2026-04-03T21:12:13.0000000+00:00'
+- author: rtasva
+  changes:
+    - type: Add
+      message: New Epsilon alert sound
+  id: 245
+  time: '2026-04-03T21:12:55.0000000+00:00'
