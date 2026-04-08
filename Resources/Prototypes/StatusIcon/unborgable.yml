@@ -1,0 +1,8 @@
+- type: healthIcon
+  id: HealthIconUnborgable
+  priority: 4
+  locationPreference: Right
+  isShaded: true
+  icon:
+    sprite: /Textures/Interface/Misc/unborgable_icons.rsi
+    state: Unborgable
