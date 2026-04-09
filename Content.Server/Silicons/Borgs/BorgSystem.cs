@@ -29,7 +29,6 @@ using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Throwing;
 using Content.Shared.Whitelist;
 using Content.Shared.Wires;
-using Content.Shared._DV.Traits.Assorted;
 using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
 using Robust.Shared.Player;
@@ -122,12 +121,6 @@ public sealed partial class BorgSystem : SharedBorgSystem
         if (component.BrainEntity == null && brain != null &&
             _whitelistSystem.IsWhitelistPassOrNull(component.BrainWhitelist, used))
         {
-            if (IsUnborgableBrain(used))
-            {
-                Popup.PopupEntity(Loc.GetString("borg-player-unborgable"), used, args.User);
-                return;
-            }
-
             if (_mind.TryGetMind(used, out _, out var mind) &&
                 _player.TryGetSessionById(mind.UserId, out var session))
             {
@@ -251,16 +244,6 @@ public sealed partial class BorgSystem : SharedBorgSystem
         UpdateUI(uid, comp);
 
         _movementSpeedModifier.RefreshMovementSpeedModifiers(uid);
-    }
-
-    private bool IsUnborgableBrain(EntityUid uid)
-    {
-        if (HasComp<UnborgableComponent>(uid))
-            return true;
-
-        return TryComp<MMIComponent>(uid, out var mmi) &&
-               mmi.BrainSlot.Item is { } brain &&
-               HasComp<UnborgableComponent>(brain);
     }
 
     private void OnBrainMindAdded(EntityUid uid, BorgBrainComponent component, MindAddedMessage args)
