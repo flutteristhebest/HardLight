@@ -1,6 +1,5 @@
 using Content.Client.Overlays;
 using Content.Shared._DV.Traits.Assorted;
-using Content.Shared.Inventory.Events;
 using Content.Shared.Overlays;
 using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.StatusIcon;
