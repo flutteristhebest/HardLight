@@ -22,16 +22,10 @@ public abstract partial class SharedBorgSystem : EntitySystem
     [Dependency] protected readonly ItemToggleSystem Toggle = default!;
     [Dependency] protected readonly SharedPopupSystem Popup = default!;
 
-    private bool _initialized;
-
     /// <inheritdoc/>
     public override void Initialize()
     {
-        if (_initialized)
-            return;
-
         base.Initialize();
-        _initialized = true;
 
         SubscribeLocalEvent<BorgChassisComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<BorgChassisComponent, ItemSlotInsertAttemptEvent>(OnItemSlotInsertAttempt);

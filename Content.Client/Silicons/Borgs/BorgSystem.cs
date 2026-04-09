@@ -15,15 +15,9 @@ public sealed class BorgSystem : SharedBorgSystem
     [Dependency] private readonly AppearanceSystem _appearance = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
-    private bool _initialized;
-
     public override void Initialize()
     {
-        if (_initialized)
-            return;
-
         base.Initialize();
-        _initialized = true;
 
         SubscribeLocalEvent<BorgChassisComponent, AppearanceChangeEvent>(OnBorgAppearanceChanged);
         SubscribeLocalEvent<MMIComponent, AppearanceChangeEvent>(OnMMIAppearanceChanged);
