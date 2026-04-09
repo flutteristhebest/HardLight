@@ -66,12 +66,18 @@ public sealed partial class BorgSystem : SharedBorgSystem
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly AccessSystem _access = default!; // Frontier
 
+    private bool _initialized;
+
     public static readonly ProtoId<JobPrototype> BorgJobId = new("Borg");
 
     /// <inheritdoc/>
     public override void Initialize()
     {
+        if (_initialized)
+            return;
+
         base.Initialize();
+        _initialized = true;
 
         SubscribeLocalEvent<BorgChassisComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<BorgChassisComponent, AfterInteractUsingEvent>(OnChassisInteractUsing);
