@@ -17,7 +17,6 @@
 
   defaultModules:
   - BorgModuleTool
-  - BorgModuleJetpack # Frontier
 
   radioChannels:
   - Science
@@ -53,7 +52,6 @@
   - BorgModuleConstruction
   - BorgModuleRCDShipyard # Frontier: RCD<RCDShipyard
   - BorgModuleCable
-  - BorgModuleJetpack # Frontier
 
   radioChannels:
   - Engineering
@@ -90,7 +88,6 @@
   - BorgModuleMining
   - BorgModuleGrapplingGun
   - BorgModuleAppraisal
-  - BorgModuleJetpack # Frontier
 
   radioChannels:
   - Supply
@@ -127,7 +124,6 @@
   - BorgModuleTool # Starlight
   - BorgModuleLightReplacer
   - BorgModuleCleaning
-  - BorgModuleJetpack # Frontier
 
   radioChannels:
   - Science
@@ -165,7 +161,6 @@
   - BorgModuleTreatment
   # - BorgModuleAdvancedTreatment # Frontier
   # - BorgModuleDefibrillator # Frontier
-  - BorgModuleJetpack # Frontier
 
   radioChannels:
   - Science
@@ -180,6 +175,11 @@
   - type: ShowHealthIcons
     damageContainers:
     - Biological
+  #Start HL
+  - type: SurgerySpeedModifier
+    speedModifier: 1.75
+  - type: Sanitized
+  #End HL
 
   # Visual
   inventoryTemplateId: borgDutchHL # HL
@@ -219,7 +219,6 @@
   - BorgModuleClowning
   - BorgModuleBureaucracy # Frontier
   - BorgModuleNFService # Frontier
-  - BorgModuleJetpack # Frontier
 
   radioChannels:
   - Science

@@ -3,6 +3,7 @@
   parent: BaseGlobal
   priority: 4
   requiresHands: false
+  requiresCanInteract: false
   requiresUnblocked: false
   contactInteraction: false
   allowSelfInteract: true
@@ -19,6 +20,7 @@
   id: WaveAt
   parent: [BaseHands, BaseGlobal]
   priority: 3
+  requiresCanInteract: false
   contactInteraction: false
   range: {max: 20}
   effectSuccess:
