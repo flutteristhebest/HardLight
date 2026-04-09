@@ -2418,3 +2418,9 @@ Entries:
         that the expedition is ending.
   id: 265
   time: '2026-04-09T19:46:36.0000000+00:00'
+- author: Iisazel
+  changes:
+    - type: Add
+      message: Added new craftable bone items and some interesting drops from dinosaurs
+  id: 266
+  time: '2026-04-09T20:47:48.0000000+00:00'
