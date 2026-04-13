@@ -30,6 +30,7 @@
     hands:
     - item: HandheldGPSBasic
     - item: HandHeldMassScannerBorg
+    - item: HandheldStationMapUnpowered # Hardlight
     - item: BorgClock
     - item: JetpackMiniFilled
       hand:
@@ -38,6 +39,7 @@
         whitelist:
           components:
           - Jetpack
+    - item: RadioHandheldNF # Hardlight
   - type: BorgModuleIcon
     icon: { sprite: _NF/Interface/Actions/actions_borg.rsi, state: jetpack-module }
 

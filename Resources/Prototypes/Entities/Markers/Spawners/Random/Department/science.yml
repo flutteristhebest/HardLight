@@ -113,6 +113,6 @@
     - BorgModuleChef # Frontier
     rareChance: 0.1
     prototypes:
-    - BorgModuleFireExtinguisher
+    - BorgModuleJetpack # Was fire extinguisher, no longer exists
     chance: 0.9
     offset: 0.2
