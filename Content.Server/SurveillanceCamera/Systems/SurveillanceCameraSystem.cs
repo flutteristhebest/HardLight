@@ -130,6 +130,9 @@ public sealed class SurveillanceCameraSystem : EntitySystem
 
     private void AddVerbs(EntityUid uid, SurveillanceCameraComponent component, GetVerbsEvent<AlternativeVerb> verbs)
     {
+        var ev = new SurveillanceCameraAlternativeVerbsEvent(verbs);
+        RaiseLocalEvent(uid, ev);
+
         if (!_actionBlocker.CanInteract(verbs.User, uid))
         {
             return;
@@ -429,6 +432,11 @@ public sealed class SurveillanceCameraSystem : EntitySystem
     //{
     //    SetActive(uid, true);
     //}
+}
+
+public sealed class SurveillanceCameraAlternativeVerbsEvent(GetVerbsEvent<AlternativeVerb> args) : EntityEventArgs
+{
+    public GetVerbsEvent<AlternativeVerb> Args { get; } = args;
 }
 
 public sealed class OnSurveillanceCameraViewerAddEvent : EntityEventArgs
