@@ -249,7 +249,7 @@ public sealed class RadioDeviceSystem : EntitySystem
         _chat.TrySendInGameICMessage(uid,
             args.Message,
             component.SpeakNormally ? InGameICChatType.Speak : InGameICChatType.Whisper, // Goobstation - radio host
-            ChatTransmitRange.GhostRangeLimit,
+            ChatTransmitRange.GhostRangeLimitNoAdminCheck,
             nameOverride: name,
             checkRadioPrefix: component.SpeakNormally);
     }
