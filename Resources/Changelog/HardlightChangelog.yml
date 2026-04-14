@@ -2695,3 +2695,11 @@ Entries:
         bricking on them sometimes.
   id: 285
   time: '2026-04-14T18:56:14.0000000+00:00'
+- author: Illumos
+  changes:
+    - type: Add
+      message: >-
+        Added Starlight power & gas transfer while docked. Gas transfer is
+        disabled by default; HV power transfer is enabled.
+  id: 286
+  time: '2026-04-14T18:58:08.0000000+00:00'
