@@ -280,6 +280,10 @@
       shader: unshaded
       map: ["light"]
       visible: false
+  - type: DamagedByFlashing
+    flashDamage:
+        types:
+           Heat: 120
   - type: SpriteMovement
     movementLayers:
       movement:
@@ -316,7 +320,7 @@
     movementStateOn: abyssquad_movingballz
   - type: HitscanBatteryAmmoProvider
     proto: Abysslaser # Frontier: Use NF variant
-    fireCost: 100
+    fireCost: 50
   - type: BatterySelfRecharger
     autoRecharge: true
     autoRechargeRate: 50
@@ -324,7 +328,7 @@
     maxCharge: 2000
     startingCharge: 2000
   - type: Gun
-    fireRate: 1
+    fireRate: 2
     useKey: false
     selectedMode: SemiAuto
     availableModes:
