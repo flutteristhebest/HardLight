@@ -29,6 +29,11 @@
     - /Audio/Voice/Resomi/imitated_cry_female_4.ogg
 
 - type: soundCollection
+  id: ResomiWurble
+  files:
+    - /Audio/_Goobstation/Voice/Resomi/wurble.ogg
+
+- type: soundCollection
   id: FemaleLaugh
   files:
     - /Audio/Voice/Human/womanlaugh.ogg
