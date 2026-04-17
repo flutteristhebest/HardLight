@@ -4,7 +4,6 @@ using Robust.Shared.Utility;
 using Robust.Shared.Audio.Systems;
 using Content.Server.Body.Components;
 using Content.Server._Common.Consent;
-using Content.Shared.Body.Events; // HardLight
 using Content.Shared.Mobs.Components;
 using Content.Shared.Examine;
 using Content.Server.Atmos.Components;
@@ -35,6 +34,7 @@ using Content.Shared.Contests;
 using Content.Shared.Standing;
 using Content.Server.Power.Components;
 using Content.Shared.PowerCell;
+using Content.Server.Nutrition.EntitySystems;
 using Content.Shared.Mind.Components;
 
 namespace Content.Server.FloofStation;
@@ -59,7 +59,7 @@ public sealed class VoreSystem : EntitySystem
     [Dependency] private readonly ContestsSystem _contests = default!;
     [Dependency] private readonly StandingStateSystem _standingState = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly IngestionSystem _ingestion = default!; // HardLight: FoodSystem _food<IngestionSystem _ingestion
+    [Dependency] private readonly FoodSystem _food = default!;
 
     public override void Initialize()
     {
@@ -188,7 +188,7 @@ public sealed class VoreSystem : EntitySystem
         if (!Resolve(uid, ref component))
             return;
 
-        if (!_ingestion.HasMouthAvailable(uid, uid)) // HardLight: FoodSystem _food<!_ingestion.HasMouthAvailable
+        if (_food.IsMouthBlocked(uid, uid))
             return;
 
         _popups.PopupEntity(Loc.GetString("vore-attempt-devour", ("entity", uid), ("prey", target)), uid, PopupType.LargeCaution);

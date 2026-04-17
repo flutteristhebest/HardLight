@@ -29,8 +29,8 @@
       borg_module:
         - BorgModuleTool
         - BorgModuleDiagnosis
-        - BorgModuleTopicals
-  - type: SurgerySpeedModifier # Shitmed
+        - BorgModuleTreatment
+  - type: SurgerySpeedModifier #shitmed
     speedModifier: 1.75
   - type: ItemSlots
     slots:
@@ -350,7 +350,7 @@
     sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
     state: impact_abyss_laser
   maxLength: 21
-
+    
 - type: entity
   id: PlayerBorgQuadViz
   parent: AbyssQuad
@@ -457,7 +457,7 @@
     slots:
       cell_slot:
         name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellMedium
+        startingItem: PowerCellMedium        
 
 - type: entity
   id: PlayerBorgQuadPetal
@@ -475,7 +475,7 @@
     slots:
       cell_slot:
         name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellMedium
+        startingItem: PowerCellMedium 
 
 - type: entity
   id: PlayerBorgQuadMoss

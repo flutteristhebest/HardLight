@@ -308,8 +308,9 @@
   - type: Tag
     tags:
     - Admin
-  - type: TimedDespawn # Livyathan: Replaced trigger components with modern systems.
-    lifetime: 10
+  - type: DeleteOnTrigger
+  - type: ActiveTimerTrigger
+    timeRemaining: 60
 
 
 # BoxFolderColComClipboard

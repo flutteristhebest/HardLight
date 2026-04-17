@@ -10,22 +10,19 @@
   moduleWhitelist:
     tags:
     - BorgModuleGeneric
-    - BorgModuleScience # Until sciborgs are added
-    - BorgModuleSyndicate # HardLight
-    - BorgModuleSyndicateAssault # HardLight
-    - XenoborgModuleGeneric # HardLight
+    - BorgModuleScience #until sciborgs are added
+    - BorgModuleSyndicate # Hardlight
+    - BorgModuleSyndicateAssault # Hardlight
+    - XenoborgModuleGeneric # Hardlight
 
   defaultModules:
   - BorgModuleTool
-  - BorgModuleArtifact
-  - BorgModuleAnomaly
-  - BorgModuleJetpack # Frontier
 
   radioChannels:
   - Science
 
   # Visual
-  inventoryTemplateId: borgShortHL # HardLight
+  inventoryTemplateId: borgShortHL #HL
   spritePath: Mobs/Silicon/Chassis/generic/default.rsi
 
   # Pet
@@ -46,9 +43,9 @@
     tags:
     - BorgModuleGeneric
     - BorgModuleEngineering
-    - BorgModuleSyndicate # HardLight
-    - BorgModuleSyndicateAssault # HardLight
-    - XenoborgModuleGeneric # HardLight
+    - BorgModuleSyndicate # Hardlight
+    - BorgModuleSyndicateAssault # Hardlight
+    - XenoborgModuleGeneric # Hardlight
 
   defaultModules:
   - BorgModuleTool
@@ -61,7 +58,7 @@
   - Science
 
   # Visual
-  inventoryTemplateId: borgShortHL # HardLight: borgShort<borgShortHL
+  inventoryTemplateId: borgShortHL #HL
   spritePath: Mobs/Silicon/Chassis/engineering/default.rsi
 
   # Pet
@@ -89,7 +86,7 @@
   defaultModules:
   - BorgModuleTool
   - BorgModuleMining
-  - BorgModuleTraversal
+  - BorgModuleGrapplingGun
   - BorgModuleAppraisal
 
   radioChannels:
@@ -97,7 +94,7 @@
   - Science
 
   # Visual
-  inventoryTemplateId: borgTallHL # HardLight: borgTall<borgTallHL
+  inventoryTemplateId: borgTallHL #HL
   spritePath: Mobs/Silicon/Chassis/mining/default.rsi
   spriteBodyMovementState: borg_moving
 
@@ -119,22 +116,21 @@
     tags:
     - BorgModuleGeneric
     - BorgModuleJanitor
-    - BorgModuleSyndicate # HardLight
-    - BorgModuleSyndicateAssault # HardLight
-    - XenoborgModuleGeneric # HardLight
+    - BorgModuleSyndicate # Hardlight
+    - BorgModuleSyndicateAssault # Hardlight
+    - XenoborgModuleGeneric # Hardlight
 
   defaultModules:
-  - BorgModuleTool
+  - BorgModuleTool # Starlight
+  - BorgModuleLightReplacer
   - BorgModuleCleaning
-  - BorgModuleCustodial
-  - BorgModuleJetpack # Frontier
 
   radioChannels:
   - Science
   - Service
 
   # Visual
-  inventoryTemplateId: borgShortHL # HardLight: borgShort<borgShortHL
+  inventoryTemplateId: borgShortHL # HL
   spritePath: Mobs/Silicon/Chassis/janitor/default.rsi
   spriteBodyMovementState: borg_moving
 
@@ -156,16 +152,15 @@
     tags:
     - BorgModuleGeneric
     - BorgModuleMedical
-    - BorgModuleSyndicate # HardLight
-    - BorgModuleSyndicateAssault # HardLight
-    - XenoborgModuleGeneric # HardLight
+    - BorgModuleSyndicate # Hardlight
+    - BorgModuleSyndicateAssault # Hardlight
+    - XenoborgModuleGeneric # Hardlight
 
   defaultModules:
-  - BorgModuleTool
-  - BorgModuleChemical
-  - BorgModuleTopicals
-  - BorgModuleRescue
-  - BorgModuleJetpack # Frontier
+  - BorgModuleTool # Starlight
+  - BorgModuleTreatment
+  # - BorgModuleAdvancedTreatment # Frontier
+  - BorgModuleDefibrillator # Frontier
 
   radioChannels:
   - Science
@@ -176,7 +171,7 @@
   - type: ShowHealthBars
     damageContainers:
     - Biological
-    - Synth # HardLight
+    - Synth #HL
   - type: ShowHealthIcons
     damageContainers:
     - Biological
@@ -187,7 +182,7 @@
   #End HL
 
   # Visual
-  inventoryTemplateId: borgDutchHL # HardLight: borgDutch<borgDutchHL
+  inventoryTemplateId: borgDutchHL # HL
   spritePath: Mobs/Silicon/Chassis/medical/default.rsi
   spriteBodyMovementState: borg_moving
 
@@ -213,26 +208,24 @@
     tags:
     - BorgModuleGeneric
     - BorgModuleService
-    - BorgModuleSyndicate # HardLight
-    - BorgModuleSyndicateAssault # HardLight
-    - XenoborgModuleGeneric # HardLight
+    - BorgModuleSyndicate # Hardlight
+    - BorgModuleSyndicateAssault # Hardlight
+    - XenoborgModuleGeneric # Hardlight
 
   defaultModules:
-  - BorgModuleTool
+  - BorgModuleTool # Starlight
   - BorgModuleMusique
-  - BorgModuleService
+  # - BorgModuleService # Frontier: deprecated, use NF variant
   - BorgModuleClowning
-  - BorgModuleGardening
-  - BorgModuleHarvesting
   - BorgModuleBureaucracy # Frontier
-  - BorgModuleJetpack # Frontier
+  - BorgModuleNFService # Frontier
 
   radioChannels:
   - Science
   - Service
 
   # Visual
-  inventoryTemplateId: borgTallHL # HardLight: borgTall<borgTallHL
+  inventoryTemplateId: borgTallHL # HL
   spritePath: Mobs/Silicon/Chassis/service/default.rsi
 
   # Pet

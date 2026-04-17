@@ -264,14 +264,11 @@
   - type: Tag
     tags:
     - Admin
-  - type: Injector
+  - type: Hypospray
     solutionName: pen
-    ignoreClosed: false
-    ignoreMobs: false
-    activeModeProtoId: HyposprayInjectMode
-    allowedModes:
-    - HyposprayInjectMode
-    currentTransferAmount: 40
+    transferAmount: 40
+    onlyAffectsMobs: false
+    injectOnly: true
   - type: SolutionContainerManager
     solutions:
       pen:

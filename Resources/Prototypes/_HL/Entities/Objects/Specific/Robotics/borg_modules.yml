@@ -10,13 +10,8 @@
     - { sprite: Objects/Specific/Robotics/borgmodule.rsi, state: generic }
     - { sprite: _HL/Objects/Specific/Robotics/borgmodule.rsi, state: icon-storage }
   - type: ItemBorgModule
-    hands:
-    - item: ClothingBackpackHolding
-      hand:
-        emptyRepresentative: ClothingBackpackHolding
-        emptyLabel: borg-slot-bag-empty
-        whitelist:
-          tags:
-          - Backpack
+    moduleId: Storage
+    items:
+    - ClothingBackpackHolding
   - type: BorgModuleIcon
     icon: { sprite: _HL/Interface/Actions/actions_borg.rsi, state: storage-module }

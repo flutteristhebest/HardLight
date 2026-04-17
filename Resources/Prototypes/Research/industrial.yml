@@ -30,6 +30,7 @@
   recipeUnlocks:
   - RadarConsoleCircuitboard
   - HandHeldMassScanner
+  # - BorgModuleGPS # Frontier: useless
 
 - type: technology
   id: AdvancedPowercells
@@ -210,10 +211,10 @@
   - OreBagOfHolding
   - MiningDrillDiamond
   - AdvancedMineralScannerEmpty
-  - BorgModuleAdvancedMining
   - NFBlueprintOreBagOfHolding # Frontier
   - NFBlueprintMiningDrillDiamond # Frontier
   - NFBlueprintAdvancedMineralScannerEmpty # Frontier
+  - BorgModuleAdvancedMining # Frontier
   - MechEquipmentDrillDiamond
 
 - type: technology

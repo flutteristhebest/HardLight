@@ -8,13 +8,15 @@
       sprite: Mobs/Species/Slime/organs.rsi
       state: brain-slime
     - type: Stomach
-      specialDigestible: # Frontier(?)
+      specialDigestible:
+        Frontier: general moth digestion
         tags:
          - ClothMade
          - Paper
          - Pill
         components:
         - MothFood
+        End Frontier: general moth digestion
     - type: Metabolizer
       maxReagents: 3
       metabolizerTypes: [ Slime, Animal, Goblin, Moth ]
@@ -32,11 +34,6 @@
       solutions:
         stomach:
           maxVol: 30.0
-        food:
-          maxVol: 5
-          reagents:
-          - ReagentId: GreyMatter
-            Quantity: 5
 
 - type: entity
   id: OrganSlimesLungs
@@ -68,8 +65,3 @@
         Lung:
           maxVol: 100.0
           canReact: false
-        food:
-          maxVol: 5
-          reagents:
-          - ReagentId: Slime
-            Quantity: 5

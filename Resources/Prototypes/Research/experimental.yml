@@ -25,6 +25,7 @@
   - AnomalyScanner
   - AnomalyLocator
   - AnomalyLocatorWide
+  - BorgModuleAnomaly
   - APECircuitboard
   - AnomalyVesselCircuitboard
 
@@ -39,9 +40,10 @@
   cost: 5000
   recipeUnlocks:
   - NodeScanner
+  - BorgModuleArtifact
   - AnalysisComputerCircuitboard
   - ArtifactAnalyzerMachineCircuitboard
-  - ResearchComputerCircuitboard # Frontier
+  - ResearchComputerCircuitboard # Frontier: add research computer
 
 - type: technology
   id: AlternativeResearch

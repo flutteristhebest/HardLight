@@ -64,14 +64,9 @@
   - type: Tag
     tags:
     - Admin
-  - type: Injector
-    solutionName: hypospray
-    ignoreClosed: false
-    ignoreMobs: false
-    activeModeProtoId: HyposprayInjectMode
-    allowedModes:
-    - HyposprayInjectMode
-    currentTransferAmount: 10
+  - type: Hypospray
+    onlyAffectsMobs: false
+    transferAmount: 10
   - type: SolutionContainerManager
     solutions:
       hypospray:

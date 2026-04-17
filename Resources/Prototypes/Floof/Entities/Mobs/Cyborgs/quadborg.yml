@@ -100,7 +100,7 @@
     node: cyborg
   - type: Speech
     speechVerb: Robotic
-  - type: Crawler # HardLight: LayingDown<Crawler
+  - type: LayingDown
   - type: CumProducer
     maxVol: 250
     reVol: 50
