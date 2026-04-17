@@ -313,18 +313,6 @@ public abstract class SharedBloodstreamSystem : EntitySystem
         return bloodSolution.FillFraction;
     }
 
-    private void ClearBloodlossStatusIfHealthy(Entity<BloodstreamComponent?> ent)
-    {
-        if (!Resolve(ent, ref ent.Comp, logMissing: false)
-            || _mobStateSystem.IsDead(ent.Owner)
-            || GetBloodLevelPercentage(ent) < ent.Comp.BloodlossThreshold)
-        {
-            return;
-        }
-
-        _status.TryRemoveStatusEffect(ent.Owner, Bloodloss);
-    }
-
     /// <summary>
     /// Setter for the BloodlossThreshold datafield.
     /// </summary>
@@ -383,11 +371,7 @@ public abstract class SharedBloodstreamSystem : EntitySystem
             return false;
 
         if (amount >= 0)
-        {
-            var changed = SolutionContainer.TryAddReagent(ent.Comp.BloodSolution.Value, ent.Comp.BloodReagent, amount, null, GetEntityBloodData(ent));
-            ClearBloodlossStatusIfHealthy(ent);
-            return changed;
-        }
+            return SolutionContainer.TryAddReagent(ent.Comp.BloodSolution.Value, ent.Comp.BloodReagent, amount, null, GetEntityBloodData(ent));
 
         // Removal is more involved,
         // since we also wanna handle moving it to the temporary solution
