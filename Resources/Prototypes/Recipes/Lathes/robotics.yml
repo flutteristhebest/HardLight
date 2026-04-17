@@ -255,12 +255,10 @@
   id: BorgModuleTool
   result: BorgModuleTool
 
-# Hardlight start: Jetpack module is better than Thruster module
-# - type: latheRecipe
-#   parent: BaseBorgModuleRecipe
-#   id: BorgModuleFireExtinguisher
-#   result: BorgModuleFireExtinguisher
-# Hardlight end
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleFireExtinguisher
+  result: BorgModuleFireExtinguisher
 
 # Cargo Modules
 

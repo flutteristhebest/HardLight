@@ -13,7 +13,7 @@
   id: BorgModulesStatic
   recipes:
   - BorgModuleTool
-  # - BorgModuleFireExtinguisher # Hardlight
+  - BorgModuleFireExtinguisher
   - BorgModuleStun # Floof
   - BorgModuleKill # Floof
   - BorgModuleInvestigation

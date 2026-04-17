@@ -450,26 +450,24 @@
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: wire-module }
 
-# Hardlight start: The jetpack module is straight up better than this one.
-# - type: entity
-#   id: BorgModuleFireExtinguisher
-#   parent: [ BaseBorgModule, BaseProviderBorgModule ]
-#   name: thruster cyborg module
-#   description: NT assigned a team to design a jetpack for cyborg units, but they ran out of funding and just made a bigger fire extinguisher. It comes with a integrated GPS and mass scanner though!
-#   components:
-#   - type: Sprite
-#     layers:
-#     - state: generic
-#     - state: icon-fire-extinguisher
-#   - type: ItemBorgModule
-#     hands:
-#     - item: BorgFireExtinguisher
-#     - item: BorgHandheldGPSBasic
-#     - item: HandheldStationMapUnpowered
-#     - item: HandHeldMassScannerBorg
-#   - type: BorgModuleIcon
-#     icon: { sprite: Interface/Actions/actions_borg.rsi, state: extinguisher-module }
-# Hardlight end
+- type: entity
+  id: BorgModuleFireExtinguisher
+  parent: [ BaseBorgModule, BaseProviderBorgModule ]
+  name: thruster cyborg module
+  description: NT assigned a team to design a jetpack for cyborg units, but they ran out of funding and just made a bigger fire extinguisher. It comes with a integrated GPS and mass scanner though!
+  components:
+  - type: Sprite
+    layers:
+    - state: generic
+    - state: icon-fire-extinguisher
+  - type: ItemBorgModule
+    hands:
+    - item: BorgFireExtinguisher
+    - item: BorgHandheldGPSBasic
+    - item: HandheldStationMapUnpowered
+    - item: HandHeldMassScannerBorg
+  - type: BorgModuleIcon
+    icon: { sprite: Interface/Actions/actions_borg.rsi, state: extinguisher-module }
 
 - type: entity
   id: BorgModuleTool
@@ -509,6 +507,7 @@
     - item: HandLabeler
     - item: RubberStampApproved
     - item: RubberStampDenied
+    - item: RadioHandheld
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: appraisal-module }
 
@@ -527,12 +526,7 @@
     - item: Shovel
     - item: MineralScannerUnpowered
     - item: BorgOreBag
-    - hand: # Starlight
-        emptyRepresentative: GoldOre
-        emptyLabel: borg-slot-ore-empty
-        whitelist:
-          tags:
-            - Ore
+    - item: RadioHandheldNF # Frontier
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: mining-module }
 
@@ -552,12 +546,7 @@
     - item: Shovel
     - item: AdvancedMineralScannerUnpowered
     - item: OreBagOfHolding
-    - hand: # Starlight
-        emptyRepresentative: GoldOre
-        emptyLabel: borg-slot-ore-empty
-        whitelist:
-          tags:
-            - Ore
+    - item: RadioHandheldNF # Frontier
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: adv-mining-module }
 
@@ -573,20 +562,9 @@
   - type: ItemBorgModule
     hands:
     - item: WeaponGrapplingGun
+    - item: BorgFireExtinguisher
     - item: BorgHandheldGPSBasic
-    - item: HandheldStationMapUnpowered # Hardlight: Parity with the thruster module
     - item: HandHeldMassScannerBorg
-    # Hardlight start: Parity with the frontier module
-    - item: JetpackMiniFilled
-      hand:
-        emptyRepresentative: JetpackMini
-        emptyLabel: borg-slot-jetpack-empty
-        whitelist:
-          components:
-          - Jetpack
-    - item: BorgClock
-    - item: RadioHandheldNF
-    # Hardlight end
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: grappling-module }
 
@@ -637,20 +615,18 @@
         whitelist:
           tags:
           - ConstructionMaterial
-    # Hardlight start: Due to having a construction bag, we do not need such hand bloat.
-    # - hand:
-    #     emptyRepresentative: BorgModuleConstructionMaterialPlaceholder
-    #     emptyLabel: borg-slot-construction-empty
-    #     whitelist:
-    #       tags:
-    #       - ConstructionMaterial
-    # - hand:
-    #     emptyRepresentative: BorgModuleConstructionMaterialPlaceholder
-    #     emptyLabel: borg-slot-construction-empty
-    #     whitelist:
-    #       tags:
-    #       - ConstructionMaterial
-    # Hardlight end
+    - hand:
+        emptyRepresentative: BorgModuleConstructionMaterialPlaceholder
+        emptyLabel: borg-slot-construction-empty
+        whitelist:
+          tags:
+          - ConstructionMaterial
+    - hand:
+        emptyRepresentative: BorgModuleConstructionMaterialPlaceholder
+        emptyLabel: borg-slot-construction-empty
+        whitelist:
+          tags:
+          - ConstructionMaterial
     - hand:
         emptyRepresentative: DoorElectronics
         emptyLabel: borg-slot-circuitboards-empty
@@ -663,7 +639,6 @@
         whitelist:
           tags:
           - ConstructionMaterial
-          - PowerCell # Starlight - Allow engiborgs to construct most machines without need for flatpacker
     - hand:
         emptyRepresentative: SpaceHeaterFlatpack
         emptyLabel: borg-slot-flatpacks-empty
@@ -676,30 +651,18 @@
         whitelist:
           components:
           - FloorTile
-    # Hardlight start: Due to having a construction bag, we do not need such hand bloat
-    # - hand:
-    #     emptyRepresentative: FloorTileItemWhite
-    #     emptyLabel: borg-slot-tiles-empty
-    #     whitelist:
-    #       components:
-    #       - FloorTile
-    # - hand:
-    #     emptyRepresentative: FloorTileItemDark
-    #     emptyLabel: borg-slot-tiles-empty
-    #     whitelist:
-    #       components:
-    #       - FloorTile
-    # Hardlight end
-    # Starlight start:
     - hand:
-        emptyRepresentative: PlasmaTank
-        emptyLabel: borg-slot-fuel-empty
+        emptyRepresentative: FloorTileItemWhite
+        emptyLabel: borg-slot-tiles-empty
         whitelist:
           components:
-          - GasTank
-          - AmeFuelContainer
-          - ReactorPart # FH edit
-    #Starlight-edit: end
+          - FloorTile
+    - hand:
+        emptyRepresentative: FloorTileItemDark
+        emptyLabel: borg-slot-tiles-empty
+        whitelist:
+          components:
+          - FloorTile
     - item: ConstructionBag # HardLight
       hand:
         emptyRepresentative: ConstructionBag
