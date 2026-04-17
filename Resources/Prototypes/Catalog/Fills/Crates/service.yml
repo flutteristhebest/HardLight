@@ -252,7 +252,6 @@
       - id: DrinkVodkaBottleFull
       - id: DrinkWhiskeyBottleFull
       - id: DrinkWineBottleFull
-      - id: DrinkJaegermisterBottleFull # Den - Jaegerminster
 
 - type: entity
   id: CrateServiceBox
