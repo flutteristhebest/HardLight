@@ -3,14 +3,14 @@
   parent: BaseBorgChassisNT
   components:
   - type: Body
-    prototype: Borg
+    prototype: Quadborg
   - type: QuadborgSpriteOffset # HardLight
     defaultOffset: 0,0.2
     bigOffset: 0,0.3
     smallOffset: 0,0.1
     tinyOffset: 0,0.075
   - type: Inventory
-    speciesId: Borg
+    speciesId: quadborg
     templateId: borgquad # Hardlight: Changes Quadborgs over to use our armor slots
   - type: Fixtures # HardLight
     fixtures:

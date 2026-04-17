@@ -1,6 +1,6 @@
 - type: body
-  id: Borg
-  name: "Borg"
+  id: Quadborg
+  name: "Quadborg"
   root: torso
   slots:
     torso:
