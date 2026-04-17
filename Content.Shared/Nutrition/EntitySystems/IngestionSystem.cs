@@ -23,7 +23,6 @@ using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Log;
 
 namespace Content.Shared.Nutrition.EntitySystems;
 
@@ -234,9 +233,7 @@ public sealed partial class IngestionSystem : EntitySystem
             return true;
 
         if (ev.SpecialDigestion)
-        {
             return _whitelistSystem.IsWhitelistPass(stomach.Comp1.SpecialDigestible, food);
-        }
 
         if (stomach.Comp1.SpecialDigestible == null || !stomach.Comp1.IsSpecialDigestibleExclusive || _whitelistSystem.IsWhitelistPass(stomach.Comp1.SpecialDigestible, food))
             return true;
