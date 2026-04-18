@@ -276,6 +276,7 @@
   - NFBlueprintClothingBackpackDuffelHolding # Frontier
   - NFBlueprintClothingBackpackMessengerHolding # Frontier
   - BorgModuleStorage # HardLight
+  - ClothingBackpackTacticalHolding # Hardlight
   - DebrisBagOfHolding
   - ClothingWalletLeatherBlackMagnet
 
