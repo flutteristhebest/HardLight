@@ -2806,3 +2806,9 @@ Entries:
       message: Expedition Disks now show the type of enemy that's on them.
   id: 300
   time: '2026-04-19T05:52:17.0000000+00:00'
+- author: IngvarJackal
+  changes:
+    - type: Tweak
+      message: Bluespace bags are now chameleon
+  id: 301
+  time: '2026-04-19T22:44:39.0000000+00:00'
