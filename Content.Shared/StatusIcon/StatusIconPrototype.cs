@@ -66,7 +66,14 @@ public partial class StatusIconData : IComparable<StatusIconData>
     /// Offset of the status icon, up and down only.
     /// </summary>
     [DataField]
-    public int Offset = 0;
+    public int Offset = -3;
+
+    /// <summary>
+    /// Horizontal offset of the status icon.
+    /// Positive values move the icon right.
+    /// </summary>
+    [DataField]
+    public int XOffset = 0;
 
     /// <summary>
     /// Sets if the icon should be rendered with or without the effect of lighting.
