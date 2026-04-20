@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using Content.Server.Popups;
 using Content.Server.Atmos.Piping.Components;
 using Content.Server.Chemistry.Components;
 using Content.Server.Construction.Components;
@@ -27,19 +28,23 @@ using Content.Shared.VendingMachines;
 using Content.Shared.Wall; // WallMountComponent for preserving wall-mounted fixtures
 using Robust.Server.GameObjects; // HardLight
 using Robust.Server.Player;
+using Robust.Shared.Enums;
 using Robust.Shared.Containers;
 using Robust.Shared.ContentPack;
 using Robust.Shared.EntitySerialization;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Network;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes; // HardLight
+using Robust.Shared.Log;
 using Robust.Shared.Serialization;
 using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Serialization.Markdown.Sequence;
 using Robust.Shared.Serialization.Markdown.Value;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using YamlDotNet.Core;
 using YamlDotNet.RepresentationModel;
@@ -53,6 +58,13 @@ namespace Content.Server._NF.Shipyard.Systems;
 /// </summary>
 public sealed class ShipyardGridSaveSystem : EntitySystem
 {
+    public enum TrackedShipSaveResult
+    {
+        Queued,
+        Failed,
+        AlreadyInProgress,
+    }
+
     // HardLight: List of currency prototypes that should be stripped from ship saves.
     private static readonly HashSet<string> NonPersistentShipSaveCurrencies = new(StringComparer.Ordinal)
     {
@@ -64,6 +76,8 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IResourceManager _resourceManager = default!;
     [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
@@ -78,6 +92,17 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
     private EntityQuery<SecretStashComponent> _secretStashQuery;
     private EntityQuery<HLPersistOnShipSaveComponent> _persistOnSaveQuery;
     private EntityQuery<TransformComponent> _transformQuery;
+    private readonly Dictionary<Guid, PendingShipSave> _pendingTrackedSaves = new();
+    private static readonly TimeSpan PendingShipSaveTimeout = TimeSpan.FromMinutes(2);
+
+    private sealed class PendingShipSave
+    {
+        public required EntityUid DeedUid;
+        public required EntityUid ShuttleUid;
+        public required string ShipName;
+        public required NetUserId PlayerUserId;
+        public required TimeSpan CreatedAt;
+    }
 
     public override void Initialize()
     {
@@ -89,13 +114,76 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         _transformQuery = GetEntityQuery<TransformComponent>();
 
         // Initialize sawmill for logging
-        //_sawmill = Logger.GetSawmill("shipyard.gridsave");
+        _sawmill = Logger.GetSawmill("shipyard.gridsave");
 
         // Get the MapLoaderSystem reference
         _mapLoader = _entitySystemManager.GetEntitySystem<MapLoaderSystem>();
 
         // Subscribe to shipyard console events
         SubscribeLocalEvent<ShipyardConsoleComponent, ShipyardConsoleSaveMessage>(OnSaveShipMessage);
+        SubscribeNetworkEvent<ShipSaveWriteResultMessage>(OnShipSaveWriteResult);
+        _playerManager.PlayerStatusChanged += OnPlayerStatusChanged;
+    }
+
+    public override void Shutdown()
+    {
+        base.Shutdown();
+        _playerManager.PlayerStatusChanged -= OnPlayerStatusChanged;
+        _pendingTrackedSaves.Clear();
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        if (_pendingTrackedSaves.Count == 0)
+            return;
+
+        var now = _timing.RealTime;
+        var expired = new List<Guid>();
+
+        foreach (var (requestId, pending) in _pendingTrackedSaves)
+        {
+            if (now - pending.CreatedAt < PendingShipSaveTimeout)
+                continue;
+
+            expired.Add(requestId);
+        }
+
+        foreach (var requestId in expired)
+        {
+            if (!_pendingTrackedSaves.Remove(requestId, out var pending))
+                continue;
+
+            if (_playerManager.TryGetSessionById(pending.PlayerUserId, out var session) &&
+                session.Status is SessionStatus.Connected or SessionStatus.InGame)
+            {
+                _popup.PopupCursor(Loc.GetString("shipyard-console-save-timeout", ("ship", pending.ShipName)), session);
+            }
+
+            _sawmill.Warning($"Tracked ship save for '{pending.ShipName}' timed out waiting for client acknowledgement.");
+        }
+    }
+
+    private void OnPlayerStatusChanged(object? sender, SessionStatusEventArgs e)
+    {
+        if (e.NewStatus != SessionStatus.Disconnected)
+            return;
+
+        var staleRequests = new List<Guid>();
+
+        foreach (var (requestId, pending) in _pendingTrackedSaves)
+        {
+            if (pending.PlayerUserId != e.Session.UserId)
+                continue;
+
+            staleRequests.Add(requestId);
+        }
+
+        foreach (var requestId in staleRequests)
+        {
+            _pendingTrackedSaves.Remove(requestId);
+        }
     }
 
     private void OnSaveShipMessage(EntityUid consoleUid, ShipyardConsoleComponent component, ShipyardConsoleSaveMessage args)
@@ -137,25 +225,49 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         //_sawmill.Info($"Starting ship save for {deed.ShuttleName ?? "Unknown_Ship"} owned by {playerSession.Name}");
 
         // Run save inline on the main thread to avoid off-thread ECS access.
-        var success = TrySaveGridAsShip(shuttleUid.Value, deed.ShuttleName ?? "Unknown_Ship", playerSession.UserId.ToString(), playerSession);
+        var result = TrySaveGridAsTrackedShip(shuttleUid.Value, targetId, deed.ShuttleName ?? "Unknown_Ship", playerSession);
 
-        if (success)
+        if (result == TrackedShipSaveResult.Failed)
         {
-            // Clean up the deed after successful save
-            _entityManager.RemoveComponent<ShuttleDeedComponent>(targetId);
-
-            // Also remove any other shuttle deeds that reference this shuttle
-            RemoveAllShuttleDeeds(shuttleUid.Value);
-
-            // Transfer semantics: after saving, delete the live ship grid.
-            // Use QueueDel to schedule deletion safely at end-of-frame to avoid PVS or in-frame references.
-            QueueDel(shuttleUid.Value);
-            //_sawmill.Info($"Successfully saved ship {deed.ShuttleName}; queued deletion of grid {shuttleUid.Value}");
+            _popup.PopupCursor(Loc.GetString("shipyard-console-save-failed", ("ship", deed.ShuttleName ?? "Unknown_Ship")), playerSession);
         }
-        /* else
+    }
+
+    private void OnShipSaveWriteResult(ShipSaveWriteResultMessage msg, EntitySessionEventArgs args)
+    {
+        if (!_pendingTrackedSaves.TryGetValue(msg.RequestId, out var pending))
+            return;
+
+        if (pending.PlayerUserId != args.SenderSession.UserId)
+            return;
+
+        _pendingTrackedSaves.Remove(msg.RequestId);
+
+        if (!msg.Success)
         {
-            _sawmill.Error($"Failed to save ship {deed.ShuttleName}");
-        } */
+            _sawmill.Warning($"Client failed to persist ship '{pending.ShipName}' for {args.SenderSession.Name}: {msg.Error ?? "unknown error"}");
+            _popup.PopupCursor(Loc.GetString("shipyard-console-save-failed", ("ship", pending.ShipName)), args.SenderSession);
+            return;
+        }
+
+        if (_entityManager.EntityExists(pending.DeedUid))
+            _entityManager.RemoveComponent<ShuttleDeedComponent>(pending.DeedUid);
+
+        RemoveAllShuttleDeeds(pending.ShuttleUid);
+
+        if (_entityManager.EntityExists(pending.ShuttleUid))
+            QueueDel(pending.ShuttleUid);
+
+        var gridSavedEvent = new ShipSavedEvent
+        {
+            GridUid = pending.ShuttleUid,
+            ShipName = pending.ShipName,
+            PlayerUserId = pending.PlayerUserId.ToString(),
+            PlayerSession = args.SenderSession
+        };
+        RaiseLocalEvent(gridSavedEvent);
+
+        _popup.PopupCursor(Loc.GetString("shipyard-console-save-success", ("ship", pending.ShipName)), args.SenderSession);
     }
 
     /// <summary>
@@ -181,12 +293,63 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         }
     }
 
+    public TrackedShipSaveResult TrySaveGridAsTrackedShip(EntityUid gridUid, EntityUid deedUid, string shipName, ICommonSession playerSession)
+    {
+        foreach (var pending in _pendingTrackedSaves.Values)
+        {
+            if (pending.DeedUid != deedUid && pending.ShuttleUid != gridUid)
+                continue;
+
+            _popup.PopupCursor(Loc.GetString("shipyard-console-save-in-progress", ("ship", pending.ShipName)), playerSession);
+            return TrackedShipSaveResult.AlreadyInProgress;
+        }
+
+        if (!TryBuildShipSaveYaml(gridUid, shipName, out var yaml))
+            return TrackedShipSaveResult.Failed;
+
+        var requestId = Guid.NewGuid();
+        _pendingTrackedSaves[requestId] = new PendingShipSave
+        {
+            DeedUid = deedUid,
+            ShuttleUid = gridUid,
+            ShipName = shipName,
+            PlayerUserId = playerSession.UserId,
+            CreatedAt = _timing.RealTime,
+        };
+
+        RaiseNetworkEvent(new SendShipSaveDataClientMessage(requestId, shipName, yaml), playerSession);
+        return TrackedShipSaveResult.Queued;
+    }
+
     /// <summary>
     /// Saves a grid to YAML without mutating live game state. Uses ShipSerializationSystem to serialize in-place.
     /// This avoids moving the grid to temporary maps or deleting any entities, preventing PVS/map deletion issues.
     /// </summary>
     public bool TrySaveGridAsShip(EntityUid gridUid, string shipName, string playerUserId, ICommonSession playerSession)
     {
+        if (!TryBuildShipSaveYaml(gridUid, shipName, out var yaml))
+            return false;
+
+        var requestId = Guid.NewGuid();
+        RaiseNetworkEvent(new SendShipSaveDataClientMessage(requestId, shipName, yaml), playerSession);
+
+        // Fire ShipSavedEvent for bookkeeping; direct callers use this helper as an export operation.
+        var gridSavedEvent = new ShipSavedEvent
+        {
+            GridUid = gridUid,
+            ShipName = shipName,
+            PlayerUserId = playerUserId,
+            PlayerSession = playerSession
+        };
+        RaiseLocalEvent(gridSavedEvent);
+
+        return true;
+    }
+
+    private bool TryBuildShipSaveYaml(EntityUid gridUid, string shipName, out string yaml)
+    {
+        yaml = string.Empty;
+
         if (!_gridQuery.HasComp(gridUid))
         {
             //_sawmill.Error($"Entity {gridUid} is not a valid grid");
@@ -236,24 +399,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
             SanitizeShipSaveNode(node);
 
             // 3) Convert MappingDataNode to YAML text without touching disk
-            var yaml = WriteYamlToString(node);
-
-            // 4) Send to client for local saving
-            var saveMessage = new SendShipSaveDataClientMessage(shipName, yaml);
-            RaiseNetworkEvent(saveMessage, playerSession);
-            //_sawmill.Info($"Sent ship data '{shipName}' to client {playerSession.Name} for local saving");
-
-            // Fire ShipSavedEvent for bookkeeping; DO NOT delete the grid or maps here.
-            var gridSavedEvent = new ShipSavedEvent
-            {
-                GridUid = gridUid,
-                ShipName = shipName,
-                PlayerUserId = playerUserId,
-                PlayerSession = playerSession
-            };
-            RaiseLocalEvent(gridSavedEvent);
-            //_sawmill.Info($"Fired ShipSavedEvent for '{shipName}'");
-
+            yaml = WriteYamlToString(node);
             return true;
         }
         catch (Exception ex)
@@ -771,7 +917,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
 
         // PHASE 1: Do not delete entities to preserve physics counts
         // We'll clean by removing components instead (e.g., VendingMachineComponent)
-       //_sawmill.Info("Phase 1: Skipping entity deletions to preserve physics components");
+        //_sawmill.Info("Phase 1: Skipping entity deletions to preserve physics components");
         //_sawmill.Info($"Phase 1 complete: deleted {entitiesRemoved} entities");
 
         // PHASE 2: Clean components from remaining entities
@@ -827,7 +973,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                 if (_entityManager.RemoveComponent<AtmosDeviceComponent>(entity))
                     componentsRemoved++;
 
-				// ChemMaster: Log buffer solution state for debugging
+                // ChemMaster: Log buffer solution state for debugging
                 if (_entityManager.TryGetComponent<ChemMasterComponent>(entity, out var chemMaster))
                 {
                     if (_entitySystemManager.TryGetEntitySystem<SharedSolutionContainerSystem>(out var solutionSystem))
@@ -872,7 +1018,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
             //_sawmill.Info($"Temporary YAML file written: {resPath}");
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             //_sawmill.Error($"Failed to write temporary YAML file {fileName}: {ex}");
             return false;
