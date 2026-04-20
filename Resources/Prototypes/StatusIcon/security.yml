@@ -56,7 +56,7 @@
   priority: 2
   locationPreference: Right
   layer: Mod
-  offset: 3
+  offset: -3
   xOffset: 2
   isShaded: true
   icon:
