@@ -22,7 +22,6 @@ public sealed partial class UnpoweredFlashlightComponent : Component
     [DataField]
     public EntProtoId ToggleAction = "ActionToggleLight";
 
-    [DataField]
     public EntityUid? ToggleActionEntity;
 
     /// <summary>

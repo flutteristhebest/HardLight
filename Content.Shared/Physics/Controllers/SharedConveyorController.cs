@@ -162,16 +162,23 @@ public abstract class SharedConveyorController : VirtualController
             }
         }
 
+        var refreshConveyors = new HashSet<EntityUid>();
+
         foreach (var ent in _job.Conveyed)
         {
             if (!ent.Entity.Comp3.Predict && prediction)
                 continue;
 
             var physics = ent.Entity.Comp3;
+            var wasConveying = ent.Entity.Comp1.Conveying;
 
             if (physics.BodyStatus != BodyStatus.OnGround)
             {
                 SetConveying(ent.Entity.Owner, ent.Entity.Comp1, false);
+
+                if (wasConveying && ent.BestConveyor != null)
+                    refreshConveyors.Add(ent.BestConveyor.Value);
+
                 continue;
             }
 
@@ -187,9 +194,11 @@ public abstract class SharedConveyorController : VirtualController
                 targetDir += wishDir;
             }
 
+            var isConveying = ent.Result && targetDir.LengthSquared() > 0f;
+
             if (ent.Result)
             {
-                SetConveying(ent.Entity.Owner, ent.Entity.Comp1, targetDir.LengthSquared() > 0f);
+                SetConveying(ent.Entity.Owner, ent.Entity.Comp1, isConveying);
 
                 // We apply friction here so when we push items towards the center of the conveyor they don't go overspeed.
                 // We also don't want this to apply to mobs as they apply their own friction and otherwise
@@ -215,10 +224,21 @@ public abstract class SharedConveyorController : VirtualController
             PhysicsSystem.SetAngularVelocity(ent.Entity.Owner, angularVelocity);
             PhysicsSystem.SetLinearVelocity(ent.Entity.Owner, velocity, wakeBody: false);
 
+            if (wasConveying && !isConveying && ent.BestConveyor != null)
+                refreshConveyors.Add(ent.BestConveyor.Value);
+
             if (!IsConveyed((ent.Entity.Owner, ent.Entity.Comp2)))
             {
+                if (ent.BestConveyor != null)
+                    refreshConveyors.Add(ent.BestConveyor.Value);
+
                 RemComp<ConveyedComponent>(ent.Entity.Owner);
             }
+        }
+
+        foreach (var conveyor in refreshConveyors)
+        {
+            WakeConveyed(conveyor);
         }
     }
 
