@@ -24,7 +24,7 @@ public sealed partial class ToggleableClothingComponent : Component
     [DataField, AutoNetworkedField]
     public EntProtoId Action = "ActionToggleSuitPiece";
 
-    [DataField, AutoNetworkedField]
+    [AutoNetworkedField]
     public EntityUid? ActionEntity;
 
     /// <summary>

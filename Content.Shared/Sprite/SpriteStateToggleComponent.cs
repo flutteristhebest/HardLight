@@ -78,6 +78,6 @@ public sealed partial class SpriteStateToggleComponent : Component
     /// <summary>
     /// Instantiated action entity for toggling.
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [AutoNetworkedField]
     public EntityUid? ToggleActionEntity;
 }
