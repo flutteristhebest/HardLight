@@ -12,10 +12,6 @@
             "directions": 4
         },
         {
-            "name": "m_wings_bee_front",
-            "directions": 4
-        },
-        {
             "name": "m_wings_fairy_behind",
             "directions": 4,
             "delays": [
@@ -46,48 +42,6 @@
             ]
         },
         {
-            "name": "m_wings_fairy_front",
-            "directions": 4,
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ],
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ],
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ],
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ]
-            ]
-        },
-        {
-            "name": "m_wings_feathery_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_feathery_front_secondary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_feathery_front_tertiary",
-            "directions": 4
-        },
-        {
             "name": "m_wings_feathery_behind_primary",
             "directions": 4
         },
@@ -100,19 +54,7 @@
             "directions": 4
         },
         {
-            "name": "m_wings_bat_front",
-            "directions": 4
-        },
-        {
             "name": "m_wings_bat_behind",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_extra_succubus_front",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_succubus_front_primary",
             "directions": 4
         },
         {
@@ -121,18 +63,6 @@
         },
         {
             "name": "m_wings_succubus_behind_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_dragonsynth_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_dragonsynth_front_secondary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_dragonsynth_front_tertiary",
             "directions": 4
         },
         {
@@ -151,27 +81,11 @@
             "name": "colorpalette_matrixcolors"
         },
         {
-            "name": "m_wings_dragonalt1_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_dragonalt1_front_secondary",
-            "directions": 4
-        },
-        {
             "name": "m_wings_dragonalt1_behind_primary",
             "directions": 4
         },
         {
             "name": "m_wings_dragonalt1_behind_secondary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_dragonalt2_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_dragonalt2_front_secondary",
             "directions": 4
         },
         {
@@ -187,15 +101,7 @@
             "directions": 4
         },
         {
-            "name": "m_wings_harpy_front",
-            "directions": 4
-        },
-        {
             "name": "m_wings_harpyalt_behind",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_harpyalt_front",
             "directions": 4
         },
         {
@@ -211,31 +117,11 @@
             "directions": 4
         },
         {
-            "name": "m_wings_harpybat_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_harpybat_front_secondary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_harpybat_front_tertiary",
-            "directions": 4
-        },
-        {
             "name": "m_wings_harpybat_fluffless_behind_primary",
             "directions": 4
         },
         {
             "name": "m_wings_harpybat_fluffless_behind_secondary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_harpybat_fluffless_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_harpybat_fluffless_front_secondary",
             "directions": 4
         },
         {
@@ -271,18 +157,6 @@
             "directions": 4
         },
         {
-            "name": "m_wings_featheryalt1_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_featheryalt1_front_secondary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_featheryalt1_front_tertiary",
-            "directions": 4
-        },
-        {
             "name": "m_wings_featheryalt1_behind_primary",
             "directions": 4
         },
@@ -292,14 +166,6 @@
         },
         {
             "name": "m_wings_featheryalt1_behind_tertiary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_featheryalt2_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_featheryalt2_front_secondary",
             "directions": 4
         },
         {
@@ -423,19 +289,7 @@
             "directions": 4
         },
         {
-            "name": "m_wings_spider_legs_front",
-            "directions": 4
-        },
-        {
             "name": "m_wings_spider_legs_behind",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_robowing_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_robowing_front_secondary",
             "directions": 4
         },
         {
@@ -451,15 +305,7 @@
             "directions": 4
         },
         {
-            "name": "m_wings_minibat_front",
-            "directions": 4
-        },
-        {
             "name": "m_wings_minifeather_behind",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_minifeather_front",
             "directions": 4
         },
         {
@@ -467,27 +313,11 @@
             "directions": 4
         },
         {
-            "name": "m_wings_tinybat_front",
-            "directions": 4
-        },
-        {
             "name": "m_wings_tinyfeather_behind",
             "directions": 4
         },
         {
-            "name": "m_wings_tinyfeather_front",
-            "directions": 4
-        },
-        {
             "name": "m_wings_insect_behind",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_insect_front",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_beetle_front",
             "directions": 4
         },
         {
@@ -503,19 +333,7 @@
             "directions": 4
         },
         {
-            "name": "m_wings_harpyalt_fluffless_front",
-            "directions": 4
-        },
-        {
             "name": "m_wings_harpyalt_fluffless_top_front",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_pterodactyl_front_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_pterodactyl_front_secondary",
             "directions": 4
         },
         {
@@ -527,15 +345,7 @@
             "directions": 4
         },
         {
-            "name": "m_wings_renamon_front_primary",
-            "directions": 4
-        },
-        {
             "name": "m_wings_renamon_behind_primary",
-            "directions": 4
-        },
-        {
-            "name": "m_wings_renamon_front_secondary",
             "directions": 4
         },
         {
