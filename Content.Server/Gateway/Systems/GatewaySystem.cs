@@ -77,6 +77,9 @@ public sealed class GatewaySystem : EntitySystem
 
     private void UpdateUserInterface(EntityUid uid, GatewayComponent comp, TransformComponent? xform = null)
     {
+        if (TerminatingOrDeleted(uid))
+            return;
+
         if (!Resolve(uid, ref xform))
             return;
 
@@ -103,8 +106,7 @@ public sealed class GatewaySystem : EntitySystem
             if (!dest.Enabled || destUid == uid)
                 continue;
 
-            var destMeta = MetaData(destUid);
-            if (destMeta.EntityLifeStage >= EntityLifeStage.Terminating)
+            if (TerminatingOrDeleted(destUid) || !TryComp<MetaDataComponent>(destUid, out var destMeta))
                 continue;
 
             // Show destination if either no destination comp on the map or it's ours.
@@ -126,8 +128,10 @@ public sealed class GatewaySystem : EntitySystem
             {
                 Entity = GetNetEntity(destUid),
                 // Fallback to grid's ID if applicable.
-                Name = dest.Name.IsEmpty && destXform.GridUid != null
-                    ? FormattedMessage.FromUnformatted(MetaData(destXform.GridUid.Value).EntityName)
+                Name = dest.Name.IsEmpty && destXform.GridUid != null &&
+                       !TerminatingOrDeleted(destXform.GridUid.Value) &&
+                       TryComp<MetaDataComponent>(destXform.GridUid.Value, out var gridMeta)
+                    ? FormattedMessage.FromUnformatted(gridMeta.EntityName)
                     : dest.Name,
                 Portal = HasComp<PortalComponent>(destUid),
                 // If NextUnlock < CurTime it's unlocked, however
@@ -142,7 +146,8 @@ public sealed class GatewaySystem : EntitySystem
         NetEntity? currentNet = null;
 
         if (current is { } currentUid &&
-            MetaData(currentUid) is { } currentMeta &&
+            !TerminatingOrDeleted(currentUid) &&
+            TryComp<MetaDataComponent>(currentUid, out var currentMeta) &&
             currentMeta.EntityLifeStage < EntityLifeStage.Terminating)
         {
             currentNet = GetNetEntity(currentUid, currentMeta);
