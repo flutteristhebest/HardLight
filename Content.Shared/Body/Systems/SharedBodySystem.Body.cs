@@ -233,21 +233,18 @@ public partial class SharedBodySystem
         BodyComponent? body = null,
         BodyPartComponent? rootPart = null)
     {
-        if (!Resolve(id, ref body, logMissing: false)
-            || body.RootContainer == default
-            || body.RootContainer.ContainedEntity is null)
+        if (!Resolve(id, ref body, logMissing: false))
         {
             yield break;
         }
 
-        var rootEntity = body.RootContainer.ContainedEntity.Value;
-
-        if (!Resolve(rootEntity, ref rootPart, logMissing: false))
+        var root = GetRootPartOrNull(id, body);
+        if (root == null)
             yield break;
 
         yield return body.RootContainer;
 
-        foreach (var childContainer in GetPartContainers(rootEntity, rootPart))
+        foreach (var childContainer in GetPartContainers(root.Value.Entity, root.Value.BodyPart))
         {
             yield return childContainer;
         }
@@ -262,19 +259,16 @@ public partial class SharedBodySystem
         BodyPartComponent? rootPart = null)
     {
         if (id is null
-            || !Resolve(id.Value, ref body, logMissing: false)
-            || body.RootContainer == default
-            || body.RootContainer.ContainedEntity is null)
+            || !Resolve(id.Value, ref body, logMissing: false))
         {
             yield break;
         }
 
-        var rootEntity = body.RootContainer.ContainedEntity.Value;
-
-        if (!Resolve(rootEntity, ref rootPart, logMissing: false))
+        var root = GetRootPartOrNull(id.Value, body);
+        if (root == null)
             yield break;
 
-        foreach (var child in GetBodyPartChildren(rootEntity, rootPart))
+        foreach (var child in GetBodyPartChildren(root.Value.Entity, root.Value.BodyPart))
         {
             yield return child;
         }
@@ -306,13 +300,16 @@ public partial class SharedBodySystem
         EntityUid bodyId,
         BodyComponent? body = null)
     {
-        if (!Resolve(bodyId, ref body, logMissing: false)
-            || body.RootContainer.ContainedEntity is null)
+        if (!Resolve(bodyId, ref body, logMissing: false))
         {
             yield break;
         }
 
-        foreach (var slot in GetAllBodyPartSlots(body.RootContainer.ContainedEntity.Value))
+        var root = GetRootPartOrNull(bodyId, body);
+        if (root == null)
+            yield break;
+
+        foreach (var slot in GetAllBodyPartSlots(root.Value.Entity, root.Value.BodyPart))
         {
             yield return slot;
         }
