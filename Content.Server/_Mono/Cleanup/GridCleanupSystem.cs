@@ -64,7 +64,7 @@ public sealed class GridCleanupSystem : BaseCleanupSystem<MapGridComponent>
             || !state.IgnoreIFF && hasVisibleIff // delete only if IFF off
             || _cleanup.HasNearbyPlayers(xform.Coordinates, state.DistanceOverride ?? _maxDistance * scale * scale) // square it
             || !state.IgnorePowered && HasPoweredAPC((uid, xform)) // don't delete if it has powered APCs
-            || !state.IgnorePrice && _pricing.AppraiseGrid(uid) > _maxValue) // expensive to run, put last
+            || !state.IgnorePrice && _pricing.AppraiseGridExceeds(uid, _maxValue)) // expensive to run, put last
         {
             state.CleanupAccumulator = TimeSpan.FromSeconds(0);
             return false;

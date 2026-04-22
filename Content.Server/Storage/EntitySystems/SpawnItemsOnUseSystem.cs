@@ -38,13 +38,19 @@ namespace Content.Server.Storage.EntitySystems
 
             foreach (var entry in ungrouped)
             {
-                if (entry.PrototypeId is not {} prototypeId || !_proto.HasIndex<EntityPrototype>(prototypeId))
+                if (entry.PrototypeId is not {} prototypeId || !_proto.TryIndex<EntityPrototype>(prototypeId, out var prototype))
                     continue;
+
+                if (!args.AllowSideEffects)
+                {
+                    args.Price += _pricing.GetEstimatedPrice(prototype) * entry.SpawnProbability * entry.GetAmount(getAverage: true);
+                    continue;
+                }
 
                 var protUid = Spawn(prototypeId, MapCoordinates.Nullspace);
 
                 // Calculate the average price of the possible spawned items
-                args.Price += _pricing.GetPrice(protUid) * entry.SpawnProbability * entry.GetAmount(getAverage: true);
+                args.Price += _pricing.GetPrice(protUid, allowSideEffects: args.AllowSideEffects) * entry.SpawnProbability * entry.GetAmount(getAverage: true);
 
                 EntityManager.DeleteEntity(protUid);
             }
@@ -53,13 +59,21 @@ namespace Content.Server.Storage.EntitySystems
             {
                 foreach (var entry in group.Entries)
                 {
-                    if (entry.PrototypeId is not {} prototypeId || !_proto.HasIndex<EntityPrototype>(prototypeId))
+                    if (entry.PrototypeId is not {} prototypeId || !_proto.TryIndex<EntityPrototype>(prototypeId, out var prototype))
                         continue;
+
+                    if (!args.AllowSideEffects)
+                    {
+                        args.Price += _pricing.GetEstimatedPrice(prototype) *
+                                      (entry.SpawnProbability / group.CumulativeProbability) *
+                                      entry.GetAmount(getAverage: true);
+                        continue;
+                    }
 
                     var protUid = Spawn(prototypeId, MapCoordinates.Nullspace);
 
                     // Calculate the average price of the possible spawned items
-                    args.Price += _pricing.GetPrice(protUid) *
+                    args.Price += _pricing.GetPrice(protUid, allowSideEffects: args.AllowSideEffects) *
                                   (entry.SpawnProbability / group.CumulativeProbability) *
                                   entry.GetAmount(getAverage: true);
 
