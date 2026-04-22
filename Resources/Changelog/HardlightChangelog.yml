@@ -2927,3 +2927,9 @@ Entries:
       message: Fixed serverside issues with bodies and organs
   id: 316
   time: '2026-04-22T06:01:27.0000000+00:00'
+- author: IngvarJackal
+  changes:
+    - type: Add
+      message: Added War Emergency Power to shuttle consoles
+  id: 317
+  time: '2026-04-22T06:01:49.0000000+00:00'
