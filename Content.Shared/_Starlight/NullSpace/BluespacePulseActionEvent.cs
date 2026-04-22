@@ -10,6 +10,9 @@ namespace Content.Shared._Starlight.NullSpace;
 public sealed partial class BluespacePulseActionEvent : InstantActionEvent
 {
     [DataField]
+    public EntityUid Source;
+
+    [DataField]
     public float Radius = 10f;
 
     [DataField]

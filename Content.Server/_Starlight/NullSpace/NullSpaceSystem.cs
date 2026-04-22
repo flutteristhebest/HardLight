@@ -144,7 +144,7 @@ public sealed class EtherealSystem : SharedEtherealSystem
         var radius = args.Radius;
         var stunTime = System.TimeSpan.FromSeconds(args.StunSeconds);
 
-        var origin = args.Performer;
+        var origin = args.Source;
         foreach (var ent in _lookup.GetEntitiesInRange(origin, radius))
         {
             if (!HasComp<NullSpaceComponent>(ent))

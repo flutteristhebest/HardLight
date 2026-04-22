@@ -234,15 +234,20 @@ public partial class SharedBodySystem
         BodyPartComponent? rootPart = null)
     {
         if (!Resolve(id, ref body, logMissing: false)
-            || body.RootContainer.ContainedEntity is null
-            || !Resolve(body.RootContainer.ContainedEntity.Value, ref rootPart))
+            || body.RootContainer == default
+            || body.RootContainer.ContainedEntity is null)
         {
             yield break;
         }
 
+        var rootEntity = body.RootContainer.ContainedEntity.Value;
+
+        if (!Resolve(rootEntity, ref rootPart, logMissing: false))
+            yield break;
+
         yield return body.RootContainer;
 
-        foreach (var childContainer in GetPartContainers(body.RootContainer.ContainedEntity.Value, rootPart))
+        foreach (var childContainer in GetPartContainers(rootEntity, rootPart))
         {
             yield return childContainer;
         }
@@ -258,15 +263,18 @@ public partial class SharedBodySystem
     {
         if (id is null
             || !Resolve(id.Value, ref body, logMissing: false)
-            || body.RootContainer.ContainedEntity is null
-            || body is null // Shitmed Change
-            || body.RootContainer == default // Shitmed Change
-            || !Resolve(body.RootContainer.ContainedEntity.Value, ref rootPart))
+            || body.RootContainer == default
+            || body.RootContainer.ContainedEntity is null)
         {
             yield break;
         }
 
-        foreach (var child in GetBodyPartChildren(body.RootContainer.ContainedEntity.Value, rootPart))
+        var rootEntity = body.RootContainer.ContainedEntity.Value;
+
+        if (!Resolve(rootEntity, ref rootPart, logMissing: false))
+            yield break;
+
+        foreach (var child in GetBodyPartChildren(rootEntity, rootPart))
         {
             yield return child;
         }

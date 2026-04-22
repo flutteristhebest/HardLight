@@ -19,6 +19,7 @@ public sealed class BluespacePulseOnTriggerSystem : EntitySystem
     {
         var pulse = new BluespacePulseActionEvent
         {
+            Source = ent.Owner,
             Radius = ent.Comp.Radius,
             StunSeconds = ent.Comp.StunSeconds,
             Performer = args.User ?? ent.Owner
