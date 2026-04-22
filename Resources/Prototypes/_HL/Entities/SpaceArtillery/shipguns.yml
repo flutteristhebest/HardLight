@@ -460,7 +460,7 @@
   id: BeamPrism
   name: beam prism
   description: A crystal turret that absorbs incoming hitscan beams and redirects them along its current facing.
-  parent: [ BaseC2ContrabandUnredeemable ]
+  parent: [ BaseStructure, BaseC2ContrabandUnredeemable ]
   components:
   - type: StaticPrice
     price: 5000
